@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>缩写速查 · 系统架构师备考</title>
+<style>
+  :root{
+    --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
+    --bg:#f6f7fb; --card:#ffffff;
+    --indigo:#4f46e5; --indigo-deep:#4338ca; --violet:#7c3aed; --sky:#06b6d4;
+    --green:#16a34a; --amber:#d97706; --red:#e5484d;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    line-height:1.7; font-size:15.5px;}
+
+  .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; border-bottom:1px solid var(--line); padding:10px 14px;}
+  .topbar .brand{font-weight:700; color:var(--indigo); font-size:15px;}
+  .topbar .brand small{color:var(--sub); font-weight:400; font-size:11px; margin-left:6px;}
+  .topbar a.back{color:var(--indigo); text-decoration:none; font-size:13px;
+    border:1px solid var(--line); background:#f3f4f6; border-radius:14px; padding:3px 12px;}
+
+  .sidebar{display:none;}
+  @media (min-width:960px){
+    .topbar{display:none;}
+    .sidebar{position:sticky; top:0; height:100vh; width:250px; float:left;
+      background:#fff; border-right:1px solid var(--line); padding:20px 16px;
+      display:flex; flex-direction:column;}
+    .sidebar .brand{color:var(--indigo); font-weight:700; font-size:18px; padding:0 6px 14px;
+      border-bottom:1px solid var(--line);}
+    .sidebar .brand small{display:block; color:var(--sub); font-weight:400; font-size:12px; margin-top:2px;}
+    .side-nav{padding:14px 0;}
+    .side-nav a{display:block; color:var(--ink); text-decoration:none; font-size:14px;
+      padding:8px 12px; border-radius:8px; margin-bottom:2px;}
+    .side-nav a:hover,.side-nav a.active{background:#eef2ff; color:var(--indigo-deep);}
+    .side-foot{margin-top:auto; border-top:1px solid var(--line); padding-top:12px; font-size:12px; color:var(--sub); line-height:1.9;}
+  }
+  @media (min-width:960px){
+    .content{margin-left:250px;}
+  }
+
+  .content{max-width:min(1100px,100%); margin:0 auto; padding:70px 16px 50px;}
+  @media (min-width:960px){ .content{padding-top:24px;} }
+
+  .hero{background:linear-gradient(120deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
+    color:#fff; border-radius:16px; padding:26px 24px; margin-bottom:18px;
+    box-shadow:0 8px 24px rgba(79,70,229,.25);}
+  .hero h1{margin:0 0 6px; font-size:24px;}
+  .hero p{margin:2px 0; font-size:13.5px; opacity:.94;}
+  .hero .core{background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.4);
+    border-radius:10px; padding:9px 13px; margin-top:12px; font-size:13.5px;}
+
+  .toolbar{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:14px;}
+  #search{flex:1 1 220px; border:1px solid var(--line); border-radius:10px; padding:9px 14px;
+    font-size:14.5px; background:#fff; outline:none;}
+  #search:focus{border-color:var(--indigo);}
+  .chips{display:flex; gap:6px; flex-wrap:wrap;}
+  .chip{border:1px solid var(--line); background:#fff; border-radius:16px; font-size:13px;
+    padding:4px 14px; cursor:pointer; color:var(--sub);}
+  .chip.active{background:var(--indigo); color:#fff; border-color:var(--indigo);}
+
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px;}
+  .tbl-wrap{overflow-x:auto;}
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th,td{border:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top;}
+  th{background:#eef2ff; color:var(--indigo-deep); font-weight:600; white-space:nowrap;}
+  tbody tr:nth-child(even){background:#fafbfe;}
+  td.abbr{font-weight:700; color:var(--indigo-deep); white-space:nowrap;}
+  td.full{color:var(--sub); font-size:13px;}
+  a.goto{color:var(--indigo); text-decoration:none; font-size:13px; white-space:nowrap;}
+  a.goto:hover{text-decoration:underline;}
+  .lv{display:inline-block; font-size:11px; padding:1px 9px; border-radius:10px; color:#fff; white-space:nowrap;}
+  .lv-bk{background:var(--red);} .lv-gp{background:var(--amber);} .lv-c{background:var(--green);} .lv-y{background:var(--violet);}
+  .empty{text-align:center; color:var(--sub); padding:30px 0; display:none;}
+
+  footer{max-width:min(1100px,100%); margin:0 auto; text-align:center; color:#93a59c;
+    font-size:12.5px; padding:16px 16px 36px; line-height:2;}
+  footer a{color:var(--indigo); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">📖 缩写速查<small>系统架构师备考</small></div>
+  <a class="back" href="架构知识地图.html">← 知识地图</a>
+</header>
+
+<aside class="sidebar">
+  <div class="brand">📖 缩写速查<small>系统架构师备考</small></div>
+  <nav class="side-nav">
+    <a href="#" data-f="all" class="active">全部（20个）</a>
+    <a href="#" data-f="必考">🔥 必考</a>
+    <a href="#" data-f="高频">高频</a>
+    <a href="#" data-f="常考">常考</a>
+    <a href="#" data-f="易错">⚠️ 易错</a>
+  </nav>
+  <div class="side-foot">
+    <a href="架构知识地图.html" style="color:var(--indigo);text-decoration:none;font-weight:600;">🗺️ 返回知识地图</a><br>
+    收录原则：考试常考/必考/易错，随学习持续补录
+  </div>
+</aside>
+
+<div class="content">
+  <header class="hero">
+    <h1>📖 缩写速查表</h1>
+    <p>系统架构师备考 · 常考/必考/易错缩写 · 全称+一句话记忆 · 更新 2026-08-21</p>
+    <div class="core">记不住缩写全称，是因为只背了"三个字母"没背"含义"——本表把 全称 + 中文 + 一句话 绑在一起，点链接直达知识地图对应考点。</div>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="search" placeholder="🔍 搜缩写 / 全称 / 中文，如：ATAM、消息队列、架构">
+    <div class="chips">
+      <button class="chip active" data-f="all">全部</button>
+      <button class="chip" data-f="必考">🔥必考</button>
+      <button class="chip" data-f="高频">高频</button>
+      <button class="chip" data-f="常考">常考</button>
+      <button class="chip" data-f="易错">⚠️易错</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="tbl-wrap">
+      <table id="tbl">
+        <thead>
+          <tr><th>缩写</th><th>英文全称</th><th>中文含义 / 一句话</th><th>级别</th><th>直达</th></tr>
+        </thead>
+        <tbody id="rows">
+          <tr data-lv="必考"><td class="abbr">ABSD</td><td class="full">Architecture-Based Software Design</td><td>基于架构的软件开发——先定质量目标再倒推架构，质量属性为核心驱动</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/absd">第7章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">ADL</td><td class="full">Architecture Description Language</td><td>架构描述语言——组件+连接件+配置三要素，支持形式化分析与验证</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/adl">第7章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">ATAM</td><td class="full">Architecture Tradeoff Analysis Method</td><td>架构权衡分析方法——8步评估流程，识别敏感点/权衡点/风险点</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch8/atam">第8章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">SAAM</td><td class="full">Software Architecture Analysis Method</td><td>软件架构分析方法——ATAM 的前身，比 ATAM 简单</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch8/atam">第8章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">CBAM</td><td class="full">Cost Benefit Analysis Method</td><td>成本效益分析方法——在架构决策中权衡投入成本与收益</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch8/atam">第8章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">MVC</td><td class="full">Model-View-Controller</td><td>模型-视图-控制器——数据/展示/控制三分离的局部模式</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/pattern">第7章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">UML</td><td class="full">Unified Modeling Language</td><td>统一建模语言——通用建模，只认图不画图；≠ ADL</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/adl">第7章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">SOA</td><td class="full">Service-Oriented Architecture</td><td>面向服务的架构——服务/注册中心/契约；W03 微服务章节深入</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7">第7章→</a></td></tr>
+          <tr data-lv="高频"><td class="abbr">ESB</td><td class="full">Enterprise Service Bus</td><td>企业服务总线——SOA 的通信枢纽，负责路由/协议转换；7/6错题</td><td><span class="lv lv-gp">高频</span></td><td><a class="goto" href="架构知识地图.html#/ch7">第7章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">CAP</td><td class="full">Consistency, Availability, Partition tolerance</td><td>一致性/可用性/分区容错性——P必须保，C和A二选一</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch6/capbase">第6章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">BASE</td><td class="full">Basically Available, Soft state, Eventually consistent</td><td>基本可用+软状态+最终一致性——CAP 的妥协方案</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch6/capbase">第6章→</a></td></tr>
+          <tr data-lv="必考"><td class="abbr">MQ</td><td class="full">Message Queue</td><td>消息队列——异步解耦削峰，事件驱动识别的关键词</td><td><span class="lv lv-bk">必考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/style">第7章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">Kafka</td><td class="full">Apache Kafka</td><td>分布式消息中间件代表——事件驱动/削峰场景的默认答案</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/middleware">第7章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">RMI</td><td class="full">Remote Method Invocation</td><td>远程方法调用——Java 分布式调用，对象中间件/代理模式例子</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/middleware">第7章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">CORBA</td><td class="full">Common Object Request Broker Architecture</td><td>公共对象请求代理体系结构——对象中间件代表，代理模式经典</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch7/middleware">第7章→</a></td></tr>
+          <tr data-lv="高频"><td class="abbr">K8s</td><td class="full">Kubernetes</td><td>容器编排平台——云原生核心，弹性扩容；W04深入</td><td><span class="lv lv-gp">高频</span></td><td><a class="goto" href="架构知识地图.html#/ch7">第7章→</a></td></tr>
+          <tr data-lv="高频"><td class="abbr">Redis</td><td class="full">Remote Dictionary Server</td><td>远程字典服务——缓存/分布式锁/幂等去重，案例万能答法</td><td><span class="lv lv-gp">高频</span></td><td><a class="goto" href="架构知识地图.html#/ch6/cache">第6章→</a></td></tr>
+          <tr data-lv="易错"><td class="abbr">ISO 9126/25010</td><td class="full">ISO/IEC 9126 · ISO/IEC 25010</td><td>国际质量模型——功能性/可靠性/易用性/效率/维护性/可移植性，别和教材六大混</td><td><span class="lv lv-y">易错</span></td><td><a class="goto" href="架构知识地图.html#/ch8/qa">第8章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">SEI</td><td class="full">Software Engineering Institute</td><td>（卡内基梅隆）软件工程研究所——ATAM/质量属性体系出处</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch8/qa">第8章→</a></td></tr>
+          <tr data-lv="常考"><td class="abbr">DSSA</td><td class="full">Domain-Specific Software Architecture</td><td>特定领域软件架构——领域参考模型/参考需求/参考架构</td><td><span class="lv lv-c">常考</span></td><td><a class="goto" href="架构知识地图.html#/ch7">第7章→</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty" id="empty">没有匹配的缩写，换个关键词试试</div>
+  </div>
+</div>
+
+<footer>
+  📖 缩写速查 · 随学习持续补录（每周并入新章节的必考缩写）<br>
+  <a href="架构知识地图.html">🗺️ 返回架构知识地图</a>
+</footer>
+
+<script>
+const rows = [...document.querySelectorAll('#rows tr')];
+const chips = [...document.querySelectorAll('.chip')];
+const search = document.getElementById('search');
+const empty = document.getElementById('empty');
+let curF = 'all', curQ = '';
+
+function apply(){
+  let shown = 0;
+  rows.forEach(tr => {
+    const lv = tr.dataset.lv;
+    const text = tr.textContent.toLowerCase();
+    const okF = (curF === 'all' || lv === curF);
+    const okQ = !curQ || text.includes(curQ);
+    const show = okF && okQ;
+    tr.style.display = show ? '' : 'none';
+    if (show) shown++;
+  });
+  empty.style.display = shown ? 'none' : 'block';
+}
+chips.forEach(c => c.addEventListener('click', () => {
+  chips.forEach(x => x.classList.remove('active'));
+  c.classList.add('active');
+  curF = c.dataset.f;
+  apply();
+}));
+search.addEventListener('input', () => { curQ = search.value.trim().toLowerCase(); apply(); });
+apply();
+</script>
+</body>
+</html>

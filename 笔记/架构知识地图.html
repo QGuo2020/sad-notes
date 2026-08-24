@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>架构知识地图 · 系统架构师备考</title>
+<style>
+  :root{
+    --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
+    --bg:#f6f7fb; --card:#ffffff;
+    --indigo:#4f46e5; --indigo-deep:#4338ca; --violet:#7c3aed; --sky:#06b6d4;
+    --green:#16a34a; --amber:#d97706;
+    --warn-bg:#fdf1f0; --warn-line:#e5484d; --warn-ink:#8a2b2f;
+    --tip-bg:#eff6ff; --tip-line:#3b82f6; --tip-ink:#1e3a8a;
+    --ok-bg:#eafaf1; --ok-line:#16a34a; --ok-ink:#14532d;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    line-height:1.8; font-size:16px;}
+
+  /* ===== 移动端顶部固定栏 ===== */
+  .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; color:var(--ink); border-bottom:1px solid var(--line);
+    box-shadow:0 1px 4px rgba(0,0,0,.05);}
+  .topbar .brand{display:flex; align-items:center; gap:8px; padding:10px 14px;
+    font-weight:700; font-size:15px; color:var(--indigo);}
+  .topbar .brand small{font-weight:400; color:var(--sub); font-size:11px;}
+  .menu-btn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:17px; line-height:1; padding:7px 11px; margin-right:12px; cursor:pointer; color:var(--ink);}
+  .menu-btn:active{background:#e5e7eb;}
+
+  /* ===== 桌面左侧固定栏 ===== */
+  .sidebar{display:none;}
+  @media (min-width:960px){
+    .topbar{display:none;}
+    #drawer,#drawerBackdrop,.menu-btn{display:none;}
+    body{display:flex; align-items:flex-start;}
+    .sidebar{display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+      flex:0 0 250px; background:#fff; color:var(--ink);
+      border-right:1px solid var(--line); padding:20px 0 16px; overflow-y:auto;}
+    .sidebar .brand{padding:0 20px 14px; border-bottom:1px solid var(--line);}
+    .sidebar .brand b{display:block; color:var(--indigo); font-size:18px;}
+    .sidebar .brand small{font-size:12px; color:var(--sub);}
+    #sideNav{padding:4px 10px;}
+    .side-foot{padding:12px 20px; border-top:1px solid var(--line); font-size:12px; line-height:1.9; color:var(--sub);}
+    .side-foot .hl{color:var(--indigo); font-weight:700;}
+  }
+
+  /* ===== 主体 ===== */
+  .content{max-width:min(1200px,100%); margin:0 auto; padding:0 16px 60px;}
+  .topbar ~ .content{padding-top:64px;}
+  @media (min-width:960px){
+    .content{flex:1 1 auto; min-width:0; max-width:min(1200px,100%); margin:0 auto; padding:0 28px 60px;}
+    .topbar ~ .content{padding-top:0;}
+  }
+
+  /* ===== 树形菜单（桌面侧栏 + 手机抽屉共用） ===== */
+  .tree-ch{margin-bottom:2px;}
+  .ch-link{display:block; padding:9px 10px 9px 6px; border-radius:8px; font-weight:600;
+    font-size:14.5px; color:var(--ink); text-decoration:none; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;}
+  .ch-link::before{content:'▸'; display:inline-block; width:14px; font-size:11px; color:var(--sub);}
+  .tree-ch.open .ch-link::before{content:'▾'; color:var(--indigo);}
+  .ch-link:hover{background:#f3f4f6;}
+  .ch-link.active{background:#eef2ff; color:var(--indigo-deep);}
+  .tree-secs{display:none; flex-direction:column; gap:1px; margin:0 0 10px 16px;
+    padding-left:10px; border-left:2px solid var(--line);}
+  .tree-ch.open .tree-secs{display:flex;}
+  .tree-secs a{padding:6px 12px; border-radius:8px; font-size:13.5px; color:var(--sub); text-decoration:none;}
+  .tree-secs a:hover{background:#f3f4f6;}
+  .tree-secs a.active{background:#eef2ff; color:var(--indigo-deep); font-weight:600;}
+
+  /* ===== 手机抽屉菜单 ===== */
+  #drawerBackdrop{position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:190;
+    opacity:0; pointer-events:none; transition:opacity .2s;}
+  #drawerBackdrop.show{opacity:1; pointer-events:auto;}
+  #drawer{position:fixed; top:0; right:0; bottom:0; width:min(320px,86vw); background:#fff;
+    z-index:200; transform:translateX(105%); transition:transform .25s ease;
+    display:flex; flex-direction:column; padding:14px 12px 16px; overflow-y:auto;
+    box-shadow:-4px 0 20px rgba(0,0,0,.12);}
+  #drawer.open{transform:none;}
+  #drawer .drawer-head{display:flex; align-items:center; justify-content:space-between;
+    padding:2px 6px 12px; border-bottom:1px solid var(--line); margin-bottom:12px;}
+  #drawer .drawer-head b{color:var(--indigo); font-size:16px;}
+  #closeBtn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; padding:4px 10px; cursor:pointer; color:var(--ink);}
+  .drawer-foot{margin-top:auto; padding-top:12px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--sub); line-height:1.9;}
+  .expand-row{padding:6px 12px 4px;}
+  .expand-btn{background:#eef2ff; color:var(--indigo-deep); border:1px solid #dbe1f8;
+    border-radius:14px; font-size:12.5px; padding:4px 14px; cursor:pointer;}
+  .expand-btn:active{background:#e0e7ff;}
+  .ext{padding:6px 12px 0;}
+  .ext a{color:var(--indigo); text-decoration:none; font-size:13.5px; font-weight:600;}
+  .ext a:hover{text-decoration:underline;}
+
+  .hero{background:linear-gradient(120deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
+    color:#fff; border-radius:16px; padding:28px 26px; margin:18px 0 20px;
+    box-shadow:0 8px 24px rgba(79,70,229,.25);}
+  .hero h1{margin:0 0 8px; font-size:25px;}
+  .hero p{margin:2px 0; font-size:14px; opacity:.94;}
+  .hero .core{background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.4);
+    border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px;}
+
+  article{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:24px 22px 14px; margin-bottom:18px; scroll-margin-top:72px;}
+  @media (min-width:960px){ article{scroll-margin-top:18px;} }
+  article h2{margin:0 0 2px; font-size:20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  article .meta{font-size:12.5px; color:var(--sub); margin:0 0 12px;}
+  .who{background:#f5f3ff; border:1px solid #e4e1fb; border-radius:10px;
+    padding:10px 14px; margin:10px 0 14px; font-size:14.5px; color:#4c1d95;}
+  .who b{color:var(--indigo-deep);}
+  .badge{display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:12px;
+    color:#fff; font-weight:600; vertical-align:2px;}
+  .b-done{background:var(--green);} .b-new{background:var(--indigo);} .b-hot{background:var(--amber);}
+
+  .tbl-wrap{overflow-x:auto; margin:12px 0;}
+  table{width:100%; border-collapse:collapse; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#eef2ff; font-weight:600; white-space:nowrap; color:var(--indigo-deep);}
+  tbody tr:nth-child(even){background:#fafcfa;}
+
+  .tip,.warn,.ok{border-radius:10px; padding:11px 14px; margin:12px 0; font-size:14.5px; line-height:1.75;}
+  .tip{background:var(--tip-bg); border-left:4px solid var(--tip-line); color:var(--tip-ink);}
+  .warn{background:var(--warn-bg); border-left:4px solid var(--warn-line); color:var(--warn-ink);}
+  .ok{background:var(--ok-bg); border-left:4px solid var(--ok-line); color:var(--ok-ink);}
+  .anchor{color:var(--indigo-deep); font-weight:700;}
+
+  details{background:#fafcfb; border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin:10px 0;}
+  details summary{cursor:pointer; font-weight:700; font-size:15px;}
+  details[open] summary{margin-bottom:10px; color:var(--indigo-deep);}
+  details .who-tag{font-size:12px; color:var(--sub); font-weight:400; margin-left:8px;}
+
+  ul,ol{margin:8px 0; padding-left:24px;}
+  li{margin:5px 0;}
+
+  .flow{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:14px 0;}
+  .flow .step{background:#f7f8ff; border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
+  .flow .step .num{display:inline-flex; align-items:center; justify-content:center;
+    width:24px; height:24px; background:var(--indigo); color:#fff; border-radius:8px;
+    font-size:13px; margin-right:8px; font-weight:700;}
+  .flow .step b{font-size:15px;}
+  .flow .step .desc{font-size:13px; color:var(--sub); margin-top:4px;}
+
+  .memo{font-size:12.5px; color:var(--sub); margin-top:12px; border-top:1px dashed var(--line); padding-top:10px;}
+  .overview{border-left:4px solid var(--indigo);}
+
+  footer{text-align:center; color:#93a59c;
+    font-size:13px; padding:14px 0 8px; line-height:2;}
+  footer a{color:var(--indigo); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">🗺️ 架构知识地图 <small>系统架构师备考</small></div>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+</header>
+<div id="drawerBackdrop"></div>
+<aside id="drawer">
+  <div class="drawer-head"><b>🗺️ 架构知识地图</b><button id="closeBtn">✕</button></div>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
+  <nav id="drawerNav"></nav>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="drawer-foot">距 2026-10-24 考试约 64 天 · 综合≈34% · 案例3题 · 论文2句式</div>
+</aside>
+
+<aside class="sidebar">
+  <div class="brand">
+    <b>🗺️ 架构知识地图</b>
+    <small>系统架构师备考</small>
+  </div>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnSide">全部展开</button></div>
+  <nav id="sideNav"></nav>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="side-foot">
+    距 2026-10-24 考试约 64 天<br>
+    综合掌握度 <span class="hl">≈34%</span> · 案例3题 · 论文2句式
+  </div>
+</aside>
+
+<main class="content">
+  <header class="hero">
+    <h1>🏗️ 架构设计知识地图</h1>
+    <p>当前进度：W01 架构基础（第7、8章）· 后续章节每周并入 · 更新 2026-08-20</p>
+    <div class="core">核心心法：<b>质量属性 → 质量场景 → 架构风格 → 架构模式 → 4+1视图 → ATAM评估</b>。学新考点先问一句：<b>"它是在讲谁的什么？"</b> 把它挂到主线上的位置，就不容易忘。</div>
+  </header>
+
+  <!-- ===== 主线图（始终可见） ===== -->
+  <article id="line" class="overview">
+    <h2>一条主线：造系统 = 造楼</h2>
+    <p class="meta">贯穿所有章节 · 每天先看这张图</p>
+    <div class="flow">
+      <div class="step"><span class="num">1</span><b>要什么？质量属性</b><div class="desc">系统"干得好不好"的6个指标（目标）</div></div>
+      <div class="step"><span class="num">2</span><b>说清楚！质量场景</b><div class="desc">把目标填进6格模板（说具体）</div></div>
+      <div class="step"><span class="num">3</span><b>定骨架！架构风格</b><div class="desc">整个系统的大骨架怎么搭（4选1）</div></div>
+      <div class="step"><span class="num">4</span><b>做局部！架构模式</b><div class="desc">局部小块怎么搭（现成套路）</div></div>
+      <div class="step"><span class="num">5</span><b>画图纸！4+1视图</b><div class="desc">画5张设计图（给不同人看）</div></div>
+      <div class="step"><span class="num">6</span><b>验收！ATAM评估</b><div class="desc">检查图纸是否达标（验收）</div></div>
+    </div>
+    <div class="tip">💡 用法：学任何新考点，先回答"它是谁的什么、在主线哪个环节"，串起来就不会糊涂。</div>
+    <div class="tip">❓ <b>考试只考这些知识点吗？</b>不是——这只是 W01 的第7、8章（架构基础）。全科覆盖教材 11 章 + 贯穿考点（专业英语 / 法规 / 数学）。10 周计划 W02-W10 会逐章并入本图：W02 分布式+中间件 → W03 微服务 → W04 云原生 → W05 数据架构 → W06 安全+软件工程 → W07 AI+未来技术 → W08 案例+论文专项 → W09-W10 冲刺。这张图会跟着进度长大，先把地基（7、8章）啃透。</div>
+  </article>
+
+  <!-- ==================== 第7章 ==================== -->
+
+  <article id="style" data-ch="ch7" data-sec="style" data-title="架构风格">
+    <h2>架构风格 <span class="badge b-done">已掌握</span></h2>
+    <p class="meta">第7章 · 环节③"定骨架" · 综合单选必考</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>整个系统的骨架</b>——描述"系统分成哪些大块、块和块之间<b>怎么通信</b>"的宏观分类。一共就 4 类，看通信方式就能认出来。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>4大类</th><th>怎么通信</th><th>代表</th><th>判别词</th></tr>
+      <tr><td><b>调用/返回</b></td><td>直接调用（打电话）</td><td>主程序-子程序 / 层次 / 面向对象</td><td>直接调用 / 调用清晰 / 分层</td></tr>
+      <tr><td><b>数据流</b></td><td>数据流过（流水线）</td><td>管道-过滤器</td><td>流水线 / 加工 / 数据变换</td></tr>
+      <tr><td><b>独立构件</b></td><td>发消息/事件（广播）</td><td><b>事件驱动</b> / 发布-订阅</td><td>发布/订阅 + 异步 + 消息队列 ⚠️</td></tr>
+      <tr><td><b>虚拟机</b></td><td>引擎执行（读指令）</td><td>解释器 / 规则系统</td><td>读指令执行 / 规则 / 解释</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>3 大陷阱：</b><br>
+      ① <b>事件驱动 ≠ 显式调用</b> —— 事件驱动属于<b>独立构件</b>大类，发布者订阅者互不认识（8/20又错一次，钉死！）<br>
+      ② 层次结构<b>只能调相邻层</b><br>
+      ③ <b>解释器 ≠ 管道-过滤器</b> —— 解释器"读指令执行"，管道过滤器"数据流过加工"</div>
+    <div class="tip">💡 事件驱动识别：<b>服务 + 消息队列 + 异步解耦 + 发布/订阅</b> = 事件驱动</div>
+  </article>
+
+  <article id="pattern" data-ch="ch7" data-sec="pattern" data-title="架构模式">
+    <h2>架构模式 <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 环节④"做局部" · 判别看"协作方式"</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统里的某个局部问题</b>——"这一小块怎么搭"的现成套路，拿来就能用。今天背 4 个，看协作方式认。</div>
+    <details>
+      <summary>① 分层 Layered <span class="who-tag">食堂打饭 · 各层只跟上下层打交道</span></summary>
+      <ul>
+        <li><b>小白</b>：点餐台 → 收银 → 后厨 → 仓库，各层只跟上下层打交道，不越级</li>
+        <li><b>例子</b>：银行核心系统（界面层-业务逻辑层-数据访问层-数据库）；TCP/IP 四层</li>
+        <li><b>锚点</b>：<span class="anchor">"上下依赖、只调相邻层"</span></li>
+        <li><b>易错</b>：分层模式 ≈ 架构风格里的"层次结构风格"，一家人，别当两个东西；跨层调用=坏味道</li>
+      </ul>
+    </details>
+    <details>
+      <summary>② 代理 Proxy / Broker <span class="who-tag">买房中介 · 中间人转发，位置透明</span></summary>
+      <ul>
+        <li><b>小白</b>：买二手房找中介——你只跟中介打交道，<b>不用知道房东是谁、在哪</b></li>
+        <li><b>例子</b>：远程调用（RMI / Web Service）；微服务网关转发</li>
+        <li><b>锚点</b>：<span class="anchor">"中间人转发 + 位置透明"</span></li>
+        <li><b>易错</b>：代理是"帮你找到干活的人"，不是"替你干活"；客户端无感知</li>
+      </ul>
+    </details>
+    <details>
+      <summary>③ 黑板 Blackboard <span class="who-tag">专家围大白板 · 共享数据区协作</span></summary>
+      <ul>
+        <li><b>小白</b>：几个专家围一块大白板，谁有想法就写上，别人看到接着补充，轮流修正直到解出答案</li>
+        <li><b>例子</b>：语音识别（声学专家/语言专家轮流修正）；专家系统</li>
+        <li><b>锚点</b>：<span class="anchor">"共享数据区 + 多个独立专家 + 协作求解"</span></li>
+        <li><b>易错</b>：<b>黑板 ≠ 事件驱动</b>！事件驱动是"喊话通知"，黑板是"共写一个本子"，不互相喊话</li>
+      </ul>
+    </details>
+    <details>
+      <summary>④ 模型-视图-控制器 MVC <span class="who-tag">餐厅 · 数据/展示/控制三分离</span></summary>
+      <ul>
+        <li><b>小白</b>：菜单只管展示（视图）、后厨只管做菜（模型）、服务员接单传话（控制器）</li>
+        <li><b>例子</b>：Spring MVC；前端框架</li>
+        <li><b>锚点</b>：<span class="anchor">"数据-展示-控制三分离"</span></li>
+        <li><b>易错</b>：MVC 是<b>表现层内部</b>的分工，不是整个系统的架构风格；常作为分层结构中表现层的实现</li>
+      </ul>
+    </details>
+    <div class="ok">✅ <b>判别总表（背这个）</b>：分层 = 上下依赖 ｜ 代理 = 中间人转发 ｜ 黑板 = 共享数据协作 ｜ MVC = 展示与控制解耦</div>
+    <p class="memo">教材还提"客户机-服务器"模式：客户端发请求、服务器提供服务（B/S、C/S 就是它）。</p>
+  </article>
+
+  <article id="diff" data-ch="ch7" data-sec="diff" data-title="风格 vs 模式">
+    <h2>重点：架构风格 vs 架构模式 <span class="badge b-hot">今日重点</span></h2>
+    <p class="meta">两者最易混淆 · 真题爱考"整体还是局部"</p>
+    <div class="who">一句话分清：风格管<b>整个系统的骨架</b>（怎么通信），模式管<b>局部怎么搭</b>（怎么解决）。<b>风格定骨架，模式定局部。</b></div>
+    <div class="tbl-wrap"><table>
+      <tr><th>维度</th><th>架构风格</th><th>架构模式</th></tr>
+      <tr><td>管的是</td><td><b>整个系统</b>的骨架</td><td>系统里<b>某个局部</b>的问题</td></tr>
+      <tr><td>回答的问题</td><td>组件之间<b>怎么通信</b></td><td>这个具体问题<b>怎么解决</b></td></tr>
+      <tr><td>抽象度</td><td>高（抽象分类）</td><td>低（具体套路）</td></tr>
+      <tr><td>数量</td><td><b>只有 4 大类</b></td><td>很多个</td></tr>
+    </table></div>
+    <div class="tip">💡 <b>对应关系（得分锚点）：</b>调用/返回风格 → <b>分层模式</b>；事件驱动（独立构件）风格 → <b>发布/订阅</b>；数据流风格 → <b>管道-过滤器</b></div>
+    <div class="warn">⚠️ 真题怎么考：看到"整体 / 全局 / 组件间通信方式" → <b>风格</b>；看到"局部 / 特定问题 / 可复用方案" → <b>模式</b>。</div>
+  </article>
+
+  <article id="view" data-ch="ch7" data-sec="view" data-title="4+1 视图模型">
+    <h2>4+1 视图模型 <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 环节⑤"画图纸" · 论文和综合都考</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统的设计图纸</b>——一套系统画 5 张图，每张给不同的人看：功能图、代码图、并发图、部署图、场景图（最重要）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>视图</th><th>给谁看</th><th>关心什么</th><th>判别词</th></tr>
+      <tr><td><b>逻辑视图</b></td><td>最终用户</td><td>功能分解（类/对象/模块）</td><td>功能 / 业务模块 / 用例</td></tr>
+      <tr><td><b>开发视图</b></td><td>程序员</td><td>代码模块/包结构</td><td>代码 / 工程 / 包 / 层次结构</td></tr>
+      <tr><td><b>进程视图</b></td><td>集成人员</td><td>并发/同步/性能</td><td><b>并发 / 同步 / 进程线程 / 性能</b> ⚠️</td></tr>
+      <tr><td><b>物理视图</b></td><td>部署工程师</td><td>硬件/服务器/网络拓扑</td><td>服务器 / 机房 / 部署 / 网络</td></tr>
+      <tr><td><b>场景视图</b></td><td>所有人</td><td>典型用例串联验证，<b>最重要</b></td><td>场景 / 用例 / 驱动其他视图 ⚠️</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>3 个易错点：</b><br>
+      ① <b>进程视图 ≠ 业务流程图</b>！并发/同步/性能才是进程视图；业务流程图属于逻辑视图<br>
+      ② <b>逻辑 vs 开发</b>：逻辑 = 概念上的功能划分（不管代码怎么组织），开发 = 实际代码模块<br>
+      ③ <b>场景视图最重要</b> —— 考题爱考"哪个视图驱动其他视图"，答案永远是<b>场景</b></div>
+    <div class="ok">✅ <b>得分锚点（论文直接用）：</b>"采用4+1视图描述架构：逻辑视图划分功能模块，开发视图组织代码结构，进程视图设计并发与通信，物理视图规划部署拓扑，场景视图以核心用例验证整体。"<br>
+      综合题：<b>"并发 / 同步 / 性能" → 进程视图</b>，闭眼选。</div>
+  </article>
+
+  <article id="absd" data-ch="ch7" data-sec="absd" data-title="ABSD 方法">
+    <h2>ABSD 方法（基于架构的软件开发） <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>开发流程</b>——"先定系统要有多好（质量属性），再倒推架构怎么做"的开发方法，质量属性是贯穿全程的指挥棒。</div>
+    <ul>
+      <li><b>小白</b>：别人先想功能再搭架子；ABSD 反过来——先定"要有多好"，再决定怎么盖</li>
+      <li><b>流程</b>：质量属性目标 → 质量场景说具体 → 选风格/战术 → 设计 → 实现 → 验证目标达成</li>
+      <li><b>易错</b>：核心驱动是<b>质量属性</b>不是功能需求；别和瀑布/敏捷混（那是按过程模型分，ABSD 按驱动因素分）</li>
+      <li><b>锚点</b>：问"ABSD 以什么为核心"→ <span class="anchor">质量属性</span>；问"输入"→ 质量场景</li>
+    </ul>
+  </article>
+
+  <article id="adl" data-ch="ch7" data-sec="adl" data-title="ADL 架构描述语言">
+    <h2>ADL（架构描述语言） <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>架构的表达方式</b>——描述软件架构的专用语言，让计算机能读、能分析、能验证。</div>
+    <ul>
+      <li><b>三要素（必背）</b>：<span class="anchor">组件 Component + 连接件 Connector + 架构配置 Configuration</span>（谁、怎么连、怎么组装）</li>
+      <li><b>易错</b>：ADL ≠ UML——UML 通用建模偏描述，ADL 专用且支持<b>形式化分析与验证</b></li>
+      <li><b>代表</b>：AADL / Wright / Acme / Rapide</li>
+      <li><b>锚点</b>：看到"组件、连接件、配置"→ ADL；看到"形式化分析/验证架构"→ ADL</li>
+    </ul>
+  </article>
+
+  <article id="middleware" data-ch="ch7" data-sec="middleware" data-title="中间件技术">
+    <h2>中间件技术 <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统里的一层"翻译官"</b>——位于操作系统与应用程序之间，屏蔽底层异构，向上提供统一接口（插座转换头）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>类别</th><th>作用</th><th>代表</th></tr>
+      <tr><td><b>消息中间件</b></td><td>异步通信、解耦削峰</td><td>Kafka / RabbitMQ</td></tr>
+      <tr><td><b>事务中间件</b></td><td>管理分布式事务</td><td>Tuxedo</td></tr>
+      <tr><td><b>对象中间件</b></td><td>远程对象调用</td><td>CORBA / RMI</td></tr>
+      <tr><td><b>应用服务器</b></td><td>运行容器环境</td><td>Tomcat / JBoss</td></tr>
+      <tr><td><b>数据库中间件</b></td><td>统一数据访问/分库分表</td><td>JDBC / MyCat</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：中间件作用是<b>屏蔽异构/解耦/复用</b>，不是"让程序跑更快"；位置 = 操作系统之上、应用之下</div>
+    <div class="tip">💡 代表配对闭眼背：消息→Kafka、事务→Tuxedo、对象→CORBA/RMI、容器→Tomcat</div>
+  </article>
+
+  <article id="micro" data-ch="ch7" data-sec="micro" data-title="微服务架构">
+    <h2>微服务架构 <span class="badge b-new">今日新学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合+案例+论文三科全考</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统的拆分与组织方式</b>——把大系统拆成独立小服务，各自部署、通过接口通信（大食堂拆成独立小餐馆，一家爆满不影响其他家）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>4件套</th><th>解决什么</th><th>怎么做</th><th>代表</th></tr>
+      <tr><td><b>拆分原则</b></td><td>怎么拆</td><td>按<b>业务/领域</b>边界拆，高内聚低耦合、独立部署独立库；不是越细越好</td><td>DDD领域驱动</td></tr>
+      <tr><td><b>注册中心</b></td><td>服务怎么找到彼此</td><td>服务启动<b>注册</b>（IP+端口），调用方<b>发现</b>；本地缓存+心跳续约容错</td><td>Nacos/Eureka/Consul/ZK</td></tr>
+      <tr><td><b>API网关</b></td><td>统一入口</td><td>路由转发/鉴权/限流/日志/灰度，管"外部→内部"</td><td>Gateway/Kong</td></tr>
+      <tr><td><b>配置中心</b></td><td>配置怎么管</td><td>集中管理、动态下发、热更新，敏感配置加密</td><td>Nacos/Apollo</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：<b>网关 vs ESB</b>——网关管"外部→内部"统一入口；ESB（企业服务总线）管 SOA 时代"内部↔内部"集成（协议转换/路由），微服务时代被网关+服务治理取代（7/6错题）</div>
+    <div class="tip">💡 锚点：拆分看业务边界｜互相找靠注册中心｜统一进靠网关｜配置管理靠配置中心</div>
+  </article>
+
+  <article id="gov" data-ch="ch7" data-sec="gov" data-title="服务治理">
+    <h2>服务治理：熔断/限流/降级/灰度 <span class="badge b-new">8/23补学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合+案例</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>微服务间的"交通治理"</b>——服务多了像城市路口，靠四件套保证不堵死不瘫痪：熔断=断路保护、限流=限行、降级=高峰期停次要保核心、灰度=新版本小范围试通行。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>机制</th><th>干什么</th><th>关键点</th><th>代表</th></tr>
+      <tr><td><b>熔断</b></td><td>下游故障时直接快速失败，防雪崩</td><td>状态机：关闭→打开→<b>半开</b>（放少量请求试探）</td><td>Hystrix/Sentinel</td></tr>
+      <tr><td><b>限流</b></td><td>控制单位时间请求量</td><td><b>令牌桶</b>允许突发 vs <b>漏桶</b>匀速平滑</td><td>Sentinel/Guava</td></tr>
+      <tr><td><b>降级</b></td><td>主动牺牲次要功能保核心链路</td><td>被动保护=熔断；<b>主动策略=降级</b></td><td>开关/配置</td></tr>
+      <tr><td><b>灰度发布</b></td><td>新版本先小范围试再全量</td><td>先小后大+<b>可回滚</b>；≠滚动发布(一批批替换)</td><td>网关权重/金丝雀</td></tr>
+    </table></div>
+    <div class="tip">💡 锚点：雪崩→熔断降级｜高峰流量→限流削峰｜发新版→灰度。限流=挡，削峰=削，熔断=断</div>
+  </article>
+
+  <!-- ==================== 第8章 ==================== -->
+  <article id="qa" data-ch="ch8" data-sec="qa" data-title="质量属性">
+    <h2>质量属性 <span class="badge b-done">已掌握</span></h2>
+    <p class="meta">第8章 · 环节①"要什么" · 综合单选必考</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>软件系统</b>——功能回答"能干什么"（登录、转账），质量属性回答"<b>干得好不好</b>"（快不快、稳不稳、安不安全、好不好改、好不好用、好不好测）。考试考的就是这 6 个"干得好不好"的指标。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>指标</th><th>一句话</th><th>判别词（看到就选它）</th></tr>
+      <tr><td><b>性能</b></td><td>响应快、吞吐高</td><td>延迟 / 吞吐量 / 并发量 / 1秒内响应</td></tr>
+      <tr><td><b>可用性</b></td><td>不出错、故障能恢复</td><td>7x24 / 冗余 / 容错 / 故障转移 / 心跳</td></tr>
+      <tr><td><b>安全性</b></td><td>防攻击、权限、加密</td><td>认证 / 授权 / 加密 / 防火墙 / 防篡改</td></tr>
+      <tr><td><b>可修改性</b></td><td>好改、好扩展</td><td>加功能容易 / 模块化 / 低耦合 / 热插拔</td></tr>
+      <tr><td><b>易用性</b></td><td>好用、好上手</td><td><b>提示清晰 / 操作友好 / 用户可恢复</b> ⚠️</td></tr>
+      <tr><td><b>可测试性</b></td><td>方便测试、能验证</td><td>测试用例 / 可观测 / 可诊断 / 覆盖率</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>易用性 vs 可用性</b>（8/18错题）："输入非法数据有清晰提示"是<b>易用性</b>（用户友好），不是可用性（系统不宕机）。</div>
+    <div class="ok">✅ <b>教材第2版六大质量属性（8/20 按教材更正）：</b>性能 / 可用性 / 安全性 / 可修改性 / <b>可测试性</b> / 易用性。<br>
+      · <b>互操作性</b>、可移植性等属于 SEI 体系扩展属性，真题问"是否属于质量属性"时它们也算；但问<b>"教材六大"</b>，答案用带"可测试性"的版本。<br>
+      · 也别和 ISO 质量模型（9126/25010）混淆：功能性 / 可靠性 / 易用性 / 效率 / 维护性 / 可移植性。</div>
+  </article>
+
+  <article id="qs" data-ch="ch8" data-sec="qs" data-title="质量场景">
+    <h2>质量场景 <span class="badge b-done">已掌握</span></h2>
+    <p class="meta">第8章 · 环节②"说清楚" · 六要素必考</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>质量属性</b>——它是把"系统要有多好"说具体的<b>填空模板</b>。光说"系统要可用"太笼统，用 6 个空填满：谁、在啥时候、对啥、做了啥、系统咋回应、算多好。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>6要素</th><th>含义</th><th>举例（可用性）</th></tr>
+      <tr><td><b>刺激源</b></td><td>谁发起的</td><td>用户</td></tr>
+      <tr><td><b>刺激</b></td><td>发生了什么</td><td>发起转账请求</td></tr>
+      <tr><td><b>环境</b></td><td>什么状态下发生的</td><td><b>高峰期</b> ⚠️</td></tr>
+      <tr><td><b>工件</b></td><td>作用于哪个系统</td><td>银行核心系统</td></tr>
+      <tr><td><b>响应</b></td><td>系统怎么回应</td><td>1秒内返回成功</td></tr>
+      <tr><td><b>响应度量</b></td><td>怎么算达标</td><td>成功率 ≥ 99%</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>8/18易错点："高峰期 / 故障中 / 正常运行" → 环境</b>，不是响应！</div>
+    <div class="tip">💡 记忆口诀：<b>谁（刺激源）→ 做了什么（刺激）→ 在啥时候（环境）→ 对哪个系统（工件）→ 回应（响应）→ 算多好（响应度量）</b></div>
+  </article>
+
+  <article id="atam" data-ch="ch8" data-sec="atam" data-title="ATAM 评估">
+    <h2>ATAM 架构评估 <span class="badge b-done">已掌握</span></h2>
+    <p class="meta">第8章 · 环节⑥"验收" · 案例高频</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>架构设计</b>——它是<b>验收流程</b>：图纸画完了，按 8 步逐项检查，看有没有满足第1步定的质量目标。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>步骤</th><th>干什么</th></tr>
+      <tr><td>1. 描述ATAM</td><td>介绍评估方法本身</td></tr>
+      <tr><td>2. 业务驱动</td><td>讲清业务目标</td></tr>
+      <tr><td>3. 描述架构</td><td>架构师介绍架构</td></tr>
+      <tr><td>4. 架构方法</td><td>识别架构采取的战术/模式</td></tr>
+      <tr><td>5. 效用树</td><td>把质量属性按优先级展开成树</td></tr>
+      <tr><td>6. 分析</td><td>逐个分析风险点/敏感点/权衡点</td></tr>
+      <tr><td>7. 头脑风暴</td><td>集体找问题、排序</td></tr>
+      <tr><td>8. 呈现结果</td><td>输出评估结论</td></tr>
+    </table></div>
+    <p><b>敏感点 / 权衡点 / 风险点（8/14 已克服）：</b><br>
+      · <b>敏感点</b>：与某个质量属性相关的架构决策<br>
+      · <b>权衡点</b>：影响<b>多个</b>质量属性的决策（最常考：性能 vs 安全、一致性 vs 可用性）<br>
+      · <b>风险点</b>：还不确定能不能达标的敏感点</p>
+  </article>
+
+  <!-- ==================== 分布式系统(W02) ==================== -->
+
+  <article id="capbase" data-ch="ch6" data-sec="capbase" data-title="CAP 定理 + BASE">
+    <h2>CAP 定理 + BASE 理论 <span class="badge b-new">W02新学</span></h2>
+    <p class="meta">W02 · 必考 · 综合单选高频</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>分布式系统的取舍规则</b>——网络必然可能断（P必须保），所以一致性与可用性只能二选一；BASE 是选"可用性优先"后的落地理论。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>概念</th><th>含义</th><th>典型</th></tr>
+      <tr><td><b>CP</b></td><td>一致性优先，牺牲可用性（报错也不给错数据）</td><td>银行转账 / 库存扣减</td></tr>
+      <tr><td><b>AP</b></td><td>可用性优先，牺牲一致性（先响应，稍后同步）</td><td>商品浏览 / 社交点赞</td></tr>
+      <tr><td><b>BASE</b></td><td>基本可用 + 软状态 + 最终一致性（AP的落地版）</td><td>分布式场景普遍</td></tr>
+      <tr><td><b>ACID</b></td><td>强一致（单库事务），与 BASE 是两条路线</td><td>关系型数据库事务</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：CAP 不是"三选二随便挑"，是 <b>P 必保、CA 二选一</b>；BASE ≠ 放弃一致性，是"最终一致"</div>
+    <div class="tip">💡 锚点：钱/库存→CP强一致；浏览/点赞→AP最终一致</div>
+  </article>
+
+  <article id="txn" data-ch="ch6" data-sec="txn" data-title="分布式事务">
+    <h2>分布式事务 <span class="badge b-new">W02新学</span></h2>
+    <p class="meta">W02 · 必考 · 综合+案例（7/7错题区）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>跨服务/跨库操作的原子性</b>——一个操作涉及多个服务（下单=订单+库存+积分），要保证全成功或全失败。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>路线</th><th>方案</th><th>适用</th><th>缺点</th></tr>
+      <tr><td><b>强一致</b></td><td><b>2PC</b>（准备→提交，协调者主导）</td><td>金额、库存强扣减</td><td>同步阻塞、协调者单点</td></tr>
+      <tr><td>强一致</td><td><b>TCC</b>（Try-Confirm-Cancel 手工补偿）</td><td>可接受业务侵入</td><td>代码复杂</td></tr>
+      <tr><td><b>最终一致</b></td><td><b>MQ+本地消息表</b></td><td>订单状态、通知类</td><td>有短暂不一致窗口</td></tr>
+      <tr><td>最终一致</td><td><b>Saga</b>（长事务反向补偿）</td><td>长链路业务</td><td>补偿逻辑要写好</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：Saga 是<b>最终一致</b>的补偿式长事务，不是两阶段提交；2PC 才是强一致。扣库存选强一致（防超卖），通知积分可最终一致</div>
+    <div class="tip">💡 选型口诀：<b>钱和库存→2PC/TCC；状态和通知→MQ/Saga</b></div>
+  </article>
+
+  <article id="cache" data-ch="ch6" data-sec="cache" data-title="分布式缓存">
+    <h2>分布式缓存：穿透/击穿/雪崩/一致性 <span class="badge b-new">W02新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合+案例高频</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>数据库前面那层"快查柜台"</b>——缓存用不好有四个坑：穿透/击穿/雪崩（三兄弟）+ 一致性（写库与写缓存的顺序）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>坑</th><th>判别词</th><th>首选解法</th></tr>
+      <tr><td><b>穿透</b></td><td>查<b>不存在</b>的数据（假ID/恶意请求）</td><td>布隆过滤器 / 空值缓存</td></tr>
+      <tr><td><b>击穿</b></td><td><b>热点key过期瞬间</b>大量请求涌入</td><td>互斥锁重建 / 热点永不过期+预热</td></tr>
+      <tr><td><b>雪崩</b></td><td><b>大量key同时过期</b>（或节点宕机）</td><td>随机TTL / 多级缓存 / Redis高可用 / 限流降级兜底</td></tr>
+      <tr><td><b>一致性</b></td><td>更新DB后缓存是旧的</td><td>Cache Aside：<b>先写DB→再删缓存</b>（下次读时重建）</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：<b>先删缓存再更新DB</b>会有一致性窗口（读到旧值）；极端场景用延迟双删 / binlog订阅（Canal）</div>
+    <div class="tip">💡 Redis 高可用三件套：<b>主从</b>=读写分离 ｜ <b>哨兵</b>=主挂自动切换 ｜ <b>集群</b>=分片扩容。穿透→布隆过滤器（挡不存在）；击穿→锁+永不过期（护热点）</div>
+  </article>
+
+  <!-- ==================== 备考工具 ==================== -->
+
+  <article id="paper" data-ch="tools" data-sec="paper" data-title="论文万能句式">
+    <h2>论文万能句式 <span class="badge b-done">W01已积累</span></h2>
+    <p class="meta">贯穿工具 · 五段式：摘要10% → 背景15% → 设计45%（得分区）→ 效果20% → 总结10%</p>
+    <ul>
+      <li><b>开头段</b>（8/17）："本文以 Numen（CCDCSM）数据中心统一运维管理平台为背景，围绕【主题】阐述其架构设计实践。"</li>
+      <li><b>过渡段</b>（8/18）："在架构设计过程中，我们首先关注【质量属性】这一核心质量目标，并围绕其展开技术选型与架构决策。"</li>
+      <li><b>正文段</b>（今日）：三段论 = 论点 → 论据 → 论证："针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</li>
+      <li><b>结尾段</b>："通过本次架构设计实践，我们深刻认识到【经验】，未来将【改进方向】。"</li>
+    </ul>
+    <p class="memo">素材统一用 Numen，不套 RuoYi。论文切入点见 ccdcsm项目介绍.md。</p>
+  </article>
+
+  <article id="pits" data-ch="tools" data-sec="pits" data-title="易错点速查">
+    <h2>易错点速查表 <span class="badge b-hot">考前扫一眼</span></h2>
+    <p class="meta">贯穿工具 · W01 全部踩过的坑 · 共11条</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>考点</th><th>判别锚点</th></tr>
+      <tr><td>层次结构</td><td>"调用关系清晰 / 固定流程 / 分层" → 层次结构（银行核心系统）</td></tr>
+      <tr><td>易用性</td><td>"提示清晰 / 操作友好 / 用户可恢复" → 易用性</td></tr>
+      <tr><td>质量场景-环境</td><td>"高峰期 / 故障中 / 正常运行" → 环境</td></tr>
+      <tr><td>事件驱动 vs 解释器</td><td>服务+消息队列+异步 = <b>事件驱动</b>；读指令执行 = 解释器</td></tr>
+      <tr><td>事件驱动归属</td><td>属于 <b>独立构件</b> 大类，不是调用/返回！（8/20反复错）</td></tr>
+      <tr><td>进程视图</td><td>"并发 / 同步 / 性能" → 进程视图，不是业务流程图</td></tr>
+      <tr><td>4+1 最重要的视图</td><td>场景视图（用例串联验证，驱动其他4个）</td></tr>
+      <tr><td>风格 vs 模式</td><td>全局通信方式 = 风格；局部具体套路 = 模式</td></tr>
+      <tr><td>黑板 vs 事件驱动</td><td>共用数据区协作 = 黑板；发消息通知 = 事件驱动</td></tr>
+      <tr><td>可用性 vs 可靠性</td><td>可用性 = 故障能恢复（有兜底）；可靠性 = 不容易坏</td></tr>
+      <tr><td>六大质量属性</td><td>教材：性能/可用性/安全性/可修改性/<b>可测试性</b>/易用性；互操作性是扩展属性（8/20 更正）</td></tr>
+    </table></div>
+  </article>
+
+  <footer>
+    🗺️ 架构知识地图 · 系统架构师备考 · 当前进度 W01（第7、8章），后续章节每周并入<br>
+    距 2026-10-24 考试约 64 天 ｜ 综合≈34% ｜ 案例3题 ｜ 论文2句式<br>
+    复习顺序：主线图 → 易错速查 → 具体章节 ｜ <a href="缩写速查.html">📖 缩写速查表</a>
+  </footer>
+</main>
+
+<script>
+// ===== 章节路由配置：以后加新章节，在这里加一行 + 在正文追加 <article data-ch="..."> 即可 =====
+const CHAPTERS = {
+  ch6:   { title: '第6章 数据库与分布式' },
+  ch7:   { title: '第7章 架构设计' },
+  ch8:   { title: '第8章 质量属性' },
+  tools: { title: '备考工具' }
+};
+
+function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const [ch, sec] = h.split('/');
+  return { ch: CHAPTERS[ch] ? ch : 'ch7', sec: sec || '' };
+}
+
+const expanded = new Set();
+let prevCh = null;
+
+function buildTree(ch, sec, all){
+  return Object.entries(CHAPTERS).map(([id, c]) => {
+    const secs = all.filter(a => a.dataset.ch === id);
+    const secHtml = secs.map(a =>
+      `<a href="#/${id}/${a.dataset.sec}" class="${id === ch && a.dataset.sec === sec ? 'active' : ''}">${a.dataset.title}</a>`).join('');
+    return `<div class="tree-ch${expanded.has(id) ? ' open' : ''}">` +
+           `<a class="ch-link${id === ch ? ' active' : ''}" data-ch-id="${id}" href="#/${id}">${c.title}</a>` +
+           `<div class="tree-secs">${secHtml}</div></div>`;
+  }).join('');
+}
+
+function syncExpandButtons(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  const label = allOpen ? '全部折叠' : '全部展开';
+  const s = document.getElementById('expandBtnSide'); if (s) s.textContent = label;
+  const d = document.getElementById('expandBtnDrawer'); if (d) d.textContent = label;
+}
+
+function render(){
+  const { ch, sec } = currentRoute();
+  if (prevCh !== ch) { expanded.add(ch); prevCh = ch; }
+  const all = [...document.querySelectorAll('article[data-ch]')];
+  all.forEach(a => { a.style.display = (a.dataset.ch === ch) ? '' : 'none'; });
+  const chArts = all.filter(a => a.dataset.ch === ch);
+
+  const treeHtml = buildTree(ch, sec, all);
+  document.getElementById('sideNav').innerHTML = treeHtml;
+  document.getElementById('drawerNav').innerHTML = treeHtml;
+  syncExpandButtons();
+
+  const firstSec = chArts[0] ? chArts[0].dataset.sec : '';
+  const target = sec || firstSec;
+  requestAnimationFrame(() => {
+    if (target && document.getElementById(target)) {
+      document.getElementById(target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+// ===== 树形菜单：父级折叠/展开 =====
+function toggleChapter(id){
+  if (expanded.has(id)) expanded.delete(id); else expanded.add(id);
+  render();
+}
+function toggleAll(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  if (allOpen) expanded.clear(); else Object.keys(CHAPTERS).forEach(id => expanded.add(id));
+  render();
+}
+
+// ===== 手机抽屉菜单 =====
+const menuBtn = document.getElementById('menuBtn');
+const drawer = document.getElementById('drawer');
+const drawerNav = document.getElementById('drawerNav');
+const backdrop = document.getElementById('drawerBackdrop');
+function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
+function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
+menuBtn.addEventListener('click', openDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.getElementById('closeBtn').addEventListener('click', closeDrawer);
+
+document.getElementById('expandBtnSide').addEventListener('click', toggleAll);
+document.getElementById('expandBtnDrawer').addEventListener('click', toggleAll);
+
+const navs = [document.getElementById('sideNav'), drawerNav];
+navs.forEach(nav => nav.addEventListener('click', e => {
+  const parent = e.target.closest('.ch-link');
+  if (parent) { toggleChapter(parent.dataset.chId); return; }
+  if (nav === drawerNav && e.target.closest('.tree-secs a')) closeDrawer();
+}));
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
