@@ -2,5 +2,7 @@
 /*
 !.gitignore
 !/README.md
+!/index.html
+!.nojekyll
 !/架构知识地图.html
 !/缩写速查.html
