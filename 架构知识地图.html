@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>架构知识地图 · 系统架构师备考</title>
+<title>软考系统架构师知识点大全 | 架构风格·质量属性·微服务·分布式系统</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
 <style>
   :root{
     --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
@@ -166,7 +167,7 @@
   <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
   <nav id="drawerNav"></nav>
   <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
-  <div class="drawer-foot">距 2026-10-24 考试约 64 天 · 综合≈34% · 案例3题 · 论文2句式</div>
+  <div class="drawer-foot">软考系统架构师备考 · 章节树导航 · 点击☰查看</div>
 </aside>
 
 <aside class="sidebar">
@@ -178,15 +179,15 @@
   <nav id="sideNav"></nav>
   <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
   <div class="side-foot">
-    距 2026-10-24 考试约 64 天<br>
-    综合掌握度 <span class="hl">≈34%</span> · 案例3题 · 论文2句式
+    软考系统架构师备考<br>
+    知识点按教材章节组织 · 章节树导航
   </div>
 </aside>
 
 <main class="content">
   <header class="hero">
     <h1>🏗️ 架构设计知识地图</h1>
-    <p>当前进度：W01 架构基础（第7、8章）· 后续章节每周并入 · 更新 2026-08-20</p>
+    <p>软考系统架构师（高级）备考知识点总结 · 按教材章节组织 · 手机 / 电脑均可阅读</p>
     <div class="core">核心心法：<b>质量属性 → 质量场景 → 架构风格 → 架构模式 → 4+1视图 → ATAM评估</b>。学新考点先问一句：<b>"它是在讲谁的什么？"</b> 把它挂到主线上的位置，就不容易忘。</div>
   </header>
 
@@ -203,7 +204,7 @@
       <div class="step"><span class="num">6</span><b>验收！ATAM评估</b><div class="desc">检查图纸是否达标（验收）</div></div>
     </div>
     <div class="tip">💡 用法：学任何新考点，先回答"它是谁的什么、在主线哪个环节"，串起来就不会糊涂。</div>
-    <div class="tip">❓ <b>考试只考这些知识点吗？</b>不是——这只是 W01 的第7、8章（架构基础）。全科覆盖教材 11 章 + 贯穿考点（专业英语 / 法规 / 数学）。10 周计划 W02-W10 会逐章并入本图：W02 分布式+中间件 → W03 微服务 → W04 云原生 → W05 数据架构 → W06 安全+软件工程 → W07 AI+未来技术 → W08 案例+论文专项 → W09-W10 冲刺。这张图会跟着进度长大，先把地基（7、8章）啃透。</div>
+    <div class="tip">❓ <b>考试只考这些知识点吗？</b>不是——这里按教材第2版组织，全科覆盖教材 11 章 + 贯穿考点（专业英语 / 法规 / 数学）：架构设计（风格/模式/视图/微服务/分布式）→ 质量属性与评估 → 数据库与分布式 → 安全 → 软件工程 → AI/未来技术 → 案例与论文专项。本图按学习进度持续扩充，先把地基（7、8章）啃透。</div>
   </article>
 
   <!-- ==================== 第7章 ==================== -->
@@ -220,14 +221,14 @@
       <tr><td><b>虚拟机</b></td><td>引擎执行（读指令）</td><td>解释器 / 规则系统</td><td>读指令执行 / 规则 / 解释</td></tr>
     </table></div>
     <div class="warn">⚠️ <b>3 大陷阱：</b><br>
-      ① <b>事件驱动 ≠ 显式调用</b> —— 事件驱动属于<b>独立构件</b>大类，发布者订阅者互不认识（8/20又错一次，钉死！）<br>
+      ① <b>事件驱动 ≠ 显式调用</b> —— 事件驱动属于<b>独立构件</b>大类，发布者订阅者互不认识（必考易错点，钉死！）<br>
       ② 层次结构<b>只能调相邻层</b><br>
       ③ <b>解释器 ≠ 管道-过滤器</b> —— 解释器"读指令执行"，管道过滤器"数据流过加工"</div>
     <div class="tip">💡 事件驱动识别：<b>服务 + 消息队列 + 异步解耦 + 发布/订阅</b> = 事件驱动</div>
   </article>
 
   <article id="pattern" data-ch="ch7" data-sec="pattern" data-title="架构模式">
-    <h2>架构模式 <span class="badge b-new">今日新学</span></h2>
+    <h2>架构模式 <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 环节④"做局部" · 判别看"协作方式"</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统里的某个局部问题</b>——"这一小块怎么搭"的现成套路，拿来就能用。今天背 4 个，看协作方式认。</div>
     <details>
@@ -271,7 +272,7 @@
   </article>
 
   <article id="diff" data-ch="ch7" data-sec="diff" data-title="风格 vs 模式">
-    <h2>重点：架构风格 vs 架构模式 <span class="badge b-hot">今日重点</span></h2>
+    <h2>重点：架构风格 vs 架构模式 <span class="badge b-hot">重点</span></h2>
     <p class="meta">两者最易混淆 · 真题爱考"整体还是局部"</p>
     <div class="who">一句话分清：风格管<b>整个系统的骨架</b>（怎么通信），模式管<b>局部怎么搭</b>（怎么解决）。<b>风格定骨架，模式定局部。</b></div>
     <div class="tbl-wrap"><table>
@@ -286,7 +287,7 @@
   </article>
 
   <article id="view" data-ch="ch7" data-sec="view" data-title="4+1 视图模型">
-    <h2>4+1 视图模型 <span class="badge b-new">今日新学</span></h2>
+    <h2>4+1 视图模型 <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 环节⑤"画图纸" · 论文和综合都考</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统的设计图纸</b>——一套系统画 5 张图，每张给不同的人看：功能图、代码图、并发图、部署图、场景图（最重要）。</div>
     <div class="tbl-wrap"><table>
@@ -306,7 +307,7 @@
   </article>
 
   <article id="absd" data-ch="ch7" data-sec="absd" data-title="ABSD 方法">
-    <h2>ABSD 方法（基于架构的软件开发） <span class="badge b-new">今日新学</span></h2>
+    <h2>ABSD 方法（基于架构的软件开发） <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 必考 · 综合单选</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>开发流程</b>——"先定系统要有多好（质量属性），再倒推架构怎么做"的开发方法，质量属性是贯穿全程的指挥棒。</div>
     <ul>
@@ -318,7 +319,7 @@
   </article>
 
   <article id="adl" data-ch="ch7" data-sec="adl" data-title="ADL 架构描述语言">
-    <h2>ADL（架构描述语言） <span class="badge b-new">今日新学</span></h2>
+    <h2>ADL（架构描述语言） <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 必考 · 综合单选</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>架构的表达方式</b>——描述软件架构的专用语言，让计算机能读、能分析、能验证。</div>
     <ul>
@@ -330,7 +331,7 @@
   </article>
 
   <article id="middleware" data-ch="ch7" data-sec="middleware" data-title="中间件技术">
-    <h2>中间件技术 <span class="badge b-new">今日新学</span></h2>
+    <h2>中间件技术 <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 必考 · 综合单选</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统里的一层"翻译官"</b>——位于操作系统与应用程序之间，屏蔽底层异构，向上提供统一接口（插座转换头）。</div>
     <div class="tbl-wrap"><table>
@@ -346,7 +347,7 @@
   </article>
 
   <article id="micro" data-ch="ch7" data-sec="micro" data-title="微服务架构">
-    <h2>微服务架构 <span class="badge b-new">今日新学</span></h2>
+    <h2>微服务架构 <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 必考 · 综合+案例+论文三科全考</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统的拆分与组织方式</b>——把大系统拆成独立小服务，各自部署、通过接口通信（大食堂拆成独立小餐馆，一家爆满不影响其他家）。</div>
     <div class="tbl-wrap"><table>
@@ -361,7 +362,7 @@
   </article>
 
   <article id="gov" data-ch="ch7" data-sec="gov" data-title="服务治理">
-    <h2>服务治理：熔断/限流/降级/灰度 <span class="badge b-new">8/23补学</span></h2>
+    <h2>服务治理：熔断/限流/降级/灰度 <span class="badge b-new">新学</span></h2>
     <p class="meta">第7章 · 必考 · 综合+案例</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>微服务间的"交通治理"</b>——服务多了像城市路口，靠四件套保证不堵死不瘫痪：熔断=断路保护、限流=限行、降级=高峰期停次要保核心、灰度=新版本小范围试通行。</div>
     <div class="tbl-wrap"><table>
@@ -388,8 +389,8 @@
       <tr><td><b>易用性</b></td><td>好用、好上手</td><td><b>提示清晰 / 操作友好 / 用户可恢复</b> ⚠️</td></tr>
       <tr><td><b>可测试性</b></td><td>方便测试、能验证</td><td>测试用例 / 可观测 / 可诊断 / 覆盖率</td></tr>
     </table></div>
-    <div class="warn">⚠️ <b>易用性 vs 可用性</b>（8/18错题）："输入非法数据有清晰提示"是<b>易用性</b>（用户友好），不是可用性（系统不宕机）。</div>
-    <div class="ok">✅ <b>教材第2版六大质量属性（8/20 按教材更正）：</b>性能 / 可用性 / 安全性 / 可修改性 / <b>可测试性</b> / 易用性。<br>
+    <div class="warn">⚠️ <b>易用性 vs 可用性</b>："输入非法数据有清晰提示"是<b>易用性</b>（用户友好），不是可用性（系统不宕机）。</div>
+    <div class="ok">✅ <b>教材第2版六大质量属性：</b>性能 / 可用性 / 安全性 / 可修改性 / <b>可测试性</b> / 易用性。<br>
       · <b>互操作性</b>、可移植性等属于 SEI 体系扩展属性，真题问"是否属于质量属性"时它们也算；但问<b>"教材六大"</b>，答案用带"可测试性"的版本。<br>
       · 也别和 ISO 质量模型（9126/25010）混淆：功能性 / 可靠性 / 易用性 / 效率 / 维护性 / 可移植性。</div>
   </article>
@@ -407,7 +408,7 @@
       <tr><td><b>响应</b></td><td>系统怎么回应</td><td>1秒内返回成功</td></tr>
       <tr><td><b>响应度量</b></td><td>怎么算达标</td><td>成功率 ≥ 99%</td></tr>
     </table></div>
-    <div class="warn">⚠️ <b>8/18易错点："高峰期 / 故障中 / 正常运行" → 环境</b>，不是响应！</div>
+    <div class="warn">⚠️ <b>易错点："高峰期 / 故障中 / 正常运行" → 环境</b>，不是响应！</div>
     <div class="tip">💡 记忆口诀：<b>谁（刺激源）→ 做了什么（刺激）→ 在啥时候（环境）→ 对哪个系统（工件）→ 回应（响应）→ 算多好（响应度量）</b></div>
   </article>
 
@@ -432,11 +433,11 @@
       · <b>风险点</b>：还不确定能不能达标的敏感点</p>
   </article>
 
-  <!-- ==================== 分布式系统(W02) ==================== -->
+  <!-- ==================== 第6章 数据库与分布式 ==================== -->
 
   <article id="capbase" data-ch="ch6" data-sec="capbase" data-title="CAP 定理 + BASE">
-    <h2>CAP 定理 + BASE 理论 <span class="badge b-new">W02新学</span></h2>
-    <p class="meta">W02 · 必考 · 综合单选高频</p>
+    <h2>CAP 定理 + BASE 理论 <span class="badge b-new">新学</span></h2>
+    <p class="meta">必考 · 综合单选高频</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>分布式系统的取舍规则</b>——网络必然可能断（P必须保），所以一致性与可用性只能二选一；BASE 是选"可用性优先"后的落地理论。</div>
     <div class="tbl-wrap"><table>
       <tr><th>概念</th><th>含义</th><th>典型</th></tr>
@@ -450,8 +451,8 @@
   </article>
 
   <article id="txn" data-ch="ch6" data-sec="txn" data-title="分布式事务">
-    <h2>分布式事务 <span class="badge b-new">W02新学</span></h2>
-    <p class="meta">W02 · 必考 · 综合+案例（7/7错题区）</p>
+    <h2>分布式事务 <span class="badge b-new">新学</span></h2>
+    <p class="meta">必考 · 综合+案例</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>跨服务/跨库操作的原子性</b>——一个操作涉及多个服务（下单=订单+库存+积分），要保证全成功或全失败。</div>
     <div class="tbl-wrap"><table>
       <tr><th>路线</th><th>方案</th><th>适用</th><th>缺点</th></tr>
@@ -465,7 +466,7 @@
   </article>
 
   <article id="cache" data-ch="ch6" data-sec="cache" data-title="分布式缓存">
-    <h2>分布式缓存：穿透/击穿/雪崩/一致性 <span class="badge b-new">W02新学</span></h2>
+    <h2>分布式缓存：穿透/击穿/雪崩/一致性 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合+案例高频</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>数据库前面那层"快查柜台"</b>——缓存用不好有四个坑：穿透/击穿/雪崩（三兄弟）+ 一致性（写库与写缓存的顺序）。</div>
     <div class="tbl-wrap"><table>
@@ -482,12 +483,12 @@
   <!-- ==================== 备考工具 ==================== -->
 
   <article id="paper" data-ch="tools" data-sec="paper" data-title="论文万能句式">
-    <h2>论文万能句式 <span class="badge b-done">W01已积累</span></h2>
+    <h2>论文万能句式 <span class="badge b-done">已积累</span></h2>
     <p class="meta">贯穿工具 · 五段式：摘要10% → 背景15% → 设计45%（得分区）→ 效果20% → 总结10%</p>
     <ul>
-      <li><b>开头段</b>（8/17）："本文以 Numen（CCDCSM）数据中心统一运维管理平台为背景，围绕【主题】阐述其架构设计实践。"</li>
-      <li><b>过渡段</b>（8/18）："在架构设计过程中，我们首先关注【质量属性】这一核心质量目标，并围绕其展开技术选型与架构决策。"</li>
-      <li><b>正文段</b>（今日）：三段论 = 论点 → 论据 → 论证："针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</li>
+      <li><b>开头段</b>："本文以 Numen（CCDCSM）数据中心统一运维管理平台为背景，围绕【主题】阐述其架构设计实践。"</li>
+      <li><b>过渡段</b>："在架构设计过程中，我们首先关注【质量属性】这一核心质量目标，并围绕其展开技术选型与架构决策。"</li>
+      <li><b>正文段</b>：三段论 = 论点 → 论据 → 论证："针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</li>
       <li><b>结尾段</b>："通过本次架构设计实践，我们深刻认识到【经验】，未来将【改进方向】。"</li>
     </ul>
     <p class="memo">素材统一用 Numen，不套 RuoYi。论文切入点见 ccdcsm项目介绍.md。</p>
@@ -495,27 +496,27 @@
 
   <article id="pits" data-ch="tools" data-sec="pits" data-title="易错点速查">
     <h2>易错点速查表 <span class="badge b-hot">考前扫一眼</span></h2>
-    <p class="meta">贯穿工具 · W01 全部踩过的坑 · 共11条</p>
+    <p class="meta">贯穿工具 · 高频易错点汇总 · 共11条</p>
     <div class="tbl-wrap"><table>
       <tr><th>考点</th><th>判别锚点</th></tr>
       <tr><td>层次结构</td><td>"调用关系清晰 / 固定流程 / 分层" → 层次结构（银行核心系统）</td></tr>
       <tr><td>易用性</td><td>"提示清晰 / 操作友好 / 用户可恢复" → 易用性</td></tr>
       <tr><td>质量场景-环境</td><td>"高峰期 / 故障中 / 正常运行" → 环境</td></tr>
       <tr><td>事件驱动 vs 解释器</td><td>服务+消息队列+异步 = <b>事件驱动</b>；读指令执行 = 解释器</td></tr>
-      <tr><td>事件驱动归属</td><td>属于 <b>独立构件</b> 大类，不是调用/返回！（8/20反复错）</td></tr>
+      <tr><td>事件驱动归属</td><td>属于 <b>独立构件</b> 大类，不是调用/返回！（必考易错点）</td></tr>
       <tr><td>进程视图</td><td>"并发 / 同步 / 性能" → 进程视图，不是业务流程图</td></tr>
       <tr><td>4+1 最重要的视图</td><td>场景视图（用例串联验证，驱动其他4个）</td></tr>
       <tr><td>风格 vs 模式</td><td>全局通信方式 = 风格；局部具体套路 = 模式</td></tr>
       <tr><td>黑板 vs 事件驱动</td><td>共用数据区协作 = 黑板；发消息通知 = 事件驱动</td></tr>
       <tr><td>可用性 vs 可靠性</td><td>可用性 = 故障能恢复（有兜底）；可靠性 = 不容易坏</td></tr>
-      <tr><td>六大质量属性</td><td>教材：性能/可用性/安全性/可修改性/<b>可测试性</b>/易用性；互操作性是扩展属性（8/20 更正）</td></tr>
+      <tr><td>六大质量属性</td><td>教材：性能/可用性/安全性/可修改性/<b>可测试性</b>/易用性；互操作性是扩展属性</td></tr>
     </table></div>
   </article>
 
   <footer>
-    🗺️ 架构知识地图 · 系统架构师备考 · 当前进度 W01（第7、8章），后续章节每周并入<br>
-    距 2026-10-24 考试约 64 天 ｜ 综合≈34% ｜ 案例3题 ｜ 论文2句式<br>
-    复习顺序：主线图 → 易错速查 → 具体章节 ｜ <a href="缩写速查.html">📖 缩写速查表</a>
+    🗺️ 架构知识地图 · 软考系统架构师备考 · 知识点按教材章节组织<br>
+    本资料为纯静态 HTML，可自由学习使用<br>
+    © 合肥城市云-技术研发部二组
   </footer>
 </main>
 
