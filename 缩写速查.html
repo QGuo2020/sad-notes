@@ -15,7 +15,7 @@
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
   body{margin:0; background:var(--bg); color:var(--ink);
     font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-    line-height:1.7; font-size:15.5px;}
+    line-height:1.7; font-size:15.5px; overflow-x:hidden;}
 
   .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
     display:flex; align-items:center; justify-content:space-between;
@@ -44,7 +44,7 @@
     .content{margin-left:250px;}
   }
 
-  .content{max-width:min(1100px,100%); margin:0 auto; padding:70px 16px 50px;}
+  .content{max-width:1100px; margin:0 auto; padding:70px 16px 50px;}
   @media (min-width:960px){ .content{padding-top:24px;} }
 
   .hero{background:linear-gradient(120deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
@@ -78,7 +78,7 @@
   .lv-bk{background:var(--red);} .lv-gp{background:var(--amber);} .lv-c{background:var(--green);} .lv-y{background:var(--violet);}
   .empty{text-align:center; color:var(--sub); padding:30px 0; display:none;}
 
-  footer{max-width:min(1100px,100%); margin:0 auto; text-align:center; color:#93a59c;
+  footer{max-width:1100px; margin:0 auto; text-align:center; color:#93a59c;
     font-size:12.5px; padding:16px 16px 36px; line-height:2;}
   footer a{color:var(--indigo); text-decoration:none;}
 </style>

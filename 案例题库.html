@@ -19,7 +19,7 @@
   html{scroll-behavior:smooth;}
   body{margin:0; background:var(--bg); color:var(--ink);
     font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-    line-height:1.8; font-size:16px;}
+    line-height:1.8; font-size:16px; overflow-x:hidden;}
 
   /* ===== 移动端顶部固定栏 ===== */
   .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
@@ -51,10 +51,10 @@
   }
 
   /* ===== 主体 ===== */
-  .content{max-width:min(1200px,100%); margin:0 auto; padding:0 16px 60px;}
+  .content{max-width:1200px; margin:0 auto; padding:0 16px 60px;}
   .topbar ~ .content{padding-top:64px;}
   @media (min-width:960px){
-    .content{flex:1 1 auto; min-width:0; max-width:min(1200px,100%); margin:0 auto; padding:0 28px 60px;}
+    .content{flex:1 1 auto; min-width:0; max-width:1200px; margin:0 auto; padding:0 28px 60px;}
     .topbar ~ .content{padding-top:0;}
   }
 
