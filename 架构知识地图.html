@@ -480,6 +480,35 @@
     <div class="tip">💡 Redis 高可用三件套：<b>主从</b>=读写分离 ｜ <b>哨兵</b>=主挂自动切换 ｜ <b>集群</b>=分片扩容。穿透→布隆过滤器（挡不存在）；击穿→锁+永不过期（护热点）</div>
   </article>
 
+  <article id="mq" data-ch="ch6" data-sec="mq" data-title="消息队列Kafka">
+    <h2>消息队列 Kafka 深入 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合+案例（三大问：可靠性/顺序性/幂等）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统间的"邮局"</b>——异步解耦削峰的消息通道（Topic=信箱分类、Broker=邮局网点、Producer=寄信人、Consumer=收信人、Offset=读到哪）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>问题</th><th>解法（考试标准答案）</th></tr>
+      <tr><td><b>不丢（可靠性）</b></td><td>生产者 <b>ack=all</b>（等ISR副本确认+重试）；存储 <b>分区副本</b>（Leader挂自动切换）；消费者 <b>手动提交offset</b>（处理成功才提交，失败重读）</td></tr>
+      <tr><td><b>不乱（顺序性）</b></td><td>同一 key（订单号）哈希到<b>同一分区</b>，分区内有序 + 串行消费</td></tr>
+      <tr><td><b>不重（幂等）</b></td><td>生产者 enable.idempotence；消费端<b>唯一键去重</b>（Kafka默认"至少一次"，可能重复→必须幂等）</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：ack=all 是等副本确认、失败重试，不是"删消息"；消息有序只在<b>分区内</b>，不是全局</div>
+    <div class="tip">💡 对比：Kafka=高吞吐削峰/日志大数据；RabbitMQ=路由灵活复杂业务。削峰场景（监控采集/大促）→ Kafka</div>
+  </article>
+
+  <article id="lock" data-ch="ch6" data-sec="lock" data-title="分布式锁">
+    <h2>分布式锁 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合+案例（抢购扣库存场景）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>跨机器的锁</b>——多台服务器同时改同一资源（抢购扣库存），单机锁管不住别的机器，需要一把跨机器都能认的锁。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>坑</th><th>问题</th><th>解法</th></tr>
+      <tr><td>① 死锁</td><td>拿锁后崩溃，锁永不释放</td><td><b>EX 过期时间</b>，到期自动释放</td></tr>
+      <tr><td>② 误删</td><td>A 的锁过期后 B 加锁，A 却删了 B 的锁</td><td>value 用<b>唯一随机值</b>，删除前校验是自己的，校验+删除用 <b>Lua</b> 原子执行</td></tr>
+      <tr><td>③ 锁过期</td><td>业务没干完锁就过期，别人也进来</td><td><b>看门狗</b>（Redisson）自动续期</td></tr>
+      <tr><td>④ 主从丢锁</td><td>Redis 主挂了，锁没复制到从节点</td><td><b>RedLock 红锁</b>（多节点多数派）/ Zookeeper 临时顺序节点</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：本地锁（synchronized）只管单机，分布式锁管多机；锁必须有过期时间</div>
+    <div class="tip">💡 答题链路：<b>SETNX 拿锁 → EX 防死锁 → 随机值防误删 → 看门狗续期 → 极端场景 RedLock/ZK</b></div>
+  </article>
+
   <!-- ==================== 备考工具 ==================== -->
 
   <article id="paper" data-ch="tools" data-sec="paper" data-title="论文万能句式">
