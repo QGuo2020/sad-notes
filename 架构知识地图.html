@@ -480,18 +480,77 @@
     <div class="tip">💡 Redis 高可用三件套：<b>主从</b>=读写分离 ｜ <b>哨兵</b>=主挂自动切换 ｜ <b>集群</b>=分片扩容。穿透→布隆过滤器（挡不存在）；击穿→锁+永不过期（护热点）</div>
   </article>
 
-  <article id="mq" data-ch="ch6" data-sec="mq" data-title="消息队列Kafka">
-    <h2>消息队列 Kafka 深入 <span class="badge b-new">新学</span></h2>
-    <p class="meta">第6章 · 必考 · 综合+案例（三大问：可靠性/顺序性/幂等）</p>
-    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统间的"邮局"</b>——异步解耦削峰的消息通道（Topic=信箱分类、Broker=邮局网点、Producer=寄信人、Consumer=收信人、Offset=读到哪）。</div>
+  <article id="mq" data-ch="ch6" data-sec="mq" data-title="Kafka 完整考点">
+    <h2>消息队列 Kafka 完整考点 <span class="badge b-hot">高频必考</span></h2>
+    <p class="meta">第6章 · 选择题+案例+论文全覆盖</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统间的消息通道</b>——异步解耦削峰。完整考点：核心组件 / acks 配置 / 消费者语义 / 高吞吐原理 / 故障案例模板 / 高频坑点。</div>
+
+    <h3>① 核心组件（🔴必背）</h3>
     <div class="tbl-wrap"><table>
-      <tr><th>问题</th><th>解法（考试标准答案）</th></tr>
-      <tr><td><b>不丢（可靠性）</b></td><td>生产者 <b>ack=all</b>（等ISR副本确认+重试）；存储 <b>分区副本</b>（Leader挂自动切换）；消费者 <b>手动提交offset</b>（处理成功才提交，失败重读）</td></tr>
-      <tr><td><b>不乱（顺序性）</b></td><td>同一 key（订单号）哈希到<b>同一分区</b>，分区内有序 + 串行消费</td></tr>
-      <tr><td><b>不重（幂等）</b></td><td>生产者 enable.idempotence；消费端<b>唯一键去重</b>（Kafka默认"至少一次"，可能重复→必须幂等）</td></tr>
+      <tr><th>组件</th><th>考试要点</th></tr>
+      <tr><td><b>Broker</b></td><td>Kafka 服务实例，多台组集群；旧版 ZooKeeper 存元数据，新版 <b>KRaft</b>（Raft 协议）去 ZK</td></tr>
+      <tr><td><b>Partition 分区</b></td><td>Topic 物理分片、分散多 Broker 水平扩展；<b>分区内有序、跨分区无序</b>；<b>消费最大并行度=分区数</b>；带 key→哈希固定分区，key=null→轮询；⚠️<b>只能增加不能减少</b></td></tr>
+      <tr><td><b>Replica 副本</b></td><td>每分区多副本分布不同 Broker；<b>Leader 负责全部读写，Follower 只同步</b>；Leader 挂→Follower 竞选</td></tr>
+      <tr><td><b>ISR</b></td><td>同步副本集合（Leader+不落后的 Follower）；<b>只有 ISR 内可竞选 Leader</b>；落后被踢出、追上再加入；<b>unclean.leader.election.enable=false 禁脏选举（防丢消息）</b></td></tr>
+      <tr><td><b>Offset</b></td><td>分区内消息递增编号，存内置 topic __consumer_offsets；<b>消费只移动 offset 不删消息</b>，按保留时间清理，可重置回放（Kappa 核心）</td></tr>
+      <tr><td><b>Consumer Group</b></td><td><b>Pull 拉模式</b>；同一分区只给组内 1 个消费者，1 个消费者可消费多分区；消费者数&gt;分区数→多出空闲</td></tr>
+      <tr><td><b>Rebalance</b></td><td>组内增减消费者/心跳超时/分区变化触发；重平衡期间<b>消费暂停</b>，频繁触发性能恶化</td></tr>
     </table></div>
-    <div class="warn">⚠️ 易错：ack=all 是等副本确认、失败重试，不是"删消息"；消息有序只在<b>分区内</b>，不是全局</div>
-    <div class="tip">💡 对比：Kafka=高吞吐削峰/日志大数据；RabbitMQ=路由灵活复杂业务。削峰场景（监控采集/大促）→ Kafka</div>
+
+    <h3>② Producer 应答 acks（🔴必考）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>acks</th><th>含义</th><th>可靠性</th></tr>
+      <tr><td><b>0</b></td><td>发送完不等应答</td><td>最低，可能丢（日志埋点）</td></tr>
+      <tr><td><b>1</b>（默认）</td><td>Leader 写入即返回</td><td>中等，Leader 挂且 Follower 未同步会丢</td></tr>
+      <tr><td><b>all(-1)</b></td><td>ISR 全部副本写完才成功</td><td>最高（订单/支付核心业务）</td></tr>
+    </table></div>
+    <p>配套参数：<b>retries</b> 重试（会产生重复消息）｜ <b>min.insync.replicas</b> ISR 最少存活数，不足直接拒写（宁可不可用不丢数据）｜ <b>enable.idempotence</b> 幂等生产者（只解决<b>生产者重试重复</b>，解决不了消费端重复）</p>
+
+    <h3>③ 消费者考点（🔴）</h3>
+    <ul>
+      <li><b>自动提交</b> enable-auto-commit：定时提交，<b>业务没执行完 offset 已提交→崩溃丢消息</b>（风险）</li>
+      <li><b>手动提交</b>：业务完成再提交；失败不提交→重启重读（<b>重复消费风险</b>，Kafka 默认 At-Least-Once）</li>
+      <li><b>auto-offset-reset</b>：earliest=从最早开始；latest=只消费新消息</li>
+      <li><b>投递语义三选一</b>：At-Most-Once 至多一次（丢不重）｜ <b>At-Least-Once 至少一次（默认，重不丢→业务必须幂等）</b> ｜ Exactly-Once 精确一次（幂等生产者+Kafka事务，开销大）</li>
+    </ul>
+
+    <h3>④ 为什么吞吐极高（🟡论文可写）</h3>
+    <ul>
+      <li><b>顺序追加写</b>：Partition 只 append，磁盘顺序 IO 极快</li>
+      <li><b>PageCache</b>：走操作系统页缓存，避开 JVM 堆、减 GC 压力</li>
+      <li><b>零拷贝</b>：sendfile 磁盘→网卡，减少内存拷贝</li>
+      <li>批量发送 + 消息压缩</li>
+    </ul>
+
+    <h3>⑤ 故障大全（🔴案例头号考点）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>故障</th><th>根因</th><th>解决</th></tr>
+      <tr><td><b>消息丢失</b></td><td>acks=0/1；副本数=1；开启脏选举；<b>消费端自动提交 offset</b></td><td>acks=all+重试；副本≥3；关 unclean 选举；min.insync.replicas；<b>手动提交 offset</b></td></tr>
+      <tr><td><b>重复消费</b></td><td>生产者重试；业务完成未提交 offset 就宕机</td><td><b>业务幂等</b>（幂等表/唯一索引/状态判断）</td></tr>
+      <tr><td><b>乱序</b></td><td>全局无序</td><td>相同业务 key → 同一分区</td></tr>
+      <tr><td><b>积压 lag</b></td><td>消费逻辑慢；消费者数&gt;分区数；业务阻塞</td><td>优化逻辑；加消费者（≤分区数）；加分区</td></tr>
+    </table></div>
+
+    <h3>⑥ 高频坑点（极易选错）</h3>
+    <div class="warn">⚠️ ① 消费≠删消息（只移 offset，消息按时间清理）② 消费者越多越快 ❌（并行度=分区数）③ Follower 不处理读写 ④ 幂等生产者≠解决消费端重复 ⑤ ISR 外副本默认不能选 Leader ⑥ Kafka 是 Pull 拉模式 ⑦ 分区只能增不能减 ⑧ acks=all 是等副本确认不是删消息</div>
+
+    <h3>⑦ 中间件对比（选择题）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>中间件</th><th>特点</th><th>适用</th></tr>
+      <tr><td><b>Kafka</b></td><td>极高吞吐、持久化、可回放</td><td>日志/大数据/Kappa/削峰解耦</td></tr>
+      <tr><td><b>RabbitMQ</b></td><td>AMQP、灵活路由</td><td>业务异步、复杂路由</td></tr>
+      <tr><td><b>RocketMQ</b></td><td>事务消息、顺序消息</td><td>电商金融</td></tr>
+    </table></div>
+    <p class="anchor">MQ 四大作用（论文可写）：应用解耦 / 异步处理 / 流量削峰 / 分布式最终一致性</p>
+
+    <h3>⑧ Kappa vs Lambda（🟡）</h3>
+    <p>Lambda = 批处理层 + 流处理层两套代码；<b>Kappa = 只用流处理引擎，历史数据通过重置 Kafka offset 回放重算，不需要独立批处理层</b>。考题：Kappa 历史数据重处理 → <b>重置消费 offset</b>。</p>
+
+    <h3>⑨ 案例答题模板（直接抄）</h3>
+    <div class="ok">① <b>消息丢失</b>：根因=自动提交 offset 业务未完成即提交、崩溃丢失 → 解决=关闭自动提交、业务完成手动提交 offset<br>
+    ② <b>Leader 宕机丢消息</b>：根因=开启 unclean 脏选举、落后副本当 Leader → 解决=关闭脏选举 + acks=all + min.insync.replicas<br>
+    ③ <b>重复消费</b>：根因=至少一次投递 + 未提交 offset 宕机 → 解决=业务幂等（幂等表/唯一索引）<br>
+    ④ <b>消费积压</b>：根因=消费慢/消费者超分区数 → 解决=优化消费逻辑 + 加分区 + 对应数量消费者</div>
   </article>
 
   <article id="lock" data-ch="ch6" data-sec="lock" data-title="分布式锁">
