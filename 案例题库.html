@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>软考系统架构师案例题库 | 案例方法论·高频考点·经典案例</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📋%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
+    --bg:#f6f7fb; --card:#ffffff;
+    --indigo:#4f46e5; --indigo-deep:#4338ca; --violet:#7c3aed; --sky:#06b6d4;
+    --green:#16a34a; --amber:#d97706;
+    --warn-bg:#fdf1f0; --warn-line:#e5484d; --warn-ink:#8a2b2f;
+    --tip-bg:#eff6ff; --tip-line:#3b82f6; --tip-ink:#1e3a8a;
+    --ok-bg:#eafaf1; --ok-line:#16a34a; --ok-ink:#14532d;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    line-height:1.8; font-size:16px;}
+
+  /* ===== 移动端顶部固定栏 ===== */
+  .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; color:var(--ink); border-bottom:1px solid var(--line);
+    box-shadow:0 1px 4px rgba(0,0,0,.05);}
+  .topbar .brand{display:flex; align-items:center; gap:8px; padding:10px 14px;
+    font-weight:700; font-size:15px; color:var(--indigo);}
+  .topbar .brand small{font-weight:400; color:var(--sub); font-size:11px;}
+  .menu-btn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:17px; line-height:1; padding:7px 11px; margin-right:12px; cursor:pointer; color:var(--ink);}
+  .menu-btn:active{background:#e5e7eb;}
+
+  /* ===== 桌面左侧固定栏 ===== */
+  .sidebar{display:none;}
+  @media (min-width:960px){
+    .topbar{display:none;}
+    #drawer,#drawerBackdrop,.menu-btn{display:none;}
+    body{display:flex; align-items:flex-start;}
+    .sidebar{display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+      flex:0 0 250px; background:#fff; color:var(--ink);
+      border-right:1px solid var(--line); padding:20px 0 16px; overflow-y:auto;}
+    .sidebar .brand{padding:0 20px 14px; border-bottom:1px solid var(--line);}
+    .sidebar .brand b{display:block; color:var(--indigo); font-size:18px;}
+    .sidebar .brand small{font-size:12px; color:var(--sub);}
+    #sideNav{padding:4px 10px;}
+    .side-foot{padding:12px 20px; border-top:1px solid var(--line); font-size:12px; line-height:1.9; color:var(--sub);}
+    .side-foot .hl{color:var(--indigo); font-weight:700;}
+  }
+
+  /* ===== 主体 ===== */
+  .content{max-width:min(1200px,100%); margin:0 auto; padding:0 16px 60px;}
+  .topbar ~ .content{padding-top:64px;}
+  @media (min-width:960px){
+    .content{flex:1 1 auto; min-width:0; max-width:min(1200px,100%); margin:0 auto; padding:0 28px 60px;}
+    .topbar ~ .content{padding-top:0;}
+  }
+
+  /* ===== 树形菜单（桌面侧栏 + 手机抽屉共用） ===== */
+  .tree-ch{margin-bottom:2px;}
+  .ch-link{display:block; padding:9px 10px 9px 6px; border-radius:8px; font-weight:600;
+    font-size:14.5px; color:var(--ink); text-decoration:none; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;}
+  .ch-link::before{content:'▸'; display:inline-block; width:14px; font-size:11px; color:var(--sub);}
+  .tree-ch.open .ch-link::before{content:'▾'; color:var(--indigo);}
+  .ch-link:hover{background:#f3f4f6;}
+  .ch-link.active{background:#eef2ff; color:var(--indigo-deep);}
+  .tree-secs{display:none; flex-direction:column; gap:1px; margin:0 0 10px 16px;
+    padding-left:10px; border-left:2px solid var(--line);}
+  .tree-ch.open .tree-secs{display:flex;}
+  .tree-secs a{padding:6px 12px; border-radius:8px; font-size:13.5px; color:var(--sub); text-decoration:none;}
+  .tree-secs a:hover{background:#f3f4f6;}
+  .tree-secs a.active{background:#eef2ff; color:var(--indigo-deep); font-weight:600;}
+
+  /* ===== 手机抽屉菜单 ===== */
+  #drawerBackdrop{position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:190;
+    opacity:0; pointer-events:none; transition:opacity .2s;}
+  #drawerBackdrop.show{opacity:1; pointer-events:auto;}
+  #drawer{position:fixed; top:0; right:0; bottom:0; width:min(320px,86vw); background:#fff;
+    z-index:200; transform:translateX(105%); transition:transform .25s ease;
+    display:flex; flex-direction:column; padding:14px 12px 16px; overflow-y:auto;
+    box-shadow:-4px 0 20px rgba(0,0,0,.12);}
+  #drawer.open{transform:none;}
+  #drawer .drawer-head{display:flex; align-items:center; justify-content:space-between;
+    padding:2px 6px 12px; border-bottom:1px solid var(--line); margin-bottom:12px;}
+  #drawer .drawer-head b{color:var(--indigo); font-size:16px;}
+  #closeBtn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; padding:4px 10px; cursor:pointer; color:var(--ink);}
+  .drawer-foot{margin-top:auto; padding-top:12px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--sub); line-height:1.9;}
+  .expand-row{padding:6px 12px 4px;}
+  .expand-btn{background:#eef2ff; color:var(--indigo-deep); border:1px solid #dbe1f8;
+    border-radius:14px; font-size:12.5px; padding:4px 14px; cursor:pointer;}
+  .expand-btn:active{background:#e0e7ff;}
+  .ext{padding:6px 12px 0;}
+  .ext a{color:var(--indigo); text-decoration:none; font-size:13.5px; font-weight:600;}
+  .ext a:hover{text-decoration:underline;}
+
+  .hero{background:linear-gradient(120deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
+    color:#fff; border-radius:16px; padding:28px 26px; margin:18px 0 20px;
+    box-shadow:0 8px 24px rgba(79,70,229,.25);}
+  .hero h1{margin:0 0 8px; font-size:25px;}
+  .hero p{margin:2px 0; font-size:14px; opacity:.94;}
+  .hero .core{background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.4);
+    border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px;}
+
+  article{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:24px 22px 14px; margin-bottom:18px; scroll-margin-top:72px;}
+  @media (min-width:960px){ article{scroll-margin-top:18px;} }
+  article h2{margin:0 0 2px; font-size:20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  article .meta{font-size:12.5px; color:var(--sub); margin:0 0 12px;}
+  .who{background:#f5f3ff; border:1px solid #e4e1fb; border-radius:10px;
+    padding:10px 14px; margin:10px 0 14px; font-size:14.5px; color:#4c1d95;}
+  .who b{color:var(--indigo-deep);}
+  .badge{display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:12px;
+    color:#fff; font-weight:600; vertical-align:2px;}
+  .b-done{background:var(--green);} .b-new{background:var(--indigo);} .b-hot{background:var(--amber);}
+
+  .tbl-wrap{overflow-x:auto; margin:12px 0;}
+  table{width:100%; border-collapse:collapse; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#eef2ff; font-weight:600; white-space:nowrap; color:var(--indigo-deep);}
+  tbody tr:nth-child(even){background:#fafcfa;}
+
+  .tip,.warn,.ok{border-radius:10px; padding:11px 14px; margin:12px 0; font-size:14.5px; line-height:1.75;}
+  .tip{background:var(--tip-bg); border-left:4px solid var(--tip-line); color:var(--tip-ink);}
+  .warn{background:var(--warn-bg); border-left:4px solid var(--warn-line); color:var(--warn-ink);}
+  .ok{background:var(--ok-bg); border-left:4px solid var(--ok-line); color:var(--ok-ink);}
+  .anchor{color:var(--indigo-deep); font-weight:700;}
+
+  details{background:#fafcfb; border:1px solid var(--line); border-radius:10px;
+    padding:12px 16px; margin:10px 0;}
+  details summary{cursor:pointer; font-weight:700; font-size:15px;}
+  details[open] summary{margin-bottom:10px; color:var(--indigo-deep);}
+  details .who-tag{font-size:12px; color:var(--sub); font-weight:400; margin-left:8px;}
+
+  ul,ol{margin:8px 0; padding-left:24px;}
+  li{margin:5px 0;}
+
+  .flow{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:14px 0;}
+  .flow .step{background:#f7f8ff; border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
+  .flow .step .num{display:inline-flex; align-items:center; justify-content:center;
+    width:24px; height:24px; background:var(--indigo); color:#fff; border-radius:8px;
+    font-size:13px; margin-right:8px; font-weight:700;}
+  .flow .step b{font-size:15px;}
+  .flow .step .desc{font-size:13px; color:var(--sub); margin-top:4px;}
+
+  .memo{font-size:12.5px; color:var(--sub); margin-top:12px; border-top:1px dashed var(--line); padding-top:10px;}
+  .overview{border-left:4px solid var(--indigo);}
+
+  footer{text-align:center; color:#93a59c;
+    font-size:13px; padding:14px 0 8px; line-height:2;}
+  footer a{color:var(--indigo); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">📋 案例题库 <small>系统架构师备考</small></div>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+</header>
+<div id="drawerBackdrop"></div>
+<aside id="drawer">
+  <div class="drawer-head"><b>📋 案例题库</b><button id="closeBtn">✕</button></div>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
+  <nav id="drawerNav"></nav>
+  <div class="ext"><a href="架构知识地图.html">🗺️ 架构知识地图</a></div>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="drawer-foot">软考系统架构师备考 · 案例方法论 + 高频考点 + 经典案例 · 点击☰查看</div>
+</aside>
+
+<aside class="sidebar">
+  <div class="brand">
+    <b>📋 案例题库</b>
+    <small>系统架构师备考</small>
+  </div>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnSide">全部展开</button></div>
+  <nav id="sideNav"></nav>
+  <div class="ext"><a href="架构知识地图.html">🗺️ 架构知识地图</a></div>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="side-foot">
+    软考系统架构师备考<br>
+    案例方法论 · 高频考点 · 经典案例
+  </div>
+</aside>
+
+<main class="content">
+  <header class="hero">
+    <h1>📋 案例专项题库</h1>
+    <p>软考系统架构师（高级）案例题备考 · 按「方法论 → 高频考点 → 经典案例」组织 · 手机 / 电脑均可阅读</p>
+    <div class="core">核心心法：<b>根因说"缺什么"，方案就"补什么"；一条根因配一条措施，编号对齐。</b>症状≠根因，方案必须写，颗粒度要到具体技术。</div>
+  </header>
+
+  <!-- ==================== 案例方法论 ==================== -->
+  <article id="method" data-ch="method" data-sec="method" data-title="万能三步 + 五大题型">
+    <h2>万能三步 + 五大题型 <span class="badge b-hot">必背</span></h2>
+    <p class="meta">案例方法论 · 每题都按这个骨架答</p>
+    <div class="who">它在讲<b>怎么答题</b>：案例题不是考背诵，是考<b>能不能把考点落到具体场景</b>。先定性 → 再给方案 → 最后论证。</div>
+    <div class="ok"><b>万能三步：</b><br>
+      ① <b>定性</b>：这是关于【XX】的问题（一句话点明考点）<br>
+      ② <b>定量/设计</b>：方案 = 原理 + 场景适配 + 具体手段（写 3-5 个采分点）<br>
+      ③ <b>论证</b>：因为【理由】，所以该方案能解决【原问题】</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>题型</th><th>特征</th><th>应对策略</th></tr>
+      <tr><td><b>概念辨析</b></td><td>"什么是XX？XX和XX的区别？"</td><td>先给定义 → 再列对比维度（表格/分点）</td></tr>
+      <tr><td><b>方案设计</b></td><td>"请设计XX方案"</td><td>场景分析 → 选型理由 → 具体设计（拓扑/流程）</td></tr>
+      <tr><td><b>问题定位</b></td><td>"系统出现XX问题，原因可能有哪些？"</td><td>从架构层/数据层/并发层/配置层逐层排查，每层 2-3 点</td></tr>
+      <tr><td><b>方案评价</b></td><td>"该方案有哪些优缺点？"</td><td>优点 + 缺点 + 改进建议，各 3 点</td></tr>
+      <tr><td><b>计算题</b></td><td>可靠性/吞吐量/容量</td><td>套公式，写清代入过程，单位别漏</td></tr>
+    </table></div>
+    <div class="tip">💡 答题纪律：分点作答 (1)(2)(3)；先易后难；宁多勿漏（漏项不扣分）；答案里出现题干场景词，避免空话。</div>
+  </article>
+
+  <article id="rootcause" data-ch="method" data-sec="rootcause" data-title="根因-方案一一对应">
+    <h2>根因-方案一一对应（重点） <span class="badge b-hot">反复练</span></h2>
+    <p class="meta">案例方法论 · 8/18、8/20、8/22、8/27 连续踩坑点</p>
+    <div class="who">它在讲<b>答题口径</b>：故障排查题最怕"根因说缺××，方案却补了另一个××"。必须做到<b>一条根因配一条措施，编号对齐</b>。</div>
+    <div class="warn">⚠️ <b>症状 ≠ 根因：</b>响应慢/超时/报错/丢消息是<b>症状</b>；根因 = <b>缺了哪个能力</b>。<br>
+      ❌ 根因写"性能不足" → 太泛，等于没答<br>
+      ✅ 根因写"缺流量控制与削峰能力" → 标准口径</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>场景</th><th>症状</th><th>根因口径（缺××能力）</th><th>方案（补××）</th></tr>
+      <tr><td>高并发</td><td>请求超时/堆积</td><td>缺流量控制与削峰能力</td><td>限流 + 熔断 + 降级 + MQ 削峰 + 弹性扩容</td></tr>
+      <tr><td>连接池</td><td>连接耗尽</td><td>缺连接资源管控</td><td>连接池调优 + 连接监控回收 + 读写分离/分库</td></tr>
+      <tr><td>重复消息</td><td>重复发货/重复通知</td><td>缺幂等性设计</td><td>幂等表/唯一索引/状态判断去重</td></tr>
+      <tr><td>消息丢失</td><td>部分订单状态不更新</td><td>缺可靠投递与消费确认</td><td>acks=all + ISR + 手动提交 offset + 幂等</td></tr>
+      <tr><td>超卖</td><td>扣减量大于库存</td><td>缺原子扣减与可靠锁</td><td>Lua 原子扣减 + 分布式锁加固 + DB 条件更新兜底</td></tr>
+      <tr><td>雪崩</td><td>依赖故障拖垮主链路</td><td>缺故障隔离与兜底</td><td>熔断 + 降级 + 限流 + 优雅下线</td></tr>
+      <tr><td>缓存穿透</td><td>DB 压力大</td><td>缺无效请求拦截</td><td>布隆过滤器 / 空值缓存</td></tr>
+      <tr><td>缓存雪崩</td><td>Redis 宕机后 DB 被打爆</td><td>缺高可用与失效保护</td><td>随机 TTL + 多级缓存 + 哨兵/集群 + 限流降级</td></tr>
+    </table></div>
+    <div class="ok">✅ 口诀：<b>根因说"缺什么"，方案就"补什么"</b>；编号对齐，一条对一条。</div>
+  </article>
+
+  <!-- ==================== 高频案例考点 ==================== -->
+  <article id="hot" data-ch="topics" data-sec="hot" data-title="高频案例考点清单">
+    <h2>高频案例考点清单 <span class="badge b-hot">考前必扫</span></h2>
+    <p class="meta">高频案例考点 · 与知识地图章节对应</p>
+    <ul>
+      <li><b>微服务拆分边界</b>：按业务/领域拆，高内聚低耦合；网关 vs ESB；注册中心选型（Nacos/Eureka/ZK）</li>
+      <li><b>分布式事务选型</b>：强一致 → 2PC/TCC（钱/库存）；最终一致 → MQ/Saga（状态/通知）</li>
+      <li><b>分布式缓存</b>：穿透/击穿/雪崩三兄弟 + Cache Aside 一致性 + 分布式锁</li>
+      <li><b>消息队列</b>：Kafka 不丢/不乱/不重、消费积压、重平衡、死信队列</li>
+      <li><b>分库分表</b>：垂直/水平、路由规则、扩容平滑</li>
+      <li><b>安全方案</b>：等保2.0 测评流程、纵深防御、JWT vs Session</li>
+      <li><b>高可用</b>：双活/多活、故障转移、RPO/RTO 取舍</li>
+      <li><b>质量属性权衡</b>：性能 vs 安全、一致性 vs 可用性（必考权衡点）</li>
+      <li><b>服务治理</b>：熔断/限流/降级/灰度，雪崩三件套</li>
+      <li><b>可观测性</b>：日志/指标/链路追踪（SkyWalking 类）</li>
+    </ul>
+    <div class="tip">💡 综合知识点学完后，案例直接套这份清单：<b>学到一个考点，先问"它会不会变成案例场景？"</b>会，就顺手练 1 道。</div>
+  </article>
+
+  <!-- ==================== 经典案例库 ==================== -->
+  <article id="case1" data-ch="cases" data-sec="case1" data-title="案例1：电商大促">
+    <h2>案例1：电商大促（订单超时/连接池/重复发货） <span class="badge b-done">已练 8/20</span></h2>
+    <p class="meta">经典案例 · 高并发 + 连接池 + 幂等三合一</p>
+    <details open>
+      <summary>📄 题目</summary>
+      <p>电商大促期间出现三个问题：① 订单服务响应从 200ms 恶化到 5s，大量请求排队超时；② 数据库连接池"耗尽"告警；③ 支付回调重复到达导致部分订单重复发货。</p>
+      <p>请分别指出根因，并给出对应解决方案。</p>
+    </details>
+    <details open>
+      <summary>✅ 采分点</summary>
+      <ul>
+        <li>根因①：缺流量控制与削峰能力 → 限流 + 熔断 + 降级 + Kafka 异步削峰 + 水平扩容 + 缓存</li>
+        <li>根因②：数据库连接资源管控缺失（连接池配置不合理/连接长期占用不释放）→ 连接池调优 + 监控回收 + 读写分离/分库 + 热点缓存</li>
+        <li>根因③：缺少幂等性设计（回调重复投递无去重）→ 支付流水号/订单号唯一标识幂等（幂等表/Redis SETNX）+ 执行前校验订单状态</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>📝 示范答案</summary>
+      <ul>
+        <li>① 根因：缺流量控制与削峰能力（大促突发高并发，处理能力达瓶颈，请求堆积排队）→ 方案：限流+熔断+降级，Kafka 异步削峰，水平扩容+缓存</li>
+        <li>② 根因：数据库连接资源管控缺失（连接池配置不合理，连接长期占用不及时释放）→ 方案：按物理资源调优连接池+监控连接及时回收，拆分数据库/读写分离，热点缓存 Redis</li>
+        <li>③ 根因：缺少幂等性设计（回调重复投递无去重）→ 方案：支付流水号/订单号唯一标识幂等（幂等表/Redis SETNX），执行业务前校验订单状态</li>
+      </ul>
+    </details>
+  </article>
+
+  <article id="case2" data-ch="cases" data-sec="case2" data-title="案例2：大促故障排查">
+    <h2>案例2：大促系统故障排查（Kafka丢消息/超卖/缓存雪崩） <span class="badge b-hot">已练 8/27 · 待重练</span></h2>
+    <p class="meta">经典案例 · 中间件三连：消息可靠性 + 分布式锁 + 缓存雪崩</p>
+    <details open>
+      <summary>📄 题目</summary>
+      <p>某电商平台采用微服务架构，订单服务与库存服务通过消息队列异步通信，库存扣减使用 Redis 分布式锁，商品详情使用 Redis 缓存。大促期间出现三个问题：</p>
+      <ul>
+        <li>① 用户支付成功后订单状态长时间不更新，部分订单支付成功但未发货；运维发现消息消费者频繁重平衡，消费者实例重启后存在消息丢失。</li>
+        <li>② 秒杀商品库存扣减出现超卖，实际扣减量大于库存总量。</li>
+        <li>③ 大促开始时大量商品详情请求响应超时，数据库压力飙升，同时部分 Redis 节点宕机。</li>
+      </ul>
+      <p>请分别指出根因，并给出对应解决方案（根因与方案一一对应）。</p>
+    </details>
+    <details open>
+      <summary>✅ 采分点</summary>
+      <ul>
+        <li>① 根因 2 分 + 方案 2 分：自动提交 offset（业务未完成即提交，崩溃丢消息）；消费能力不足 → 心跳超时 → 频繁重平衡</li>
+        <li>② 根因 2 分 + 方案 2 分：扣减库存非原子 + 分布式锁不可靠（锁过期/主从丢锁）</li>
+        <li>③ 根因 2 分 + 方案 2 分：缓存雪崩 = 大量 key 集中过期 + Redis 无高可用切换</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>📝 示范答案</summary>
+      <ul>
+        <li>① 根因：消费者自动提交 offset，业务未完成就提交，宕机/重平衡后消息丢失；消费处理慢导致心跳超时频繁重平衡。方案：关闭自动提交、业务成功后手动提交 offset；优化消费逻辑、增加分区和消费者数（并行度=分区数），调大心跳超时/max.poll.records 避免重平衡；生产端 acks=all + min.insync.replicas 兜底。</li>
+        <li>② 根因：扣减库存非原子操作 + 分布式锁不可靠（过期/主从丢锁），多个请求同时通过校验。方案：Redis Lua 脚本原子扣减（校验+扣减一步完成）；分布式锁加随机值+Lua 释放+看门狗续期；数据库兜底 UPDATE stock=stock-1 WHERE stock>0（条件更新/乐观锁）。</li>
+        <li>③ 根因：大量 key 同时过期 + Redis 节点宕机无自动切换 → 请求穿透到 MySQL。方案：随机 TTL 避免集中过期；热点 key 永不过期+预热；Redis 主从+哨兵/集群高可用；兜底限流降级+多级缓存。</li>
+      </ul>
+    </details>
+    <div class="warn">⚠️ 8/27 实战教训：① 方案必须写（只写根因 = 答一半）；② 超卖 ≠ 缺分布式事务，是"非原子扣减 + 锁不可靠"；③ 宕机+集中过期 = 雪崩，预热是措施、限流是兜底，都不能当根因。</div>
+  </article>
+
+  <article id="case3" data-ch="cases" data-sec="case3" data-title="案例3：银行核心转账超时">
+    <h2>案例3：银行核心交易系统（转账超时/连接池告警） <span class="badge b-done">已练 8/18</span></h2>
+    <p class="meta">经典案例 · 高并发性能 → 可用性</p>
+    <details open>
+      <summary>📄 题目</summary>
+      <p>银行核心交易系统在高峰期转账请求大量超时，数据库连接池持续告警；直接扩容成本高，部分请求被丢弃。请分析根因并给出解决方案。</p>
+    </details>
+    <details open>
+      <summary>✅ 采分点</summary>
+      <ul>
+        <li>根因：缺流量控制与削峰能力（高峰突发流量超过处理能力）→ 限流 + Kafka 削峰 + K8s 弹性扩容 + Redis 缓存热点</li>
+        <li>根因：数据库连接池配置不合理/连接长期占用不释放 → 连接池调优 + 监控回收 + 读写分离/分库</li>
+        <li>加分点：降级保护非核心功能、快速失败兜底、论证颗粒度到具体技术</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>📝 示范答案</summary>
+      <ul>
+        <li>① 根因：缺流量控制与削峰能力（高峰流量超过系统处理能力，请求堆积）→ 方案：限流（令牌桶/漏桶）+ Kafka 异步削峰 + 水平扩容（K8s 弹性）+ 热点数据缓存 Redis</li>
+        <li>② 根因：数据库连接资源管控缺失（连接池参数不合理、连接长期占用不释放）→ 方案：连接池参数调优（最大连接数/超时/回收）+ 连接监控告警 + 读写分离/分库</li>
+        <li>③ 加分：降级非核心功能保核心转账链路，快速失败+兜底提示，避免请求无限堆积</li>
+      </ul>
+    </details>
+  </article>
+
+  <article id="case4" data-ch="cases" data-sec="case4" data-title="案例4：直播大课">
+    <h2>案例4：直播大课（流量冲击/线程池打满/通知重复） <span class="badge b-done">已练 8/21</span></h2>
+    <p class="meta">经典案例 · 流量控制 + 异步兜底 + 幂等</p>
+    <details open>
+      <summary>📄 题目</summary>
+      <p>在线教育平台直播大课开播瞬间大量用户涌入：① 核心接口响应急剧变慢；② 异步通知线程池被打满，部分任务延迟甚至丢失；③ 用户重复收到同一条通知。请分析根因并给出解决方案。</p>
+    </details>
+    <details open>
+      <summary>✅ 采分点</summary>
+      <ul>
+        <li>根因①：缺流量控制能力 → 限流 + 熔断 + 降级 + 削峰</li>
+        <li>根因②：线程池配置不足 + 任务无落库兜底 → 线程池调优 + 先持久化再异步 + 监控告警</li>
+        <li>根因③：缺幂等性设计 → 通知唯一标识 + 幂等表去重</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>📝 示范答案</summary>
+      <ul>
+        <li>① 根因：缺流量控制与削峰能力（开播瞬间突发流量超过处理能力）→ 方案：入口限流 + 依赖熔断 + 非核心降级 + MQ 异步削峰</li>
+        <li>② 根因：异步处理线程池配置不足、任务未落库（内存中丢失）→ 方案：线程池参数调优（核心/最大/队列）+ 任务先落库/写 MQ 再异步消费 + 消费失败重试 + 监控告警</li>
+        <li>③ 根因：缺少幂等性设计（重复投递无去重）→ 方案：通知内容生成唯一 ID，消费端幂等表/Redis SETNX 去重，业务前校验状态</li>
+      </ul>
+    </details>
+  </article>
+
+  <article id="case5" data-ch="cases" data-sec="case5" data-title="案例5：微服务雪崩">
+    <h2>案例5：微服务雪崩（依赖故障/请求堆积） <span class="badge b-done">已练 8/22</span></h2>
+    <p class="meta">经典案例 · 服务治理三件套 + 优雅下线</p>
+    <details open>
+      <summary>📄 题目</summary>
+      <p>微服务 A 调用下游服务 B，B 出现故障后响应变慢，A 的线程资源被大量占用并快速耗尽，最终 A 也无法响应，故障向上游扩散。请分析根因并给出解决方案。</p>
+    </details>
+    <details open>
+      <summary>✅ 采分点</summary>
+      <ul>
+        <li>根因：缺故障隔离与兜底（无熔断/降级/限流）→ 熔断（关闭→打开→半开）+ 降级（返回兜底）+ 限流（保护自身）</li>
+        <li>加分点：服务优雅下线三步（注销注册 → 排空存量请求 → 停止实例）</li>
+      </ul>
+    </details>
+    <details open>
+      <summary>📝 示范答案</summary>
+      <ul>
+        <li>① 根因：缺故障隔离与兜底能力（B 故障后 A 无熔断保护，线程被慢调用占满，故障向上游扩散）→ 方案：熔断（状态机 关闭→打开→半开，试探恢复）+ 降级（B 不可用时返回兜底数据/快速失败）+ 限流（保护 A 自身资源）</li>
+        <li>② 加分：发布/下线时执行优雅下线三步——先注销注册中心、再排空存量请求、最后停止实例，避免下线瞬间请求打到已停实例</li>
+        <li>③ 论证：因为依赖故障被隔离在 B 周边，所以 A 的线程资源不再被慢调用耗尽，雪崩链路被切断</li>
+      </ul>
+    </details>
+  </article>
+
+  <footer>
+    📋 案例题库 · 软考系统架构师备考 · 经典案例持续收录<br>
+    本资料为纯静态 HTML，可自由学习使用<br>
+    <span id="busuanzi_container_site_pv">本站访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
+    · <span id="busuanzi_container_site_uv">访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
+    · <span id="busuanzi_container_page_pv">本页 <span id="busuanzi_value_page_pv"></span> 次</span><br>
+    © 合肥城市云-技术研发部二组
+  </footer>
+</main>
+
+<script>
+// ===== 章节路由配置：以后加新章节，在这里加一行 + 在正文追加 <article data-ch="..."> 即可 =====
+const CHAPTERS = {
+  method: { title: '案例方法论' },
+  topics: { title: '高频案例考点' },
+  cases:  { title: '经典案例库' }
+};
+
+function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const [ch, sec] = h.split('/');
+  return { ch: CHAPTERS[ch] ? ch : 'method', sec: sec || '' };
+}
+
+const expanded = new Set();
+let prevCh = null;
+
+function buildTree(ch, sec, all){
+  return Object.entries(CHAPTERS).map(([id, c]) => {
+    const secs = all.filter(a => a.dataset.ch === id);
+    const secHtml = secs.map(a =>
+      `<a href="#/${id}/${a.dataset.sec}" class="${id === ch && a.dataset.sec === sec ? 'active' : ''}">${a.dataset.title}</a>`).join('');
+    return `<div class="tree-ch${expanded.has(id) ? ' open' : ''}">` +
+           `<a class="ch-link${id === ch ? ' active' : ''}" data-ch-id="${id}" href="#/${id}">${c.title}</a>` +
+           `<div class="tree-secs">${secHtml}</div></div>`;
+  }).join('');
+}
+
+function syncExpandButtons(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  const label = allOpen ? '全部折叠' : '全部展开';
+  const s = document.getElementById('expandBtnSide'); if (s) s.textContent = label;
+  const d = document.getElementById('expandBtnDrawer'); if (d) d.textContent = label;
+}
+
+function render(){
+  const { ch, sec } = currentRoute();
+  if (prevCh !== ch) { expanded.add(ch); prevCh = ch; }
+  const all = [...document.querySelectorAll('article[data-ch]')];
+  all.forEach(a => { a.style.display = (a.dataset.ch === ch) ? '' : 'none'; });
+  const chArts = all.filter(a => a.dataset.ch === ch);
+
+  const treeHtml = buildTree(ch, sec, all);
+  document.getElementById('sideNav').innerHTML = treeHtml;
+  document.getElementById('drawerNav').innerHTML = treeHtml;
+  syncExpandButtons();
+
+  const firstSec = chArts[0] ? chArts[0].dataset.sec : '';
+  const target = sec || firstSec;
+  requestAnimationFrame(() => {
+    if (target && document.getElementById(target)) {
+      document.getElementById(target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+// ===== 树形菜单：父级折叠/展开 =====
+function toggleChapter(id){
+  if (expanded.has(id)) expanded.delete(id); else expanded.add(id);
+  render();
+}
+function toggleAll(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  if (allOpen) expanded.clear(); else Object.keys(CHAPTERS).forEach(id => expanded.add(id));
+  render();
+}
+
+// ===== 手机抽屉菜单 =====
+const menuBtn = document.getElementById('menuBtn');
+const drawer = document.getElementById('drawer');
+const drawerNav = document.getElementById('drawerNav');
+const backdrop = document.getElementById('drawerBackdrop');
+function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
+function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
+menuBtn.addEventListener('click', openDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.getElementById('closeBtn').addEventListener('click', closeDrawer);
+
+document.getElementById('expandBtnSide').addEventListener('click', toggleAll);
+document.getElementById('expandBtnDrawer').addEventListener('click', toggleAll);
+
+const navs = [document.getElementById('sideNav'), drawerNav];
+navs.forEach(nav => nav.addEventListener('click', e => {
+  const parent = e.target.closest('.ch-link');
+  if (parent) { toggleChapter(parent.dataset.chId); return; }
+  if (nav === drawerNav && e.target.closest('.tree-secs a')) closeDrawer();
+}));
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>
