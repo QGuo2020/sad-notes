@@ -487,6 +487,106 @@
 
   <!-- ==================== 第6章 数据库与分布式 ==================== -->
 
+  <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
+    <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>关系数据库的表结构设计</b>——怎么设计才不冗余、不异常、查询快（范式消除冗余、ER建模、索引加速）。</div>
+    <h3>范式（Normal Form，必考单选）</h3>
+    <p>目的：消除数据冗余 + 避免<b>更新异常</b>（插入/删除/修改异常）——不只是省空间！</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>范式</th><th>消除什么</th><th>一句话记忆</th></tr>
+      <tr><td><b>1NF</b></td><td>字段不可再分（原子性）</td><td>"一列一个值"（地址拆成省/市/区）</td></tr>
+      <tr><td><b>2NF</b></td><td>部分依赖（非主键只依赖联合主键的一部分）</td><td>"完全依赖主键"（商品名不能只依赖商品号）</td></tr>
+      <tr><td><b>3NF</b></td><td>传递依赖（非主键依赖其他非主键）</td><td>"不隔层依赖"（学号→系号→系主任要拆系表）</td></tr>
+      <tr><td><b>BCNF</b></td><td>主属性对候选键的部分/传递依赖（3NF强化版）</td><td>考试频率低于前三</td></tr>
+    </table></div>
+    <p><b>反范式</b>：为查询性能<b>故意冗余</b>（订单表冗余商品名免联表）——空间换时间，报表/数仓常用。</p>
+    <p><b>ER 模型</b>：实体(矩形)/属性(椭圆)/联系(菱形)；联系 1:1、1:N、M:N；概念模型→逻辑模型→物理模型。</p>
+    <h3>索引（Index）</h3>
+    <ul>
+      <li><b>B+树</b>：MySQL 默认，数据在叶子且有序链表 → <b>范围查询快</b></li>
+      <li><b>聚簇索引</b>：数据物理顺序=索引顺序（InnoDB 主键），一张表<b>只有一个</b></li>
+      <li><b>覆盖索引</b>：查询字段全在索引里 → <b>不用回表</b></li>
+      <li><b>易错</b>：索引不是越多越好（写放大）；联合索引遵循<b>最左前缀</b>原则</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>1NF 原子 → 2NF 完全依赖 → 3NF 无传递依赖</b>；范式根本目的=消除更新异常</div>
+  </article>
+
+  <article id="acid" data-ch="ch6" data-sec="acid" data-title="事务ACID/隔离级别/锁">
+    <h2>事务：ACID / 隔离级别 / 锁 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合单选（隔离级别对比题高发）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>数据库的并发控制</b>——多条 SQL 要么全成要么全败（ACID）；并发下互相干扰到什么程度可接受（隔离级别）；靠什么保证（锁）。</div>
+    <h3>ACID 四性</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>特性</th><th>含义</th><th>实现</th></tr>
+      <tr><td><b>原子性 A</b></td><td>要么全做要么全不做</td><td>undo log 回滚</td></tr>
+      <tr><td><b>一致性 C</b></td><td>事务前后数据完整性不被破坏</td><td><b>最终目标</b>（其他三个是手段）</td></tr>
+      <tr><td><b>隔离性 I</b></td><td>并发事务互不干扰</td><td>锁 / MVCC</td></tr>
+      <tr><td><b>持久性 D</b></td><td>提交后永久保存</td><td>redo log</td></tr>
+    </table></div>
+    <h3>四种隔离级别（必考）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>级别</th><th>脏读</th><th>不可重复读</th><th>幻读</th></tr>
+      <tr><td>读未提交</td><td>有</td><td>有</td><td>有</td></tr>
+      <tr><td>读已提交（Oracle默认）</td><td>无</td><td>有</td><td>有</td></tr>
+      <tr><td><b>可重复读（MySQL默认）</b></td><td>无</td><td>无</td><td>有（InnoDB间隙锁解决）</td></tr>
+      <tr><td>串行化</td><td>无</td><td>无</td><td>无</td></tr>
+    </table></div>
+    <p>脏读=读到未提交数据；不可重复读=同记录两次读不同；幻读=范围查询行数变化。级别越高越安全越慢。</p>
+    <h3>锁</h3>
+    <ul>
+      <li><b>悲观锁</b>：先锁后操作（select ... for update），写多场景</li>
+      <li><b>乐观锁</b>：版本号/CAS，提交时校验，读多场景（与分布式锁呼应）</li>
+      <li>粒度：表锁 / 行锁 / <b>间隙锁</b>（InnoDB RR 防幻读）</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>读未提交→读已提交→可重复读→串行化</b>；MySQL默认RR / Oracle默认RC</div>
+  </article>
+
+  <article id="sharding" data-ch="ch6" data-sec="sharding" data-title="分库分表">
+    <h2>分库分表 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 案例高频（拆分+路由+代价）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>单库单表扛不住时的拆分方案</b>——垂直=拆业务/拆列，水平=拆行数据。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>方式</th><th>怎么拆</th><th>解决什么</th></tr>
+      <tr><td><b>垂直分库</b></td><td>按业务模块拆到不同库</td><td>单库压力大、业务隔离</td></tr>
+      <tr><td><b>垂直分表</b></td><td>按列拆（大字段单独放）</td><td>字段太多、行宽过大</td></tr>
+      <tr><td><b>水平分库</b></td><td>同表按路由规则分到多库</td><td>数据量/并发超限</td></tr>
+      <tr><td><b>水平分表</b></td><td>同表拆成多张同结构表</td><td>单表行数过多</td></tr>
+    </table></div>
+    <p><b>水平拆分路由</b>：范围路由（id段，扩容简单但热点倾斜）｜ 哈希路由（id%N，均匀但<b>扩缩容全量迁移</b>）｜ 一致性哈希（只迁相邻段）</p>
+    <div class="warn">⚠️ <b>拆分代价（案例必答）</b>：① <b>分布式事务</b>（跨库）→2PC/TCC/MQ ② 跨库 <b>join 失效</b>→冗余字段/应用组装 ③ <b>全局唯一ID</b>→<b>雪花算法</b>（时间戳+机器ID+序列号）④ 扩容迁移；中间件 MyCat / ShardingSphere</div>
+    <h3>哈希路由 id%N 的最大坑 + 缓解（面试/案例 4 条）</h3>
+    <p><b>坑</b>：扩容/缩容时分母 N 变化 → hash(id)%N 结果几乎全变 → <b>绝大部分数据迁移</b>，缓存雪崩、迁移成本极高（如 4 片扩 8 片，一半以上 key 变位置）。</p>
+    <ul>
+      <li>① <b>一致性哈希</b>：哈希环，节点增减只迁移相邻段 + 虚拟节点防倾斜</li>
+      <li>② <b>虚拟分片（槽位预分配）</b>：预划分大量虚拟分片（如1024），映射到物理库；扩容只改映射，不搬数据</li>
+      <li>③ <b>双写平滑迁移</b>：过渡期新老分片同时写 + 后台迁移历史 + 迁完切读流量，避免停机</li>
+      <li>④ <b>翻倍扩容</b>：只允许 2 的倍数扩容（4→8→16），比随机扩容减半迁移量</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>垂直=拆业务/拆列，水平=拆行数据</b>；路由=范围/哈希/一致性哈希；代价=事务+join+全局ID</div>
+  </article>
+
+  <article id="nosql" data-ch="ch6" data-sec="nosql" data-title="NoSQL 选型">
+    <h2>NoSQL 选型 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 选择题（什么场景选什么库）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>非关系型数据库的选型</b>——按数据模型和场景对号入座。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>数据库</th><th>数据模型</th><th>场景锚点</th></tr>
+      <tr><td><b>Redis</b></td><td>key-value</td><td>缓存/计数器/分布式锁/会话</td></tr>
+      <tr><td><b>MongoDB</b></td><td>文档（JSON）</td><td>结构灵活多变、无固定Schema（商品/内容）</td></tr>
+      <tr><td><b>HBase</b></td><td>列族（宽表）</td><td>海量数据+稀疏列（监控/流水/大数据），依赖ZK</td></tr>
+      <tr><td><b>Cassandra</b></td><td>分布式宽表</td><td>写多+分布式+去中心化（物联网/社交），Dynamo风格</td></tr>
+    </table></div>
+    <div class="tip">💡 锚点：<b>缓存→Redis ｜ 文档→Mongo ｜ 海量列→HBase ｜ 写多分布式→Cassandra</b>；HBase强一致依赖ZK，Cassandra最终一致去中心化</div>
+    <h3>选型案例：海量监控指标 → 为什么选 HBase（案例/面试）</h3>
+    <p><b>监控场景特征</b>：① 时序海量写入（每秒大量指标点，PB级）② 查询=设备ID+时间范围（主键/范围扫描，无复杂多条件）③ 几乎无更新，追加写为主。</p>
+    <ul>
+      <li><b>HBase 适配</b>：宽列存储+HDFS 支持 PB 级线性扩容；RowKey 设计=指标ID+时间戳 → 时间范围扫描完美；<b>LSM-Tree 顺序写</b>，高吞吐追加写远强于 Mongo</li>
+      <li><b>MongoDB 为何不选</b>：文档型擅长灵活结构/复杂查询/中量级业务；PB 级时序存储运维压力大、能力过剩、分片扩容贵、顺序写弱</li>
+      <li><b>边界</b>：数据量小（TB内）+ 多维复杂聚合 → 可 MongoDB；<b>海量时序指标 → 优先 HBase</b></li>
+    </ul>
+  </article>
+
   <article id="capbase" data-ch="ch6" data-sec="capbase" data-title="CAP 定理 + BASE">
     <h2>CAP 定理 + BASE 理论 <span class="badge b-new">新学</span></h2>
     <p class="meta">必考 · 综合单选高频</p>
