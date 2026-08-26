@@ -106,6 +106,24 @@
   .hero .core{background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.4);
     border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px;}
 
+  /* ===== 全站搜索 ===== */
+  .site-search{position:relative; max-width:600px; margin:0 auto 18px;}
+  .site-search input{width:100%; border:1px solid var(--line); border-radius:12px;
+    padding:11px 16px; font-size:14.5px; background:#fff; outline:none;
+    box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  .site-search input:focus{border-color:var(--indigo);}
+  #searchBox{position:absolute; top:100%; left:0; right:0; background:#fff;
+    border:1px solid var(--line); border-radius:12px; margin-top:6px;
+    box-shadow:0 10px 28px rgba(0,0,0,.14); z-index:50; max-height:60vh;
+    overflow-y:auto; display:none;}
+  #searchBox .hit{display:block; padding:10px 14px; border-bottom:1px solid var(--line);
+    text-decoration:none; color:var(--ink); font-size:14px;}
+  #searchBox .hit:last-child{border-bottom:none;}
+  #searchBox .hit:hover{background:#eef2ff;}
+  #searchBox .hit-ch{font-size:11px; color:var(--indigo); margin-left:8px;}
+  #searchBox .hit-snip{display:block; font-size:12px; color:var(--sub); margin-top:2px;}
+  #searchBox .no-hit{padding:14px; color:var(--sub); font-size:13px; text-align:center;}
+
   article{background:var(--card); border:1px solid var(--line); border-radius:14px;
     padding:24px 22px 14px; margin-bottom:18px; scroll-margin-top:72px;}
   @media (min-width:960px){ article{scroll-margin-top:18px;} }
@@ -190,6 +208,11 @@
     <p>软考系统架构师（高级）备考知识点总结 · 按教材章节组织 · 手机 / 电脑均可阅读</p>
     <div class="core">核心心法：<b>质量属性 → 质量场景 → 架构风格 → 架构模式 → 4+1视图 → ATAM评估</b>。学新考点先问一句：<b>"它是在讲谁的什么？"</b> 把它挂到主线上的位置，就不容易忘。</div>
   </header>
+
+  <div class="site-search">
+    <input id="siteSearch" type="search" placeholder="🔍 全站搜索：如 一致性哈希 / 击穿 / Saga / acks / 幂等">
+    <div id="searchBox"></div>
+  </div>
 
   <!-- ===== 主线图（始终可见） ===== -->
   <article id="line" class="overview">
@@ -516,7 +539,15 @@
       <tr><td><b>Write-Through</b> 写穿透</td><td>缓存组件</td><td>应用只写缓存，缓存同步写库</td><td>一致性最好，每次写两次IO（慢）</td></tr>
       <tr><td><b>Write-Back</b> 回写</td><td>缓存组件</td><td>只写缓存立即返回，异步批量落库</td><td>最快，但缓存挂可能丢数据</td></tr>
     </table></div>
-    <p><b>Redis 集群哈希槽</b>：共 <b>16384</b> 个槽，key 按 CRC16(key)%16384 归属槽，槽分配给节点；<b>节点增减只迁移部分槽</b>（比一致性哈希更均匀可控）。</p>
+    <h3>数据分布算法：取模 vs 一致性哈希 vs 哈希槽</h3>
+    <p><b>主语：都是"数据该放哪台节点"的分配算法</b>（一致性哈希=分布式缓存/存储的分布算法；哈希槽=Redis 集群的分片机制；取模=最朴素路由）。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>算法</th><th>机制</th><th>节点增减影响</th><th>典型使用</th></tr>
+      <tr><td><b>取模哈希</b> hash%N</td><td>key 哈希后对节点数取余定节点</td><td>节点数一变，<b>几乎所有 key 重排</b>（缓存全量失效）</td><td>简单路由（表数固定的分表）</td></tr>
+      <tr><td><b>一致性哈希</b></td><td>节点和 key 都哈希到<b>圆环</b>，key 顺时针找最近节点；<b>虚拟节点</b>解决节点少时数据倾斜</td><td><b>只影响相邻区域</b>，其余不动</td><td>分布式缓存/负载均衡（动态扩缩容）</td></tr>
+      <tr><td><b>哈希槽</b>（Redis集群）</td><td>固定 <b>16384</b> 槽，CRC16(key)%16384 定槽，槽分配给节点</td><td><b>只迁移部分槽</b>，分布均匀可控</td><td>Redis Cluster</td></tr>
+    </table></div>
+    <p class="anchor">锚点：取模=全量重排 ｜ 一致性哈希=圆环+顺时针+相邻迁移 ｜ 哈希槽=固定槽位+部分迁移</p>
     <p><b>缓存预热</b>：上线前把热点数据预先加载进缓存（开业前先备好货），避免上线瞬间大量 miss 打库；<b>缓存降级</b>：缓存故障/压力大时主动降级（直连库+限流兜底），保证核心可用。</p>
   </article>
 
@@ -762,6 +793,35 @@ navs.forEach(nav => nav.addEventListener('click', e => {
 
 window.addEventListener('hashchange', render);
 render();
+
+// ===== 全站搜索 =====
+const siteSearch = document.getElementById('siteSearch');
+const searchBox = document.getElementById('searchBox');
+siteSearch.addEventListener('input', () => {
+  const q = siteSearch.value.trim().toLowerCase();
+  if (!q) { searchBox.style.display = 'none'; return; }
+  const arts = [...document.querySelectorAll('article[data-ch]')];
+  const hits = arts.filter(a => a.textContent.toLowerCase().includes(q));
+  if (!hits.length) {
+    searchBox.innerHTML = '<div class="no-hit">没有匹配的知识点，换个关键词试试</div>';
+  } else {
+    searchBox.innerHTML = hits.slice(0, 10).map(a => {
+      const ch = CHAPTERS[a.dataset.ch] ? CHAPTERS[a.dataset.ch].title : '';
+      const text = a.textContent.trim();
+      const i = text.toLowerCase().indexOf(q);
+      const snip = text.slice(Math.max(0, i - 15), i + 45).replace(/\s+/g, ' ');
+      return `<a class="hit" href="#/${a.dataset.ch}/${a.dataset.sec}">${a.dataset.title}<span class="hit-ch">${ch}</span><span class="hit-snip">…${snip}…</span></a>`;
+    }).join('');
+  }
+  searchBox.style.display = 'block';
+});
+siteSearch.addEventListener('keydown', e => { if (e.key === 'Enter') searchBox.style.display = 'none'; });
+searchBox.addEventListener('click', e => {
+  if (e.target.closest('a')) { siteSearch.value = ''; searchBox.style.display = 'none'; }
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.site-search')) searchBox.style.display = 'none';
+});
 </script>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
