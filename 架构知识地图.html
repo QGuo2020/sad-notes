@@ -412,6 +412,28 @@
     <div class="tip">💡 补充：<b>限流算法</b>——计数器（固定窗口有<b>临界突变漏洞</b>，滑动窗口解决）/ 令牌桶（允许突发）/ 漏桶（匀速）；<b>熔断半开</b>：试探请求若再失败立即回到打开状态；<b>蓝绿发布</b>=两套完整环境瞬时切换（无流量损失、资源翻倍），与滚动（逐批替换）、灰度（小流量试）三兄弟对比</div>
   </article>
 
+  <article id="cloudnative" data-ch="ch7" data-sec="cloudnative" data-title="云原生 Docker/K8s">
+    <h2>云原生：Docker / K8s（小白版） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第7章 · 必考 · 综合+案例+论文（三科全考）</p>
+    <div class="who">它在讲<b>谁的什么</b>：让应用"为云而生"的开发运行方式——<b>容器化打包 + 平台自动编排</b>，弹性伸缩、随处可跑。四大要素：容器化+微服务+DevOps+持续交付。</div>
+    <h3>Docker 容器（应用的"集装箱"）</h3>
+    <ul>
+      <li><b>痛点</b>：部署环境不一致（"我电脑上好好的"）</li>
+      <li><b>镜像 Image</b>：应用+环境+依赖打包的<b>只读模板</b>（图纸）；<b>容器 Container</b>：镜像的实例（按图纸盖的房子）；<b>仓库 Registry</b>：镜像超市（Docker Hub）</li>
+      <li><b>vs 虚拟机</b>：VM=整间房（含操作系统，分钟级启动/GB级）；容器=集装箱（共享内核，<b>秒级启动</b>/MB级）</li>
+    </ul>
+    <h3>K8s（容器编排，港口的"调度系统"）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>概念</th><th>是什么</th></tr>
+      <tr><td><b>Pod</b></td><td>最小调度单位（小盒子，装1~N个容器）</td></tr>
+      <tr><td><b>Deployment</b></td><td>声明式管理：说"要3个副本"，K8s 保证永远有3个（挂1补1）</td></tr>
+      <tr><td><b>Service</b></td><td>稳定访问入口（Pod IP 会变，Service 固定地址转发流量）</td></tr>
+      <tr><td><b>Node</b></td><td>工作节点（跑容器的机器）</td></tr>
+    </table></div>
+    <p><b>自愈</b>：Pod 挂→K8s 检测→按期望数量自动拉起→Service 转发新 Pod，全程无人干预；<b>扩缩容</b>：HPA 水平自动伸缩。</p>
+    <div class="tip">💡 锚点：<b>Docker=集装箱 ｜ K8s=港口调度系统</b>；容器化打包→Docker，编排/自愈/扩缩容→K8s，固定入口→Service，最小单位→Pod</div>
+  </article>
+
   <!-- ==================== 第8章 ==================== -->
   <article id="qa" data-ch="ch8" data-sec="qa" data-title="质量属性">
     <h2>质量属性 <span class="badge b-done">已掌握</span></h2>
@@ -585,6 +607,44 @@
       <li><b>MongoDB 为何不选</b>：文档型擅长灵活结构/复杂查询/中量级业务；PB 级时序存储运维压力大、能力过剩、分片扩容贵、顺序写弱</li>
       <li><b>边界</b>：数据量小（TB内）+ 多维复杂聚合 → 可 MongoDB；<b>海量时序指标 → 优先 HBase</b></li>
     </ul>
+  </article>
+
+  <article id="dw" data-ch="ch6" data-sec="dw" data-title="数据仓库/数据湖">
+    <h2>数据仓库 / 数据湖（小白版） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 必考 · 综合+论文</p>
+    <div class="who">它在讲<b>谁的什么</b>：分析类查询（"上季度华东区什么卖最好"）会把业务库拖垮，于是把数据<b>复制出来加工成适合分析的样子</b>，存到专门的地方=数据仓库。它是"历史分析"的库。</div>
+    <ul>
+      <li><b>OLTP</b>（联机事务处理）= 业务库（MySQL）：增删改查、写多、要快。类比：超市收银台</li>
+      <li><b>OLAP</b>（联机分析处理）= 数仓：只读、统计、历史数据。类比：总部财务室</li>
+    </ul>
+    <h3>数仓建模两派（Kimball vs Inmon，人名记主张）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>派别</th><th>做法</th><th>类比</th></tr>
+      <tr><td><b>Kimball</b>（自底向上）</td><td>先做部门<b>小仓库</b>（数据集市）→ 再拼企业大仓；<b>维度建模</b>（星型/雪花）</td><td>先开几家小饭馆试试再开连锁</td></tr>
+      <tr><td><b>Inmon</b>（自顶向下）</td><td>先建<b>企业统一大仓</b>（3NF规范化）→ 再切数据给部门</td><td>先建中央厨房统一供餐</td></tr>
+    </table></div>
+    <p><b>星型模型</b>：中间事实表（数字：金额/数量）+ 周围维度表（描述：时间/商品/门店），像星星；<b>雪花模型</b>：维度再拆分，更规范但查询慢。</p>
+    <p><b>ETL</b> = 抽取（搬）→ 转换（洗）→ 加载（装），数仓的"搬运工"三步。</p>
+    <h3>数据湖 vs 数仓</h3>
+    <p>数仓=只收<b>整理好的结构化数据</b>（档案室）；数据湖=<b>什么原始数据都收</b>（日志/图片，原材料仓库）。先定义再存=Schema-on-write（数仓）；先存再定义=Schema-on-read（数据湖）。<b>湖仓一体</b>=湖的存储+仓的管理。</p>
+    <div class="tip">💡 锚点：OLTP=交易快，OLAP=分析准；Kimball=小仓拼大仓（快），Inmon=大仓切小仓（稳）；星型=事实+维度</div>
+  </article>
+
+  <article id="bigdata" data-ch="ch6" data-sec="bigdata" data-title="大数据技术栈">
+    <h2>大数据技术栈（小白版） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第6章 · 高频 · 综合+论文（选型题）</p>
+    <div class="who">它在讲<b>谁的什么</b>：数据太多一台机器扛不住，需要<b>多台机器协作</b>的存储与计算框架——按场景选：批处理/流处理/分析。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>技术</th><th>是什么（大白话）</th><th>场景</th></tr>
+      <tr><td><b>HDFS</b></td><td>分布式文件系统：大文件切成块分散存多台机器（厚书拆页放不同书架）</td><td>海量存储</td></tr>
+      <tr><td><b>MapReduce</b></td><td>任务拆小并行算再汇总（Map=分头算，Reduce=汇总）；每步写磁盘，慢</td><td>离线批处理（老）</td></tr>
+      <tr><td><b>Spark</b></td><td>数据<b>放内存里算</b>，比 MR 快 10-100 倍；批+流（微批）</td><td>离线分析主流</td></tr>
+      <tr><td><b>Flink</b></td><td><b>真正的实时流</b>：来一条算一条（毫秒）；流批一体</td><td>实时计算（大屏/风控）</td></tr>
+      <tr><td><b>ClickHouse</b></td><td><b>列式存储</b>分析数据库，报表秒出</td><td>即席分析/报表</td></tr>
+    </table></div>
+    <p><b>数据治理</b>：元数据（数据的数据）/主数据（核心实体统一）/数据质量；<b>DCMM</b> 数据管理成熟度模型（新热点）。</p>
+    <p><b>容灾指标</b>：<b>RPO</b>=最多丢多久的数据 ｜ <b>RTO</b>=多久恢复业务（RPO 看丢多少，RTO 看停多久）。</p>
+    <div class="tip">💡 锚点：<b>离线算历史→Spark ｜ 实时算当前→Flink ｜ 报表查询→ClickHouse ｜ 存海量→HDFS</b>；MR 磁盘慢、Spark 内存快、Flink 真流式</div>
   </article>
 
   <article id="capbase" data-ch="ch6" data-sec="capbase" data-title="CAP 定理 + BASE">
