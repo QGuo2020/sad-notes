@@ -528,6 +528,39 @@
 
   <!-- ==================== 第6章 数据库与分布式 ==================== -->
 
+  <!-- ==================== 第4章 信息安全 ==================== -->
+
+  <article id="crypto" data-ch="ch4" data-sec="crypto" data-title="加解密">
+    <h2>加解密：对称 / 非对称 / 哈希 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第4章 · 必考 · 综合单选高频</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>数据的保密与防篡改</b>——对称加密管数据、非对称管密钥分发和签名、哈希管完整性校验。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>技术</th><th>钥匙</th><th>速度</th><th>解决</th><th>代表</th></tr>
+      <tr><td><b>对称加密</b></td><td>1把</td><td>快</td><td>大数据加密</td><td>AES / 国密<b>SM4</b> / DES</td></tr>
+      <tr><td><b>非对称加密</b></td><td>2把（公钥+私钥）</td><td>慢</td><td>密钥分发 + 签名</td><td>RSA / 国密<b>SM2</b> / ECC</td></tr>
+      <tr><td><b>哈希</b></td><td>无（单向）</td><td>极快</td><td>完整性/存密码</td><td>SHA-256 / 国密<b>SM3</b> / MD5(不安全)</td></tr>
+    </table></div>
+    <ul>
+      <li><b>混合加密</b>：HTTPS = RSA 握手传 AES 密钥 → AES 加密数据（非对称传小、对称传大）</li>
+      <li><b>非对称两方向</b>：公钥加密→私钥解密=保密；私钥签名→公钥验证=防抵赖（方向别混！）</li>
+      <li><b>哈希</b>：不可逆+雪崩效应；数字签名=私钥签名+哈希摘要（防抵赖+防篡改）</li>
+      <li><b>国密三件</b>：SM2非对称 / SM3哈希 / SM4对称（国产化必考）</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>传大数据→对称AES ｜ 换密钥/签名→非对称RSA ｜ 防篡改/存密码→哈希</b>；"一把钥匙锁门，邮箱投信两把钥，指纹验真不可逆"</div>
+  </article>
+
+  <article id="auth" data-ch="ch4" data-sec="auth" data-title="认证授权">
+    <h2>认证授权：RBAC/ABAC + JWT + OAuth2/SSO <span class="badge b-new">新学</span></h2>
+    <p class="meta">第4章 · 必考 · 综合+案例（CCDCSM素材）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统的准入与权限控制</b>——认证=你是谁（门卫查身份证），授权=你能干什么（进哪个房间）。</div>
+    <ul>
+      <li><b>RBAC</b>（基于角色）：用户→角色→权限，职位决定权限（经理有审批权）；<b>ABAC</b>（基于属性）：用户/资源/环境属性组合动态决策（下班时间+敏感文件组合判断）。锚点：RBAC看角色静态简单，ABAC看属性动态细粒度</li>
+      <li><b>Session</b>：服务端存会话（有状态，多实例需共享/Redis）；<b>JWT</b>：自包含令牌（Header.Payload.Signature），无状态免存、微服务友好，但<b>无法主动失效</b>只能等过期</li>
+      <li><b>OAuth2</b>=授权框架：第三方在用户授权下拿资源，<b>拿不到密码</b>（微信登录拿头像不拿密码）；<b>OIDC</b>=在OAuth2上加身份认证（你是谁+能干嘛）；<b>SSO</b>单点登录=一次登录多处通行（一张园区卡刷所有门）</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>认证=你是谁 ｜ 授权=你能干嘛 ｜ RBAC角色/ABAC属性 ｜ JWT无状态微服务友好 ｜ SSO一次登录处处通</b>；OAuth2是授权不是认证，OIDC才是认证</div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
@@ -884,6 +917,7 @@
 <script>
 // ===== 章节路由配置：以后加新章节，在这里加一行 + 在正文追加 <article data-ch="..."> 即可 =====
 const CHAPTERS = {
+  ch4:   { title: '第4章 信息安全' },
   ch6:   { title: '第6章 数据库与分布式' },
   ch7:   { title: '第7章 架构设计' },
   ch8:   { title: '第8章 质量属性' },
