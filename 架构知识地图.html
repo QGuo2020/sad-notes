@@ -561,6 +561,34 @@
     <div class="tip">💡 锚点：<b>认证=你是谁 ｜ 授权=你能干嘛 ｜ RBAC角色/ABAC属性 ｜ JWT无状态微服务友好 ｜ SSO一次登录处处通</b>；OAuth2是授权不是认证，OIDC才是认证</div>
   </article>
 
+  <article id="netsec" data-ch="ch4" data-sec="netsec" data-title="网络安全设备">
+    <h2>网络安全：防火墙/IDS/IPS/WAF/DDoS <span class="badge b-new">新学</span></h2>
+    <p class="meta">第4章 · 必考 · 综合单选（设备区分题高发）</p>
+    <div class="who">它在讲<b>谁的什么</b>：防外部攻击的<b>多层防线</b>——不同设备管不同层（网络层/应用层/流量层）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>设备</th><th>管什么</th><th>类比</th></tr>
+      <tr><td><b>防火墙</b></td><td>网络层：按 IP/端口/协议过滤</td><td>小区门卫查出入证</td></tr>
+      <tr><td><b>IDS</b> 入侵检测</td><td>被动检测：发现攻击<b>只告警不拦</b></td><td>监控摄像头</td></tr>
+      <tr><td><b>IPS</b> 入侵防御</td><td>检测到攻击<b>直接阻断</b></td><td>巡逻保安当场抓</td></tr>
+      <tr><td><b>WAF</b></td><td>应用层：防 Web 攻击（<b>SQL注入/XSS</b>）</td><td>安检门查危险品</td></tr>
+      <tr><td><b>DDoS防护</b></td><td>流量层：清洗海量攻击流量</td><td>清场堵门+多开门(CDN)</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 易错：防火墙管网络层看不到 SQL 注入；WAF 才专治应用层攻击；IDS 只报不拦 vs IPS 检测+拦；DDoS=堵门不是入侵</div>
+    <div class="tip">💡 锚点：<b>防火墙=IP端口门卫 ｜ IDS=监控只报 ｜ IPS=保安直接抓 ｜ WAF=应用层安检 ｜ DDoS=流量清洗</b></div>
+  </article>
+
+  <article id="dengbao" data-ch="ch4" data-sec="dengbao" data-title="等保2.0">
+    <h2>等保2.0（网络安全等级保护） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第4章 · 必考 · 案例+论文高频</p>
+    <div class="who">它在讲<b>谁的什么</b>：国家<b>强制</b>的网络安全分级保护制度——系统按重要程度分五级，级别越高要求越严。</div>
+    <ul>
+      <li><b>五级</b>：一级自主保护 → 二级指导保护 → <b>三级监督保护（最常考）</b> → 四级强制保护 → 五级专控保护</li>
+      <li><b>流程</b>：定级 → 备案 → 建设整改 → 等级测评 → 监督检查</li>
+      <li><b>2.0 vs 1.0</b>：从"信息安全"扩到"网络安全"；覆盖<b>云计算/大数据/物联网/移动互联/工业控制</b>新技术领域</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>三级=监督保护 ｜ 流程=定级-备案-整改-测评-监督 ｜ 2.0覆盖云大物移工</b></div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
