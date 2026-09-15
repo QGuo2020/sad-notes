@@ -786,6 +786,30 @@
     <div class="tip">💡 锚点：时间顺序→时序图 ｜ 状态变迁→状态图 ｜ 业务流程→活动图 ｜ 物理部署→部署图 ｜ 同生共死→组合</div>
   </article>
 
+  <!-- ==================== 第9章 可靠性 ==================== -->
+
+  <article id="reliability" data-ch="ch9" data-sec="reliability" data-title="可靠性+计算">
+    <h2>软件可靠性 + 计算题 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第9章 · 必考 · 综合单选（计算题常考）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统"不容易坏 + 坏了能快修"</b>的能力——可靠性看不坏，可用性看能修。</div>
+    <h3>可靠性 vs 可用性</h3>
+    <ul>
+      <li><b>可靠性</b>：规定时间/条件下不故障的能力（多久坏一次）</li>
+      <li><b>可用性</b>：需要时能用的概率（坏多久修好）</li>
+    </ul>
+    <p><b>公式</b>：可用性 A = MTTF / (MTTF + MTTR)；MTBF（平均故障间隔）= MTTF + MTTR；MTTF=平均无故障时间，MTTR=平均修复时间。</p>
+    <h3>可靠性计算（计算题必考）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>结构</th><th>含义</th><th>公式</th><th>例（部件0.9）</th></tr>
+      <tr><td><b>串联</b></td><td>全都要正常（全都要）</td><td>R = R1×R2×…×Rn</td><td>0.9×0.9 = <b>0.81</b>（越低）</td></tr>
+      <tr><td><b>并联</b></td><td>有一个正常就行（有一个）</td><td>R = 1-(1-R1)(1-R2)…</td><td>1-0.1×0.1 = <b>0.99</b>（越高）</td></tr>
+      <tr><td><b>混联</b></td><td>先并后串</td><td>先算并联再连乘</td><td>—</td></tr>
+    </table></div>
+    <p><b>Amdahl 定律</b>：加速比 S = 1/((1-f)+f/s)，f=可并行比例；极限 S=1/(1-f)。例：80%可并行 → 最大加速 <b>5 倍</b>（加再多CPU也没用，串行是天棚）。</p>
+    <p><b>容错/高可用</b>：冗余（双机热备/软件/时间重试）、心跳检测、故障转移Failover、降级；架构演进：集群→双活多活→异地多活。</p>
+    <div class="tip">💡 锚点：<b>串联连乘越低 ｜ 并联1减全坏越高 ｜ 可用性=MTTF/(MTTF+MTTR) ｜ Amdahl=串行是天棚</b></div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
@@ -1147,6 +1171,7 @@ const CHAPTERS = {
   ch6:   { title: '第6章 数据库与分布式' },
   ch7:   { title: '第7章 架构设计' },
   ch8:   { title: '第8章 质量属性' },
+  ch9:   { title: '第9章 可靠性' },
   tools: { title: '备考工具' }
 };
 
