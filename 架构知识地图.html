@@ -835,6 +835,85 @@
     <div class="tip">💡 锚点：<b>幻觉/私有知识 → RAG ｜ RAG流程=切分-向量化-检索-拼接-生成 ｜ 相似度检索 → 向量数据库 ｜ 自主干活 → Agent(ReAct)</b></div>
   </article>
 
+  <!-- ==================== 第1章 绪论 ==================== -->
+
+  <article id="intro" data-ch="ch1" data-sec="intro" data-title="架构定义与架构师">
+    <h2>绪论：架构定义 / 作用 / 架构师职责 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第1章 · 必考 · 综合单选+论文开头</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>系统架构本身</b>——架构=系统的结构（组件+关系+约束），以及架构师这个角色干什么。</div>
+    <ul>
+      <li><b>架构三要素</b>：组件 + 连接件（关系/交互）+ 约束/原则。一句话：<b>拆成什么块 + 块之间怎么连 + 遵循什么规则</b></li>
+      <li><b>架构作用</b>：沟通工具（统一认识）/ 决策依据（早期关键决策）/ <b>质量属性载体</b>（性能可用性靠架构实现）/ 复用基础</li>
+      <li><b>架构师职责</b>：需求分析（识别质量属性）→ 架构决策 → 技术选型 → 风险把控 → 跨团队沟通 → 架构评审治理；是"<b>技术与业务的桥梁</b>"（不是只管写代码/只管管理）</li>
+      <li><b>架构设计输入</b>：功能需求 + 质量属性需求 + 约束（技术/业务/法规）；<b>输出</b>：架构文档（4+1视图/架构决策/接口/部署方案）</li>
+      <li><b>设计原则</b>：关注点分离 / 单一职责 / 高内聚低耦合 / 信息隐藏 / 抽象 / 可复用 / 最小知识</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>架构=组件+连接件+约束</b>；架构师=技术与业务的桥梁；质量属性靠架构承载</div>
+  </article>
+
+  <!-- ==================== 第3章 信息系统 ==================== -->
+
+  <article id="infosys" data-ch="ch3" data-sec="infosys" data-title="信息系统分类">
+    <h2>信息系统基础知识 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第3章 · 必考 · 综合单选（TPS/MIS/DSS/ES/OAS）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>不同层级/用途的信息系统</b>——从基层事务到高层决策各有一套系统。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>类型</th><th>面向</th><th>干什么</th></tr>
+      <tr><td><b>TPS</b> 事务处理</td><td>基层操作</td><td>日常事务（订单/支付/记账），最底层</td></tr>
+      <tr><td><b>MIS</b> 管理信息</td><td>中层管理</td><td>报表汇总、监控</td></tr>
+      <tr><td><b>DSS</b> 决策支持</td><td>高层决策</td><td>模型+数据<b>辅助半结构化决策</b></td></tr>
+      <tr><td><b>ES</b> 专家系统</td><td>专业领域</td><td><b>知识库+推理机</b>模拟专家判断</td></tr>
+      <tr><td><b>OAS</b> 办公自动化</td><td>全员办公</td><td>公文流转、日程、审批</td></tr>
+    </table></div>
+    <p><b>企业信息化</b>：ERP企业资源计划 / CRM客户关系 / SCM供应链 / PDM产品数据管理。</p>
+    <p><b>电子政务</b>：G2G 政府对政府 / G2B 对企业 / G2C 对公民 / G2E 对雇员；<b>电子商务</b>：B2B / B2C / C2C / O2O。</p>
+    <div class="tip">💡 锚点：<b>TPS干事务 → MIS看报表 → DSS帮决策(辅助非代替) → ES装专家(知识库+推理机) → OAS管办公</b></div>
+  </article>
+
+  <!-- ==================== 第10章 架构演化 ==================== -->
+
+  <article id="evolution" data-ch="ch10" data-sec="evolution" data-title="架构演化+遗留系统">
+    <h2>架构演化与维护 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第10章 · 必考 · 案例+论文（改造类题目高频）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>已有系统怎么演进改造</b>——不推倒重来，渐进式替换升级。</div>
+    <ul>
+      <li><b>演化驱动</b>：业务变化 / 技术发展 / 性能扩展要求 / 遗留系统包袱；路线：单体→SOA→微服务→云原生</li>
+      <li><b>绞杀者模式（Strangler）</b>：新功能用新服务实现，老功能逐步迁移替换，像藤蔓缠死老树——<b>渐进改造、风险小可回退</b></li>
+      <li><b>重构 vs 重写</b>：重构=不改外部行为只改内部结构（安全）；重写=推倒重来（风险大）</li>
+      <li><b>架构基线</b>：经过评审的稳定架构版本（版本管理基础）</li>
+    </ul>
+    <h3>遗留系统处理策略（业务价值 × 技术水平）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>价值</th><th>技术</th><th>策略</th></tr>
+      <tr><td>低</td><td>低</td><td><b>淘汰</b>（废弃）</td></tr>
+      <tr><td>低</td><td>高</td><td><b>继承</b>（保留继续用）</td></tr>
+      <tr><td>高</td><td>低</td><td><b>改造</b>（重构升级）</td></tr>
+      <tr><td>高</td><td>高</td><td><b>集成</b>（集成进新系统）</td></tr>
+    </table></div>
+    <div class="tip">💡 锚点：<b>低低淘汰·低高继承·高低改造·高高集成</b>；微服务改造首选绞杀者模式（渐进替换）</div>
+  </article>
+
+  <!-- ==================== 第2章 计算机系统基础 ==================== -->
+
+  <article id="sysperf" data-ch="ch2" data-sec="sysperf" data-title="性能指标+系统配置+RAID">
+    <h2>计算机系统基础：性能 / 配置 / RAID <span class="badge b-new">新学</span></h2>
+    <p class="meta">第2章 · 常考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>计算机系统的性能与可靠性配置</b>——快不快（性能指标）、坏了怎么办（双机/集群/RAID）。</div>
+    <ul>
+      <li><b>性能指标</b>：响应时间 RT（一次请求耗时）｜ 吞吐量 TPS/QPS（单位时间处理量）｜ 并发数 ｜ 资源利用率。<b>易错</b>：响应时间短 ≠ 吞吐量高（可能互相制约）；Amdahl=串行是天棚</li>
+      <li><b>系统配置</b>：双机热备（一干一闲，切换有中断）｜ 双机互备（各跑不同应用互相顶班）｜ 双机双工（两台跑同一应用，负载均衡+冗余）｜ 集群（多机协同）</li>
+    </ul>
+    <div class="tbl-wrap"><table>
+      <tr><th>RAID</th><th>原理</th><th>特点</th></tr>
+      <tr><td><b>RAID0</b></td><td>条带化</td><td>性能最高，<b>无冗余</b>（坏一块全丢）</td></tr>
+      <tr><td><b>RAID1</b></td><td>镜像</td><td>冗余最高，容量利用率50%</td></tr>
+      <tr><td><b>RAID5</b></td><td>分布奇偶校验</td><td>折中，<b>允许坏1块盘</b></td></tr>
+      <tr><td><b>RAID10</b></td><td>镜像+条带</td><td>性能+冗余都好，成本最高</td></tr>
+    </table></div>
+    <p><b>其他要点</b>：进程(独立内存) vs 线程(共享内存)；死锁四条件（互斥/占有等待/不可剥夺/循环等待）；OSI七层与TCP-IP四层；容错=冗余+心跳+故障转移。</p>
+    <div class="tip">💡 锚点：<b>RAID 0快不安全·1安全不省盘·5折中·10都要但贵</b>；<b>热备一干一闲·互备互相顶班·双工都干同样的活</b></div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
@@ -1191,12 +1270,16 @@
 <script>
 // ===== 章节路由配置：以后加新章节，在这里加一行 + 在正文追加 <article data-ch="..."> 即可 =====
 const CHAPTERS = {
+  ch1:   { title: '第1章 绪论' },
+  ch2:   { title: '第2章 计算机系统基础' },
+  ch3:   { title: '第3章 信息系统' },
   ch4:   { title: '第4章 信息安全' },
   ch5:   { title: '第5章 软件工程' },
   ch6:   { title: '第6章 数据库与分布式' },
   ch7:   { title: '第7章 架构设计' },
   ch8:   { title: '第8章 质量属性' },
   ch9:   { title: '第9章 可靠性' },
+  ch10:  { title: '第10章 架构演化' },
   ch11:  { title: '第11章 AI与未来技术' },
   tools: { title: '备考工具' }
 };
