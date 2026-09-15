@@ -810,6 +810,31 @@
     <div class="tip">💡 锚点：<b>串联连乘越低 ｜ 并联1减全坏越高 ｜ 可用性=MTTF/(MTTF+MTTR) ｜ Amdahl=串行是天棚</b></div>
   </article>
 
+  <!-- ==================== 第11章 AI与未来技术 ==================== -->
+
+  <article id="ai" data-ch="ch11" data-sec="ai" data-title="大模型/RAG/Agent">
+    <h2>大模型应用架构：LLM / RAG / 向量库 / Agent <span class="badge b-new">新学</span></h2>
+    <p class="meta">第11章 · 必考热点 · 综合+论文（新教材重点方向）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>把大模型用起来的系统架构</b>——模型能力怎么接进业务（提示工程/RAG/Agent）。</div>
+    <h3>LLM 基础名词</h3>
+    <ul>
+      <li><b>Transformer 架构</b>：LLM 的技术底座；海量语料<b>预训练</b></li>
+      <li><b>Token</b>：最小处理单位（计费/上下文按 token 算）；<b>上下文窗口</b>：一次能看到的上限</li>
+      <li><b>三大痛点</b>：知识过时 / 不懂私有知识 / <b>幻觉</b>（一本正经胡说）</li>
+    </ul>
+    <h3>提示工程 Prompt Engineering</h3>
+    <p><b>Zero-shot</b>（直接问）｜ <b>Few-shot</b>（给示例再问）｜ <b>CoT 思维链</b>（让它一步步推理，准确率更高）｜ <b>角色设定</b></p>
+    <h3>RAG 检索增强生成（⭐最高频）</h3>
+    <p>主语：<b>给大模型外挂知识库</b>——先检索资料、再基于资料回答。类比<b>开卷考试</b>（先翻书再答题）。</p>
+    <p>流程 7 步：<b>文档切分 → 向量化 Embedding → 存向量库 → 问题向量化 → 相似度检索召回 → 拼进Prompt → LLM生成答案</b></p>
+    <div class="warn">⚠️ 易错：<b>RAG ≠ 微调</b>——微调改模型参数（贵、慢，适合学风格）；RAG外挂知识库（便宜、<b>知识更新快</b>，企业私有知识问答<b>优先 RAG</b>）</div>
+    <h3>向量数据库</h3>
+    <p>存<b>向量</b>（embedding），核心是<b>相似度检索</b>（找意思最接近的）；代表 <b>Milvus / Pinecone / Chroma / pgvector</b>。锚点：文本→向量→算相似度→找最像的。</p>
+    <h3>Agent 智能体</h3>
+    <p><b>Agent = LLM + 工具调用 + 记忆 + 规划</b>，能自主做事（调API/查库）；核心模式 <b>ReAct</b>：推理→行动→观察→再推理循环。类比：从问答机器人升级为能动手的助理。</p>
+    <div class="tip">💡 锚点：<b>幻觉/私有知识 → RAG ｜ RAG流程=切分-向量化-检索-拼接-生成 ｜ 相似度检索 → 向量数据库 ｜ 自主干活 → Agent(ReAct)</b></div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
@@ -1172,6 +1197,7 @@ const CHAPTERS = {
   ch7:   { title: '第7章 架构设计' },
   ch8:   { title: '第8章 质量属性' },
   ch9:   { title: '第9章 可靠性' },
+  ch11:  { title: '第11章 AI与未来技术' },
   tools: { title: '备考工具' }
 };
 
