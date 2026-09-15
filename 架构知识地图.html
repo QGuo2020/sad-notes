@@ -106,6 +106,18 @@
   .hero .core{background:rgba(255,255,255,.16); border:1px dashed rgba(255,255,255,.4);
     border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px;}
 
+  /* ===== UML 图例 ===== */
+  .uml-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; margin:14px 0;}
+  .uml-grid figure{margin:0; border:1px solid var(--line); border-radius:10px; padding:8px; background:#fafbff;}
+  .uml-grid svg{width:100%; height:auto; display:block;}
+  .uml-grid figcaption{font-size:12px; color:var(--sub); text-align:center; margin-top:6px;}
+  .uml-grid .u{stroke:#4338ca; fill:none; stroke-width:1.5;}
+  .uml-grid .uf{stroke:#4338ca; fill:#eef2ff; stroke-width:1.5;}
+  .uml-grid .l{stroke:#9aa5b1; stroke-width:1.2; fill:none;}
+  .uml-grid .t{font-size:10px; fill:#1f2328; text-anchor:middle;}
+  .uml-grid .ts{font-size:9px; fill:#6b7280; text-anchor:middle;}
+  .uml-grid .dot{fill:#1f2328;}
+
   /* ===== 全站搜索 ===== */
   .site-search{position:relative; max-width:600px; margin:0 auto 18px;}
   .site-search input{width:100%; border:1px solid var(--line); border-radius:12px;
@@ -589,6 +601,191 @@
     <div class="tip">💡 锚点：<b>三级=监督保护 ｜ 流程=定级-备案-整改-测评-监督 ｜ 2.0覆盖云大物移工</b></div>
   </article>
 
+  <!-- ==================== 第5章 软件工程 ==================== -->
+
+  <article id="devmodel" data-ch="ch5" data-sec="devmodel" data-title="开发模型+需求">
+    <h2>软件开发模型 + 需求工程 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第5章 · 必考 · 综合单选（场景选模型题高发）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>软件开发怎么组织流程</b>——按什么顺序做（模型）+ 先搞清楚要做什么（需求）。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>模型</th><th>特点</th><th>类比</th><th>适用/锚点</th></tr>
+      <tr><td><b>瀑布</b></td><td>线性顺序不能回头，文档全</td><td>盖房一层层盖</td><td>需求明确稳定</td></tr>
+      <tr><td><b>增量</b></td><td>分批交付，先核心再扩展</td><td>先交能下单再+支付</td><td>早交付早反馈</td></tr>
+      <tr><td><b>螺旋</b></td><td>瀑布+原型+<b>风险分析</b>循环</td><td>爬山每段看路况</td><td><b>大型高风险/风险驱动</b></td></tr>
+      <tr><td><b>敏捷</b>(Scrum)</td><td>短迭代、拥抱变化、每日站会</td><td>小步快跑每两周交付</td><td><b>响应变化优于遵循计划</b></td></tr>
+      <tr><td><b>RUP</b></td><td>用例驱动+架构为中心+迭代</td><td>—</td><td>四阶段：初始细化构造移交</td></tr>
+      <tr><td><b>原型</b></td><td>先做原型确认需求</td><td>先做样品看</td><td>需求不明确</td></tr>
+    </table></div>
+    <p><b>需求分类</b>：功能需求（能干什么）/ 非功能需求（干得好不好=质量属性，3秒响应是性能）/ 约束（硬限制，必须用国产库）。流程：获取→分析建模→规格→验证。</p>
+    <div class="tip">💡 锚点：<b>需求稳→瀑布 ｜ 分批→增量 ｜ 高风险→螺旋 ｜ 拥抱变化→敏捷 ｜ 需求不清→原型</b>；Scrum角色：PO+Master+团队</div>
+  </article>
+
+  <article id="solid" data-ch="ch5" data-sec="solid" data-title="SOLID/测试/CMMI">
+    <h2>SOLID + 软件测试 + CMMI <span class="badge b-new">新学</span></h2>
+    <p class="meta">第5章 · 必考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语=①代码怎么设计才好改（SOLID）②怎么验证没写错（测试）③开发过程成熟度怎么评（CMMI）。</div>
+    <h3>SOLID 五原则</h3>
+    <ul>
+      <li><b>S</b> 单一职责：一个类只干一件事</li>
+      <li><b>O</b> 开闭原则：<b>对扩展开放、对修改关闭</b>（加功能不加改老类，最常考）</li>
+      <li><b>L</b> 里氏替换：子类可替换父类</li>
+      <li><b>I</b> 接口隔离：接口按需提供，不堆大而全</li>
+      <li><b>D</b> 依赖倒置：依赖抽象接口，不依赖具体实现（USB 不挑牌子）</li>
+    </ul>
+    <h3>测试：黑盒 vs 白盒</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>类型</th><th>看什么</th><th>代表</th><th>类比</th></tr>
+      <tr><td><b>黑盒</b></td><td>不看代码，只看输入输出</td><td>功能测试/等价类/边界值</td><td>用冰箱不看内部</td></tr>
+      <tr><td><b>白盒</b></td><td>看代码内部逻辑</td><td>语句/分支/路径覆盖</td><td>修冰箱拆开看</td></tr>
+    </table></div>
+    <p>测试层次：单元（白盒）→ 集成 → 系统 → 验收（α内部试/β外部试）。易错：等价类/边界值=黑盒；语句/分支覆盖=白盒。</p>
+    <h3>CMMI 五级（过程成熟度）</h3>
+    <p><b>乱→管→定→量→优</b>：一级初始（混乱）→ 二级已管理（管项目）→ 三级已定义（组织标准流程）→ 四级量化管理（数据说话）→ 五级优化（持续改进）；逐级晋升不跳级。</p>
+    <div class="tip">💡 锚点：SOLID 最常考 O 开闭 + D 依赖倒置；CMMI=过程成熟度不是产品好坏，乱管定量优</div>
+  </article>
+
+  <article id="uml" data-ch="ch5" data-sec="uml" data-title="UML 图识读">
+    <h2>UML 图识读（只认图不画图） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第5章 · 常考 · 综合单选</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>用图表达系统结构与行为</b>——考试只要求"看到图/场景能认出是哪种图"。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>图</th><th>看什么</th><th>判别词</th></tr>
+      <tr><td><b>用例图</b></td><td>系统与外部角色交互（谁能用什么功能）</td><td>角色/功能</td></tr>
+      <tr><td><b>类图</b></td><td>类+属性+方法+关系（<b>静态结构</b>）</td><td>继承>组合>聚合>关联>依赖</td></tr>
+      <tr><td><b>时序图</b></td><td>对象<b>按时间顺序</b>的消息交互</td><td>"谁先调谁"</td></tr>
+      <tr><td><b>状态图</b></td><td>对象<b>状态变迁</b></td><td>待支付→已支付</td></tr>
+      <tr><td><b>活动图</b></td><td>业务流程/工作流</td><td>审批流程</td></tr>
+      <tr><td><b>部署图</b></td><td><b>物理部署</b>（服务器/节点分布）</td><td>哪台机器跑什么</td></tr>
+    </table></div>
+    <h3>6 种图一眼认（矢量图例）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 130">
+          <circle class="u" cx="35" cy="26" r="7"/>
+          <line class="u" x1="35" y1="33" x2="35" y2="55"/>
+          <line class="u" x1="23" y1="42" x2="47" y2="42"/>
+          <line class="u" x1="35" y1="55" x2="27" y2="70"/>
+          <line class="u" x1="35" y1="55" x2="43" y2="70"/>
+          <text class="ts" x="35" y="88">用户</text>
+          <ellipse class="uf" cx="185" cy="35" rx="55" ry="18"/>
+          <text class="t" x="185" y="39">用户登录</text>
+          <ellipse class="uf" cx="185" cy="90" rx="55" ry="18"/>
+          <text class="t" x="185" y="94">提交订单</text>
+          <line class="l" x1="47" y1="42" x2="130" y2="37"/>
+          <line class="l" x1="43" y1="62" x2="130" y2="86"/>
+        </svg>
+        <figcaption><b>用例图</b>：小人（角色）+ 椭圆（功能）</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 300 130">
+          <rect class="uf" x="95" y="8" width="110" height="58"/>
+          <line class="u" x1="95" y1="26" x2="205" y2="26"/>
+          <line class="u" x1="95" y1="44" x2="205" y2="44"/>
+          <text class="t" x="150" y="21">User</text>
+          <text class="ts" x="102" y="39" text-anchor="start">- name</text>
+          <text class="ts" x="102" y="57" text-anchor="start">+ login()</text>
+          <rect class="uf" x="95" y="84" width="110" height="40"/>
+          <line class="u" x1="95" y1="102" x2="205" y2="102"/>
+          <text class="t" x="150" y="97">Admin</text>
+          <text class="ts" x="102" y="118" text-anchor="start">+ audit()</text>
+          <line class="l" x1="150" y1="84" x2="150" y2="72"/>
+          <polygon points="150,66 145,74 155,74" fill="#fff" stroke="#4338ca" stroke-width="1.2"/>
+          <polygon points="255,52 268,58 255,64 242,58" fill="#4338ca"/>
+          <text class="ts" x="255" y="80">组合(同生共死)</text>
+          <polygon points="255,98 268,104 255,110 242,104" fill="#fff" stroke="#4338ca" stroke-width="1.2"/>
+          <text class="ts" x="255" y="126">聚合(可分离)</text>
+        </svg>
+        <figcaption><b>类图</b>：矩形分三格 + 空心三角（继承）/ 菱形（组合聚合）</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 300 130">
+          <rect class="uf" x="18" y="6" width="56" height="20"/>
+          <text class="t" x="46" y="20">订单</text>
+          <rect class="uf" x="122" y="6" width="56" height="20"/>
+          <text class="t" x="150" y="20">库存</text>
+          <rect class="uf" x="226" y="6" width="56" height="20"/>
+          <text class="t" x="254" y="20">支付</text>
+          <line class="l" x1="46" y1="26" x2="46" y2="122" stroke-dasharray="4 3"/>
+          <line class="l" x1="150" y1="26" x2="150" y2="122" stroke-dasharray="4 3"/>
+          <line class="l" x1="254" y1="26" x2="254" y2="122" stroke-dasharray="4 3"/>
+          <line class="u" x1="46" y1="45" x2="146" y2="45"/>
+          <text class="ts" x="98" y="41">1.扣库存</text>
+          <line class="u" x1="150" y1="70" x2="50" y2="70"/>
+          <text class="ts" x="98" y="66">2.返回结果</text>
+          <line class="u" x1="46" y1="100" x2="250" y2="100"/>
+          <text class="ts" x="150" y="96">3.发起支付</text>
+        </svg>
+        <figcaption><b>时序图</b>：竖生命线 + 横向消息箭头（谁先调谁）</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 300 100">
+          <circle class="dot" cx="18" cy="50" r="6"/>
+          <rect class="uf" x="40" y="32" width="62" height="36" rx="10"/>
+          <text class="t" x="71" y="54">待支付</text>
+          <rect class="uf" x="118" y="32" width="62" height="36" rx="10"/>
+          <text class="t" x="149" y="54">已支付</text>
+          <rect class="uf" x="196" y="32" width="62" height="36" rx="10"/>
+          <text class="t" x="227" y="54">已发货</text>
+          <circle class="u" cx="281" cy="50" r="7"/>
+          <circle class="dot" cx="281" cy="50" r="3.5"/>
+          <line class="l" x1="24" y1="50" x2="40" y2="50"/>
+          <line class="l" x1="102" y1="50" x2="118" y2="50"/>
+          <text class="ts" x="110" y="28">付款</text>
+          <line class="l" x1="180" y1="50" x2="196" y2="50"/>
+          <text class="ts" x="188" y="28">发货</text>
+          <line class="l" x1="258" y1="50" x2="274" y2="50"/>
+        </svg>
+        <figcaption><b>状态图</b>：实心圆起点 → 圆角矩形（状态）→ 双圈终点</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 300 130">
+          <circle class="dot" cx="18" cy="65" r="6"/>
+          <rect class="uf" x="38" y="51" width="58" height="28"/>
+          <text class="t" x="67" y="69">提交申请</text>
+          <polygon points="140,40 175,65 140,90 105,65" fill="#fff" stroke="#4338ca" stroke-width="1.5"/>
+          <text class="t" x="140" y="69">审批?</text>
+          <rect class="uf" x="205" y="16" width="80" height="26"/>
+          <text class="t" x="245" y="33">通过→备案</text>
+          <rect class="uf" x="205" y="88" width="80" height="26"/>
+          <text class="t" x="245" y="105">驳回→退回</text>
+          <line class="l" x1="24" y1="65" x2="38" y2="65"/>
+          <line class="l" x1="96" y1="65" x2="105" y2="65"/>
+          <line class="l" x1="175" y1="58" x2="205" y2="32"/>
+          <text class="ts" x="186" y="42">是</text>
+          <line class="l" x1="175" y1="72" x2="205" y2="98"/>
+          <text class="ts" x="186" y="94">否</text>
+        </svg>
+        <figcaption><b>活动图</b>：圆起点 → 活动 → 菱形判断 → 分支 → 终点</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 300 110">
+          <rect class="uf" x="10" y="34" width="72" height="44"/>
+          <polygon points="10,34 20,22 92,22 82,34" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <polygon points="82,34 92,22 92,66 82,78" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <text class="t" x="46" y="60">浏览器</text>
+          <rect class="uf" x="112" y="34" width="72" height="44"/>
+          <polygon points="112,34 122,22 194,22 184,34" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <polygon points="184,34 194,22 194,66 184,78" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <text class="t" x="148" y="60">应用服务器</text>
+          <rect class="uf" x="214" y="34" width="72" height="44"/>
+          <polygon points="214,34 224,22 296,22 286,34" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <polygon points="286,34 296,22 296,66 286,78" fill="#dbe1f8" stroke="#4338ca" stroke-width="1.5"/>
+          <text class="t" x="250" y="60">数据库</text>
+          <line class="l" x1="82" y1="56" x2="112" y2="56"/>
+          <line class="l" x1="184" y1="56" x2="214" y2="56"/>
+        </svg>
+        <figcaption><b>部署图</b>：立方体（物理节点）+ 节点间通信连线</figcaption>
+      </figure>
+    </div>
+    <div class="warn">⚠️ 易错：<b>组合</b>(实心菱形)=同生共死（人—心脏）；<b>聚合</b>(空心)=可分离（班级—学生）；静态=类/构件/部署图，动态=用例/时序/状态/活动图</div>
+    <div class="tip">💡 锚点：时间顺序→时序图 ｜ 状态变迁→状态图 ｜ 业务流程→活动图 ｜ 物理部署→部署图 ｜ 同生共死→组合</div>
+  </article>
+
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
     <h2>数据库设计：范式 / ER / 索引 <span class="badge b-new">新学</span></h2>
     <p class="meta">第6章 · 必考 · 综合单选+案例（分库分表前置知识）</p>
@@ -946,6 +1143,7 @@
 // ===== 章节路由配置：以后加新章节，在这里加一行 + 在正文追加 <article data-ch="..."> 即可 =====
 const CHAPTERS = {
   ch4:   { title: '第4章 信息安全' },
+  ch5:   { title: '第5章 软件工程' },
   ch6:   { title: '第6章 数据库与分布式' },
   ch7:   { title: '第7章 架构设计' },
   ch8:   { title: '第8章 质量属性' },
