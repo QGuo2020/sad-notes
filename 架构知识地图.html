@@ -998,6 +998,147 @@
     <div class="tip">💡 锚点：<b>RAID 0快不安全·1安全不省盘·5折中·10都要但贵</b>；<b>热备一干一闲·互备互相顶班·双工都干同样的活</b></div>
   </article>
 
+  <article id="cpu" data-ch="ch2" data-sec="cpu" data-title="组成原理：校验码/流水线/指令系统">
+    <h2>计算机组成与体系结构：校验码 / 流水线 / 指令系统 <span class="badge b-new">补课新增</span></h2>
+    <p class="meta">第2章 · 必考 · 综合单选（几乎每年 2–3 题，以计算题为主）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>计算机硬件怎么算得快、传得准</b>——数据传错了怎么发现（校验码）、多条指令怎么并行跑（流水线）、指令集怎么设计（RISC/CISC）。</div>
+
+    <h3>① 海明校验码（考计算，公式背死）</h3>
+    <p>在 n 位数据中加入 r 位校验位，要求：<b>2<sup>r</sup> ≥ n + r + 1</b>，r 取满足条件的<b>最小整数</b>。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>数据位 n</th><th>计算过程</th><th>校验位 r</th></tr>
+      <tr><td>4</td><td>r=3 → 8 ≥ 8 ✅</td><td><b>3</b></td></tr>
+      <tr><td>8</td><td>r=3 → 8 ≥ 12 ❌；r=4 → 16 ≥ 13 ✅</td><td><b>4</b></td></tr>
+      <tr><td>16</td><td>r=4 → 16 ≥ 21 ❌；r=5 → 32 ≥ 22 ✅</td><td><b>5</b></td></tr>
+      <tr><td>32</td><td>r=5 → 32 ≥ 38 ❌；r=6 → 64 ≥ 39 ✅</td><td><b>6</b></td></tr>
+    </table></div>
+    <p><b>校验位放在第 2<sup>0</sup>、2<sup>1</sup>、2<sup>2</sup>… 位</b>（即 1、2、4、8… 位），其余位置放数据位。<br>
+    <b>能力</b>：海明码可<b>检错并纠正一位错</b>（加一位全局校验位还可实现"纠一检二"）。</p>
+
+    <h3>② 指令流水线（考计算，三个公式）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 320 150">
+          <text class="ts" x="160" y="12">流水线时空图（取指2ns / 分析3ns / 执行2ns）</text>
+          <text class="t" x="22" y="40">取指</text><rect class="uf" x="60" y="26" width="34" height="18"/><rect class="uf" x="98" y="26" width="34" height="18"/><rect class="uf" x="136" y="26" width="34" height="18"/><rect class="uf" x="174" y="26" width="34" height="18" opacity="0.5"/>
+          <text class="t" x="22" y="74">分析</text><rect class="uf" x="94" y="60" width="51" height="18"/><rect class="uf" x="149" y="60" width="51" height="18"/><rect class="uf" x="204" y="60" width="51" height="18" opacity="0.5"/>
+          <text class="t" x="22" y="108">执行</text><rect class="uf" x="145" y="94" width="34" height="18"/><rect class="uf" x="183" y="94" width="34" height="18" opacity="0.5"/>
+          <text class="ts" x="160" y="140">流水线周期 = 最长那段（3ns），不是各段之和</text>
+        </svg>
+        <figcaption><b>流水线为什么快</b>：每条指令仍要走完三段，但不同指令的不同段可以重叠执行</figcaption>
+      </figure>
+    </div>
+    <div class="tbl-wrap"><table>
+      <tr><th>指标</th><th>公式</th><th>说明</th></tr>
+      <tr><td>流水线周期 Δt</td><td><b>取各段中最长的耗时</b></td><td>最慢的一段决定整体节拍</td></tr>
+      <tr><td>执行时间 T</td><td><b>T =（段数 k + 指令数 n − 1）× Δt</b></td><td>k 是<b>段数</b>（如 3 段），别和指令数 n 弄反</td></tr>
+      <tr><td>吞吐率 TP</td><td>T = n ÷ T</td><td>单位时间完成的指令条数</td></tr>
+      <tr><td>加速比 S</td><td>S = 顺序执行时间 ÷ 流水时间</td><td>顺序时间 = n ×（各段之和）</td></tr>
+    </table></div>
+    <p><b>例题</b>：取指 2ns、分析 3ns、执行 2ns，连续执行 100 条指令。<br>
+    顺序执行 = 100 ×（2+3+2）= <b>700ns</b>；流水线 Δt = 3ns，T =（3 + 100 − 1）× 3 = <b>306ns</b>；加速比 ≈ 2.29。</p>
+
+    <h3>③ 指令系统：RISC vs CISC</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>对比项</th><th>RISC（精简）</th><th>CISC（复杂）</th></tr>
+      <tr><td>指令数量 / 长度</td><td>少、<b>多为定长</b></td><td>多、变长</td></tr>
+      <tr><td>寻址方式</td><td>少而简单</td><td>多而复杂</td></tr>
+      <tr><td>控制器实现</td><td>硬布线为主</td><td><b>微程序</b>为主</td></tr>
+      <tr><td>流水线效率</td><td><b>高</b>（定长易并行）</td><td>低</td></tr>
+      <tr><td>代表</td><td>ARM、MIPS、RISC-V</td><td>x86</td></tr>
+    </table></div>
+
+    <h3>④ 并行体系结构（Flynn 分类）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>类型</th><th>含义</th><th>典型代表</th></tr>
+      <tr><td>SISD</td><td>单指令流单数据流</td><td>单处理机、流水线处理机</td></tr>
+      <tr><td>SIMD</td><td>单指令流多数据流</td><td>阵列处理机、向量处理机、GPU</td></tr>
+      <tr><td>MISD</td><td>多指令流单数据流</td><td>实际中<b>几乎不存在</b>（理论模型）</td></tr>
+      <tr><td>MIMD</td><td>多指令流多数据流</td><td><b>多处理机、多计算机系统</b></td></tr>
+    </table></div>
+    <div class="tip">💡 锚点：<b>校验位求最小 r，满足 2^r ≥ n+r+1</b> ｜ <b>流水线周期=最长段，时间=(段数+指令数−1)×周期</b> ｜ <b>RISC 定长好流水，CISC 变长靠微程序</b> ｜ <b>多处理机=MIMD</b></div>
+  </article>
+
+  <article id="osbook" data-ch="ch2" data-sec="osbook" data-title="操作系统：调度/死锁/存储管理">
+    <h2>操作系统必考：进程调度 / 死锁 / 存储管理 <span class="badge b-new">补课新增</span></h2>
+    <p class="meta">第2章 · 必考 · 综合单选（每年 2–3 题）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>操作系统怎么管 CPU、管内存、管资源</b>——CPU 分给谁（调度）、资源抢不到怎么办（死锁）、内存不够怎么放（分页）。</div>
+
+    <h3>① 进程调度算法（考"谁最优/谁饥饿"）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>算法</th><th>做法</th><th>优点 / 缺点</th></tr>
+      <tr><td>先来先服务 FCFS</td><td>按到达顺序</td><td>公平；<b>短作业等得久</b>，平均等待时间长</td></tr>
+      <tr><td>短作业优先 SJF</td><td>先跑预计时间短的</td><td><b>平均等待时间最短</b>；长作业<b>饥饿</b></td></tr>
+      <tr><td>时间片轮转 RR</td><td>每人一个时间片轮流跑</td><td>响应快；<b>时间片太小→切换开销大</b>，太大→退化成 FCFS</td></tr>
+      <tr><td>优先级调度</td><td>优先级高的先跑</td><td>低优先级饥饿 → 用<b>老化（提高等待者优先级）</b>解决</td></tr>
+      <tr><td>高响应比优先</td><td>响应比 =（等待+服务）÷ 服务</td><td>兼顾短作业与等待久的作业</td></tr>
+    </table></div>
+
+    <h3>② 死锁：四个必要条件与三种处理策略</h3>
+    <ul>
+      <li><b>四个必要条件</b>（缺一不可）：<b>互斥</b>、<b>请求并保持</b>（占有并等待）、<b>不可剥夺</b>、<b>循环等待</b>。</li>
+      <li><b>死锁预防</b>：破坏上述某个必要条件（如一次性申请全部资源 = 破坏请求并保持）。</li>
+      <li><b>死锁避免</b>：分配前判断是否安全 → <b>银行家算法</b>属于此类（考得最多）。</li>
+      <li><b>死锁检测与解除</b>：资源分配图找环路，然后剥夺/回滚/杀进程。</li>
+    </ul>
+
+    <h3>③ 存储管理：页式地址计算（考计算）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 320 130">
+          <text class="ts" x="160" y="14">32 位逻辑地址 = 页号 + 页内偏移</text>
+          <rect class="uf" x="40" y="30" width="130" height="26"/><text class="t" x="105" y="48">页号（20 位）</text>
+          <rect class="tf" x="170" y="30" width="110" height="26"/><text class="t" x="225" y="48">页内偏移（12 位）</text>
+          <text class="ts" x="160" y="86">页大小 4KB = 2¹²，所以偏移 12 位</text>
+          <text class="ts" x="160" y="112">页号位数 = 32 − 12 = 20 位 → 页表最多 2²⁰ 项</text>
+        </svg>
+        <figcaption><b>算法</b>：先看页大小是 2 的几次方 → 偏移位数；再用总位数减掉偏移 = 页号位数</figcaption>
+      </figure>
+    </div>
+    <p><b>页面置换</b>：最优（OPT，理论最好）＞ LRU（最近最少使用，实际常用）＞ FIFO（先进先出，可能"抖动"）。<b>快表 TLB</b>：把常用的页表项放高速缓存，减少访问内存次数。</p>
+    <p><b>其他高频</b>：进程=资源分配单位（独立内存）｜线程=调度单位（共享进程内存）｜进程三态：就绪/运行/阻塞。</p>
+    <div class="tip">💡 锚点：<b>时间片太小→切换开销大</b> ｜ <b>银行家算法=死锁避免</b> ｜ <b>4KB 页 → 偏移 12 位，页号 = 总位数 − 12</b> ｜ <b>缺一个必要条件就构不成死锁</b></div>
+  </article>
+
+  <article id="netbase" data-ch="ch2" data-sec="netbase" data-title="计算机网络：分层/协议/子网划分">
+    <h2>计算机网络必考：分层 / 协议端口 / 子网划分 <span class="badge b-new">补课新增</span></h2>
+    <p class="meta">第2章 · 必考 · 综合单选（每年 2–3 题，含子网计算）</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>网络怎么把数据送到对面</b>——分几层传（分层模型）、用什么规则传（协议与端口）、地址怎么划（子网划分）。</div>
+
+    <h3>① 分层模型与设备归属（必考对应关系）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>OSI 七层</th><th>典型协议</th><th>典型设备</th><th>数据单位</th></tr>
+      <tr><td>应用层 / 表示层 / 会话层</td><td>HTTP、HTTPS、FTP、SMTP、DNS</td><td>网关、代理</td><td>报文</td></tr>
+      <tr><td>传输层</td><td><b>TCP / UDP</b></td><td>—（软件实现）</td><td>段</td></tr>
+      <tr><td>网络层</td><td>IP、ICMP、ARP</td><td><b>路由器</b>、三层交换机</td><td>包</td></tr>
+      <tr><td>数据链路层</td><td>以太网、PPP</td><td><b>交换机、网桥</b></td><td>帧</td></tr>
+      <tr><td>物理层</td><td>—</td><td><b>集线器、中继器</b></td><td>比特</td></tr>
+    </table></div>
+    <p><b>TCP vs UDP</b>：TCP 面向连接、可靠（三次握手/确认重传/流量控制），开销大；UDP 无连接、快、不保证可靠，适合视频与 DNS。<br>
+    <b>三次握手目的</b>：确认双方收发能力正常 + 同步初始序号（防止失效的连接请求突然到达）。</p>
+
+    <h3>② 常用端口（背下来就是送分）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>端口</th><th>服务</th><th>端口</th><th>服务</th></tr>
+      <tr><td><b>80</b></td><td>HTTP</td><td><b>443</b></td><td><b>HTTPS</b>（HTTP + TLS/SSL）</td></tr>
+      <tr><td>22</td><td>SSH</td><td>25</td><td>SMTP（发邮件）</td></tr>
+      <tr><td>53</td><td>DNS</td><td>21</td><td>FTP</td></tr>
+      <tr><td>3306</td><td>MySQL</td><td>6379</td><td>Redis</td></tr>
+    </table></div>
+
+    <h3>③ 子网划分计算（考计算，一步就会）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>掩码</th><th>主机位</th><th>地址总数</th><th>可用主机数</th></tr>
+      <tr><td>/24</td><td>8</td><td>256</td><td>254</td></tr>
+      <tr><td><b>/26</b></td><td><b>6</b></td><td><b>64</b></td><td><b>62</b></td></tr>
+      <tr><td>/28</td><td>4</td><td>16</td><td>14</td></tr>
+      <tr><td>/30</td><td>2</td><td>4</td><td>2</td></tr>
+    </table></div>
+    <p><b>公式</b>：主机位 = 32 − 掩码长度 ｜ 可用主机数 = <b>2<sup>主机位</sup> − 2</b>（减掉网络地址和广播地址）。<br>
+    <b>例题</b>：192.168.10.0/26 → 主机位 32 − 26 = 6 → 2⁶ − 2 = <b>62 个可用地址</b>。</p>
+    <div class="tip">💡 锚点：<b>交换机在链路层、路由器在网络层、集线器在物理层</b> ｜ <b>HTTPS=443 基于 TLS</b> ｜ <b>可用主机数 = 2^(32−掩码) − 2</b></div>
+  </article>
+
   <article id="law" data-ch="tools" data-sec="law" data-title="法律法规">
     <h2>法律法规与知识产权 <span class="badge b-new">新学</span></h2>
     <p class="meta">贯穿层 · 常考 · 综合单选（年限必考）</p>

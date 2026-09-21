@@ -511,6 +511,58 @@ var QUESTIONS = [
  e:'API gateway（API 网关）与 circuit breaker（熔断器）并列，是保障微服务系统可靠性的常用模式；compiler、kernel、socket 与题干语境无关。'}
 ];
 
+/* ============ 教材出处映射（每题的"章 · 知识点"）============ */
+var SRC = {
+'计算机组成原理':'第2章 计算机系统基础 · 计算机组成与体系结构（校验码 / 流水线 / 并行分类 / 指令系统）',
+'操作系统':'第2章 计算机系统基础 · 操作系统（进程调度 / 死锁 / 存储管理）',
+'多媒体基础':'备考工具 · 冷门考点扫盲 → 多媒体（音频数据量计算）',
+'嵌入式系统':'备考工具 · 冷门考点扫盲 → 嵌入式系统',
+'数据库系统':'第6章 数据库设计 · 三级模式与两级映象',
+'分布式数据库':'第6章 数据库 · CAP 定理与 BASE',
+'关系数据库':'第6章 数据库 · 关系代数',
+'数据库设计':'第6章 数据库设计 · E-R 模型转换',
+'数据库索引':'第6章 数据库设计 · 索引（B+ 树 / 聚簇索引）',
+'数据库架构':'第6章 数据库 · 分库分表',
+'计算机网络':'第2章 计算机系统基础 · 计算机网络（分层 / 协议 / 子网划分）',
+'网络安全':'第4章 信息安全 · 传输安全（HTTPS / TLS）',
+'信息安全':'第4章 信息安全 · 加解密与安全属性',
+'软件工程':'第5章 软件工程 · 模块化设计（耦合与内聚）',
+'敏捷开发':'第5章 软件工程 · 开发模型（敏捷 / 极限编程）',
+'软件测试':'第5章 软件工程 · 软件测试方法',
+'软件过程管理':'第5章 软件工程 · CMMI 能力成熟度模型',
+'软件成本估算':'第5章 软件工程 · 成本与工作量估算（COCOMO）',
+'软件维护':'第5章 软件工程 · 软件维护类型',
+'软件架构风格':'第7章 系统架构设计 · 架构风格',
+'架构风格':'第7章 系统架构设计 · 架构风格与架构模式',
+'架构评估':'第8章 质量属性与架构评估 · ATAM 评估方法',
+'特定领域软件架构':'第7章 系统架构设计 · DSSA 特定领域软件架构',
+'架构设计方法':'第7章 系统架构设计 · ABSD 基于架构的软件设计',
+'架构视图':'第7章 系统架构设计 · 4+1 视图模型',
+'质量属性':'第8章 质量属性与架构评估 · 质量属性',
+'软件产品线':'第7章 系统架构设计 · 软件产品线',
+'质量属性场景':'第8章 质量属性与架构评估 · 质量场景六要素',
+'可靠性':'第9章 软件可靠性 · 可靠性计算（串并联 / MTBF / MTTR）',
+'可用性设计':'第9章 软件可靠性 · 可用性设计手段',
+'软件可靠性':'第9章 软件可靠性 · 失效强度与可靠性度量',
+'性能测试':'第2章 计算机系统基础 · 系统性能指标与性能测试',
+'微服务架构':'第7章 系统架构设计 · 微服务架构',
+'服务治理':'第7章 系统架构设计 · 服务治理（注册发现 / 网关 / 熔断）',
+'容错设计':'第7章 系统架构设计 · 服务治理 → 熔断降级',
+'分布式事务':'第6章 数据库 · 分布式事务（Saga / 2PC）',
+'云原生':'第7章 系统架构设计 · 云原生（Docker / K8s）',
+'缓存架构':'第6章 数据库 · 分布式缓存（穿透 / 击穿 / 雪崩）',
+'大数据技术':'第6章 数据库 · 大数据技术栈',
+'区块链':'第11章 未来信息综合技术 · 区块链',
+'边缘计算':'第11章 未来信息综合技术 · 边缘计算',
+'进度管理':'备考工具 · 数学与经济管理（关键路径法 CPM）',
+'知识产权':'备考工具 · 法律法规与知识产权',
+'标准化':'备考工具 · 冷门考点扫盲 → 标准化与文档',
+'项目管理':'备考工具 · 项目管理（进度计划图表）',
+'经济管理':'备考工具 · 数学与经济管理（期望值 / 盈亏平衡）',
+'专业英语':'专业英语（第 71–75 题）· 微服务架构英文短文填空'
+};
+function srcOf(q){ return SRC[q.t] || ('考点：' + q.t); }
+
 /* ================= 状态与逻辑 ================= */
 var TOTAL = 75, PASS = 45, FULL = 150 * 60;
 var KEY = 'mock_zonghe_1_v1';
@@ -557,9 +609,10 @@ function render(){
   if(st.sub){
     var mine = (st.ans[q.n] === undefined) ? '未作答' : LT[st.ans[q.n]];
     var ok = st.ans[q.n] === q.a;
-    exp.innerHTML = '<div class="exp"><span class="tag">' + q.t + '</span>'
-      + '正确答案：<span class="right">' + LT[q.a] + '</span>　你的答案：<span class="' + (ok?'right':'wrong') + '">' + mine + '</span>'
-      + '<br>' + q.e + '</div>';
+    exp.innerHTML = '<div class="exp">'
+      + '<div><span class="tag">教材出处</span>' + srcOf(q) + '</div>'
+      + '<div style="margin-top:6px"><span class="tag">答案</span>正确答案：<span class="right">' + LT[q.a] + '</span>　你的答案：<span class="' + (ok?'right':'wrong') + '">' + mine + '</span></div>'
+      + '<div style="margin-top:6px"><span class="tag">解析</span>' + q.e + '</div></div>';
   }else{ exp.innerHTML = ''; }
   var m = !!st.mk[q.n];
   $('btnMark').textContent = m ? '取消标记' : '标记本题';
@@ -638,7 +691,7 @@ function submit(auto){
   for(var i=1;i<=TOTAL;i++){
     var q = QUESTIONS[i-1], my = st.ans[i];
     if(my === q.a) score++;
-    else wrong.push({n:i, my:(my === undefined ? null : my), a:q.a, t:q.t, e:q.e});
+    else wrong.push({n:i, my:(my === undefined ? null : my), a:q.a, t:q.t, s:srcOf(q), e:q.e});
   }
   var html = '<div class="res"><div class="score"><span class="big">' + score + '</span>'
     + '<span style="color:var(--gray)">/ ' + TOTAL + ' 分</span>'
@@ -650,10 +703,10 @@ function submit(auto){
     html += '<p style="color:var(--ok);font-weight:700">全对！这套卷子没有错题，可以直接进入下一套或转攻案例/论文。</p>';
   }else{
     html += '<h3 style="font-size:16px;margin:6px 0 10px">错题清单（' + wrong.length + ' 题）</h3>'
-      + '<table class="wrong-tbl"><tr><th>题号</th><th>考点</th><th>你的答案</th><th>正确答案</th><th>一句话纠正</th></tr>';
+      + '<table class="wrong-tbl"><tr><th>题号</th><th>考点</th><th>教材出处（章 · 知识点）</th><th>你的答案</th><th>正确答案</th><th>一句话纠正</th></tr>';
     for(var j=0;j<wrong.length;j++){
       var w = wrong[j];
-      html += '<tr><td class="c">' + w.n + '</td><td>' + w.t + '</td><td class="c" style="color:var(--bad)">'
+      html += '<tr><td class="c">' + w.n + '</td><td>' + w.t + '</td><td>' + w.s + '</td><td class="c" style="color:var(--bad)">'
         + (w.my === null ? '未答' : LT[w.my]) + '</td><td class="c" style="color:var(--ok)">' + LT[w.a] + '</td><td>'
         + w.e + '</td></tr>';
     }
@@ -677,7 +730,7 @@ function submit(auto){
   // 生成可复制文本
   var txt = '【模拟考试·综合知识（一）】得分 ' + score + '/75（及格线45）\n'
     + '答对 ' + score + ' 题，答错 ' + (TOTAL - score - un) + ' 题，未答 ' + un + ' 题，用时 ' + fmt(FULL - st.left) + '\n'
-    + (wrong.length ? '错题明细：\n' + wrong.map(function(w){ return '  Q' + w.n + '（' + w.t + '）我选 ' + (w.my===null?'未答':LT[w.my]) + '，正确 ' + LT[w.a]; }).join('\n') : '无错题');
+    + (wrong.length ? '错题明细（含教材出处）：\n' + wrong.map(function(w){ return '  Q' + w.n + '｜' + w.s + '｜我选 ' + (w.my===null?'未答':LT[w.my]) + '，正确 ' + LT[w.a]; }).join('\n') : '无错题');
   $('copyOut').value = txt;
   $('btnCopy').onclick = function(){
     var t = $('copyOut'); t.removeAttribute('readonly'); t.select();
