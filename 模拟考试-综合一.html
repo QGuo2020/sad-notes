@@ -80,6 +80,7 @@ body{background:var(--bg);color:var(--txt);font:15px/1.7 "Microsoft YaHei","Ping
 .gi.cur{outline:2px solid #1a365d;outline-offset:1px}
 .gi.ok{background:var(--ok);border-color:var(--ok);color:#fff}
 .gi.no{background:var(--bad);border-color:var(--bad);color:#fff}
+.gi.skip{background:#edf0f4;color:var(--gray)}
 
 /* ===== 底栏 ===== */
 .bar{position:fixed;left:0;right:0;bottom:0;height:62px;background:#fff;border-top:1px solid var(--line);
@@ -574,7 +575,7 @@ function renderGrid(){
       var d = document.createElement('div');
       d.className = 'gi';
       if(st.sub){
-        if(st.ans[i] === undefined) d.className += ' done';
+        if(st.ans[i] === undefined) d.className += ' skip';
         else d.className += (st.ans[i] === QUESTIONS[i-1].a ? ' ok' : ' no');
       }else if(st.ans[i] !== undefined){ d.className += ' done'; }
       if(st.mk[i]) d.className += ' mark';
