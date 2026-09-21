@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://qguo2020.github.io/sad-notes/sitemap.xml
