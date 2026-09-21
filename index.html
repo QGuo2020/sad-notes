@@ -3,53 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>软考系统架构师备考资料 | 知识点总结与缩写速查</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+<title>软考系统架构师备考资料 | 综合 · 案例 · 论文 · 缩写速查</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
 <style>
+  :root{
+    --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
+    --indigo:#4f46e5; --green:#16a34a; --amber:#d97706; --rose:#e11d48;
+  }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-    background:#f6f7fb; color:#1f2328; min-height:100vh;
-    display:flex; align-items:center; justify-content:center; padding:24px; overflow-x:hidden;}
-  .card{max-width:520px; width:100%;}
-  .hero{background:linear-gradient(120deg,#4f46e5 0%,#7c3aed 55%,#06b6d4 100%);
-    color:#fff; border-radius:16px; padding:30px 26px; text-align:center;
-    box-shadow:0 8px 24px rgba(79,70,229,.25);}
-  .hero h1{font-size:22px; margin-bottom:8px;}
-  .hero p{font-size:13.5px; opacity:.94; line-height:1.7;}
-  .links{margin-top:16px; display:flex; flex-direction:column; gap:12px;}
-  .links a{display:block; background:#fff; border:1px solid #e5e7eb; border-radius:14px;
-    padding:16px 18px; text-decoration:none; color:inherit; transition:.15s;}
-  .links a:active{transform:scale(.98); border-color:#4f46e5;}
-  .links b{color:#4338ca; font-size:16px;}
-  .links span{display:block; font-size:12.5px; color:#6b7280; margin-top:4px; line-height:1.6;}
-  .foot{text-align:center; font-size:12px; color:#93a59c; margin-top:16px; line-height:1.8;}
+  body{
+    background:linear-gradient(180deg,#f7f8fc 0%,#eef1f9 100%);
+    min-height:100vh; color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:780px; margin:0 auto; padding:52px 20px 40px;}
+
+  header{text-align:center; margin-bottom:36px;}
+  header .logo{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:66px; height:66px; border-radius:20px; font-size:32px; margin-bottom:16px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#06b6d4);
+    box-shadow:0 10px 26px rgba(79,70,229,.32);
+  }
+  header h1{font-size:26px; letter-spacing:.5px; margin-bottom:10px;}
+  header p{font-size:14px; color:var(--sub); line-height:1.8;}
+  header .exam{
+    display:inline-block; margin-top:14px; font-size:12.5px; color:#4338ca;
+    background:#eef2ff; border:1px solid #dbe1f8; border-radius:20px; padding:4px 16px;
+  }
+
+  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
+  @media (max-width:620px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    display:block; position:relative; overflow:hidden;
+    background:#fff; border:1px solid var(--line); border-radius:16px;
+    padding:22px 20px 18px 24px; text-decoration:none; color:inherit;
+    box-shadow:0 1px 3px rgba(0,0,0,.04);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--c);}
+  .card:active{transform:scale(.985);}
+  @media (hover:hover){ .card:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(79,70,229,.15); border-color:#c7d2fe;} }
+
+  .card .ico{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:42px; height:42px; border-radius:12px; font-size:22px;
+    background:#f3f4f6;
+  }
+  .card h2{font-size:17.5px; margin:12px 0 7px; color:var(--c);}
+  .card p{font-size:13px; color:var(--sub); line-height:1.75;}
+  .card .tag{
+    display:inline-block; margin-top:12px; font-size:11.5px; padding:2px 10px;
+    border-radius:10px; background:#f3f4f6; color:#6b7280;
+  }
+  .card .arrow{
+    position:absolute; right:18px; bottom:16px; font-size:16px; color:#c7d2fe;
+    transition:transform .18s ease, color .18s ease;
+  }
+  @media (hover:hover){ .card:hover .arrow{transform:translateX(4px); color:var(--c);} }
+
+  footer{
+    text-align:center; margin-top:38px; font-size:12.5px; color:#9aa0aa; line-height:2.1;
+  }
+  footer a{color:var(--indigo); text-decoration:none;}
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="hero">
-      <h1>🗺️ 软考系统架构师备考资料</h1>
-      <p>知识点总结与缩写速查 · 手机 / 电脑均可阅读</p>
-    </div>
-    <div class="links">
-      <a href="架构知识地图.html">
-        <b>📖 架构知识地图</b>
-        <span>全部知识点汇总：主线图 / 质量属性 / 架构风格与模式 / 4+1视图 / 微服务 / 分布式 / 论文句式 / 易错速查</span>
-      </a>
-      <a href="缩写速查.html">
-        <b>📇 缩写速查表</b>
-        <span>常考/必考/易错缩写：英文全称 + 中文一句话 + 直达链接，支持搜索筛选</span>
-      </a>
-      <a href="案例题库.html">
-        <b>📋 案例题库</b>
-        <span>案例方法论 + 高频考点 + 经典案例：万能三步 / 根因-方案一一对应 / 采分点示范</span>
-      </a>
-    </div>
-    <div class="foot">内容随学习持续更新 · 刷新页面获取最新版<br>
-      <span id="busuanzi_container_site_pv">本站访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
-      · <span id="busuanzi_container_site_uv">访客数 <span id="busuanzi_value_site_uv"></span> 人</span><br>
-      © 合肥城市云-技术研发部二组</div>
+<div class="wrap">
+  <header>
+    <div class="logo">🎓</div>
+    <h1>软考系统架构师备考资料</h1>
+    <p>综合 · 案例 · 论文 · 缩写速查<br>四套资料，一页直达 · 手机 / 电脑均可阅读</p>
+    <span class="exam">高级 · 2026-10-24 考试</span>
+  </header>
+
+  <div class="grid">
+    <a class="card" href="架构知识地图.html" style="--c:#4f46e5">
+      <div class="ico">📖</div>
+      <h2>综合知识</h2>
+      <p>教材 11 章全覆盖：架构风格 / 质量属性 / 微服务 / 分布式 / 安全 / AI，含 11 张图表、章节树导航、全站搜索</p>
+      <span class="tag">选择题 75 分</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card" href="案例题库.html" style="--c:#16a34a">
+      <div class="ico">⚔️</div>
+      <h2>案例分析</h2>
+      <p>案例方法论 + 高频考点 + 5 个经典案例，含采分点示范与"根因-方案一一对应"套路</p>
+      <span class="tag">案例 75 分</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card" href="架构知识地图.html#/tools/paper" style="--c:#d97706">
+      <div class="ico">📝</div>
+      <h2>论文写作</h2>
+      <p>120 分钟时间分配 + 五段式结构 + 万能句式库 + Numen 素材映射 + 7 步写作流程（含流程图）</p>
+      <span class="tag">论文 75 分</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="card" href="缩写速查.html" style="--c:#e11d48">
+      <div class="ico">📇</div>
+      <h2>缩写速查表</h2>
+      <p>常考 / 必考 / 易错缩写：英文全称 + 中文含义 + 直达考点链接，支持搜索与级别筛选</p>
+      <span class="tag">随身速查</span>
+      <span class="arrow">→</span>
+    </a>
   </div>
+
+  <footer>
+    内容随学习持续更新 · 刷新页面获取最新版<br>
+    <span id="busuanzi_container_site_pv">本站访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
+    · <span id="busuanzi_container_site_uv">访客 <span id="busuanzi_value_site_uv"></span> 人</span><br>
+    © 合肥城市云-技术研发部二组
+  </footer>
+</div>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
