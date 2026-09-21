@@ -196,7 +196,7 @@
   <div class="drawer-head"><b>🗺️ 架构知识地图</b><button id="closeBtn">✕</button></div>
   <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
   <nav id="drawerNav"></nav>
-  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
+  <div class="ext"><a href="#/tools/paper">📝 论文写作指南</a><br><a href="#/tools/case">⚔️ 案例答题套路</a><br><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
   <div class="drawer-foot">软考系统架构师备考 · 章节树导航 · 点击☰查看</div>
 </aside>
 
@@ -207,7 +207,7 @@
   </div>
   <div class="expand-row"><button class="expand-btn" id="expandBtnSide">全部展开</button></div>
   <nav id="sideNav"></nav>
-  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
+  <div class="ext"><a href="#/tools/paper">📝 论文写作指南</a><br><a href="#/tools/case">⚔️ 案例答题套路</a><br><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
   <div class="side-foot">
     软考系统架构师备考<br>
     知识点按教材章节组织 · 章节树导航
@@ -1641,6 +1641,8 @@ function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remo
 menuBtn.addEventListener('click', openDrawer);
 backdrop.addEventListener('click', closeDrawer);
 document.getElementById('closeBtn').addEventListener('click', closeDrawer);
+// 抽屉内点外链/直达链接也关闭抽屉
+drawer.addEventListener('click', e => { if (e.target.closest('.ext a')) closeDrawer(); });
 
 document.getElementById('expandBtnSide').addEventListener('click', toggleAll);
 document.getElementById('expandBtnDrawer').addEventListener('click', toggleAll);
