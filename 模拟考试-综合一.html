@@ -221,7 +221,7 @@ var QUESTIONS = [
  e:'4KB = 2^12，页内偏移占 12 位；页号位数 = 32 − 12 = 20 位。'},
 
 {n:6,t:'操作系统',q:'采用时间片轮转调度算法时，如果时间片设置得过小，最直接的后果是什么？',
- o:['长作业出现饥饿','进程切换过于频繁，系统开销增大','响应时间明显变长','系统出现死锁'],a:1,
+ o:['长作业出现饥饿现象，短作业反复插队','进程切换过于频繁，系统开销增大','每个进程的周转时间明显变长','系统资源耗尽并出现死锁'],a:1,
  e:'时间片过小会导致频繁的进程上下文切换，CPU 大量时间耗在切换上；时间片过大则退化为先来先服务，长作业饥饿是优先级调度的问题。'},
 
 {n:7,t:'多媒体基础',q:'以 44.1kHz 采样频率、16 位量化位数、双声道录制 10 秒声音，未压缩的数据量约为多少？',
@@ -229,11 +229,11 @@ var QUESTIONS = [
  e:'数据量 = 采样频率 × 量化位数 × 声道数 × 时间 ÷ 8 = 44100 × 16 × 2 × 10 ÷ 8 ≈ 1,764,000 字节 ≈ 1.68MB。'},
 
 {n:8,t:'嵌入式系统',q:'与通用操作系统相比，嵌入式实时操作系统最主要的特点是什么？',
- o:['支持多用户登录','提供友好的图形界面','支持大容量虚拟内存','具有强实时性与良好的可裁剪性'],a:3,
+ o:['支持多用户同时登录与权限隔离','提供友好的图形界面与桌面环境','支持大容量虚拟内存与交换分区','具有强实时性与良好的可裁剪性'],a:3,
  e:'嵌入式实时操作系统的核心是任务调度的实时性与可裁剪性（微内核、代码量小），多用户、图形界面、大虚拟内存都是通用系统的特征。'},
 
 {n:9,t:'计算机组成原理',q:'关于 RISC 与 CISC 的比较，下列说法正确的是哪一项？',
- o:['RISC 指令数量多、寻址方式复杂','CISC 采用定长指令，流水线效率高','RISC 指令精简、多为定长，适合流水线','CISC 不使用微程序控制'],a:2,
+ o:['RISC 指令数量多，寻址方式复杂','CISC 指令定长，因此流水线效率更高','RISC 指令精简定长，适合流水线','CISC 完全不用微程序控制方式'],a:2,
  e:'RISC 指令少而精、定长、寻址方式简单、通用寄存器多，便于流水线实现；CISC 指令多且复杂、变长、多采用微程序控制。'},
 
 /* ---------- Q10–Q16 数据库系统 ---------- */
@@ -254,7 +254,7 @@ var QUESTIONS = [
  e:'M∶N 联系必须单独转换为一个关系模式，其属性包含两端实体的主键（作为外键）加上联系自身的属性，主键为两端主键的组合。'},
 
 {n:14,t:'数据库索引',q:'与 B 树相比，B+ 树更适合做数据库索引，主要优势是什么？',
- o:['数据全部存放在叶子节点并用链表相连，范围查询效率高','树的高度更高，查找层次更多','不支持范围查询，只支持点查','只能用于哈希索引'],a:0,
+ o:['叶子节点连成链表，范围扫描快','非叶节点也存放数据行，树高更低','所有节点都存数据，点查更快','只适用于哈希索引与排序'],a:0,
  e:'B+ 树非叶子节点只存索引键，可容纳更多分支从而降低树高；数据全在叶子节点且叶子间用指针串联，范围扫描效率高。'},
 
 {n:15,t:'数据库索引',q:'在 MySQL 的 InnoDB 存储引擎中，一张表最多可以有几个聚簇索引？',
@@ -262,7 +262,7 @@ var QUESTIONS = [
  e:'聚簇索引决定数据行的物理存储顺序，因此一张表只能有一个（通常是主键）；其他索引都是二级索引，需要回表查询。'},
 
 {n:16,t:'数据库架构',q:'当单表数据量过大时，所谓"水平分表"指的是什么？',
- o:['按列拆分，把不常用的列拆到另一张表','把一张表拆成主表和从表','按业务模块拆分成多个数据库','按行拆分，把数据按规则（如用户 ID 取模）分散到多张结构相同的表'],a:3,
+ o:['按列拆分，把不常用的大字段拆到另一张表','把一张表按主从关系拆成主表和从表','按业务模块拆分成多个独立的数据库','按行拆分到多张结构相同的表'],a:3,
  e:'水平分表按行拆分，多张表结构相同、数据不同；垂直分表按列拆分，把大字段或不常用字段拆出去。'},
 
 /* ---------- Q17–Q24 网络与信息安全 ---------- */
@@ -279,7 +279,7 @@ var QUESTIONS = [
  e:'交换机（网桥）工作在数据链路层，依据 MAC 地址转发；路由器工作在网络层，集线器工作在物理层，网关用于高层协议转换。'},
 
 {n:20,t:'计算机网络',q:'TCP 建立连接采用三次握手，其主要目的是什么？',
- o:['对传输数据进行加密','压缩传输数据以减少带宽','提高链路带宽利用率','确认双方的收发能力正常，并同步初始序号'],a:3,
+ o:['对传输的数据进行加密与校验','压缩传输数据以减少带宽占用','提高链路带宽利用率与吞吐量','确认双方收发能力，同步序号'],a:3,
  e:'三次握手确认双方发送与接收能力均正常，并交换同步初始序号（SYN），防止已失效的连接请求突然到达造成资源浪费。'},
 
 {n:21,t:'信息安全',q:'下列属于非对称加密算法的是哪一个？',
@@ -287,7 +287,7 @@ var QUESTIONS = [
  e:'RSA 属于非对称加密（公钥密码）；DES、AES、SM4 都是对称加密算法。'},
 
 {n:22,t:'信息安全',q:'数字签名主要用于保证信息的哪些安全属性？',
- o:['保密性','完整性和不可否认性','可用性','实时性'],a:1,
+ o:['保密性，防止数据被未授权读取','完整性和不可否认性','可用性，保证授权用户随时可用','实时性，保证响应时间可控'],a:1,
  e:'数字签名用私钥签名、公钥验证，保证信息完整性（未被篡改）和不可否认性（发送方无法抵赖）；保密性依靠加密实现。'},
 
 {n:23,t:'信息安全',q:'部署在内网与外网之间，能跟踪连接状态并据此动态放行数据包的防火墙属于哪一类？',
@@ -316,11 +316,11 @@ var QUESTIONS = [
  e:'CMMI 2 级已管理、3 级已定义、4 级已量化管理、5 级优化级。4 级开始用统计方法对过程进行量化控制。'},
 
 {n:29,t:'敏捷开发',q:'下列哪一项不属于极限编程（XP）的核心实践？',
- o:['结对编程','测试驱动开发','持续集成','先完成全部详细设计文档再编码'],a:3,
+ o:['结对编程，两人共用一台机器写代码','测试驱动开发，先写测试再写实现','持续集成，频繁提交并自动构建','先完成全部详细设计文档再编码'],a:3,
  e:'XP 强调简单设计、小步快跑，反对前期一次性完成全部详细设计文档；结对编程、测试驱动开发、持续集成、重构都是 XP 的核心实践。'},
 
 {n:30,t:'软件成本估算',q:'COCOMO 模型主要用于解决什么问题？',
- o:['软件成本与工作量的估算','软件测试用例设计','需求的获取与分析','源代码的自动生成'],a:0,
+ o:['软件成本与工作量的估算','软件测试用例的设计与优化','需求的获取、分析与确认','源代码的自动生成与重构'],a:0,
  e:'COCOMO（构造性成本模型）以代码行数或功能点为输入，估算软件开发的工作量、进度与成本。'},
 
 {n:31,t:'软件维护',q:'为适应外部环境变化（如操作系统升级、数据库版本变更）而进行的软件维护属于哪一类？',
@@ -329,7 +329,7 @@ var QUESTIONS = [
 
 /* ---------- Q32–Q47 系统架构设计 ---------- */
 {n:32,t:'软件架构风格',q:'管道—过滤器风格的主要优点是什么？',
- o:['支持复杂的交互式界面','过滤器相互独立、便于复用，且天然支持并行处理','适合需要频繁人机交互的应用','便于管理复杂的全局状态'],a:1,
+ o:['支持复杂的交互式界面与用户实时操作','过滤器相互独立、可复用，支持并行','适合需要频繁人机交互的应用场景','便于集中管理复杂的全局状态数据'],a:1,
  e:'管道—过滤器把每个处理步骤封装成独立过滤器，通过管道顺序连接，具有良好可复用性、可维护性并支持并行；缺点是交互性差、不适合复杂状态管理。'},
 
 {n:33,t:'软件架构风格',q:'某银行核心交易系统要求严格分层、各层只能调用相邻层、调用关系固定清晰，该系统最适合采用哪种架构风格？',
@@ -337,15 +337,15 @@ var QUESTIONS = [
  e:'层次结构风格把系统划分为若干层，每层只与相邻层交互，适合流程固定、调用关系清晰的系统；事件驱动适合松耦合的消息通知场景。'},
 
 {n:34,t:'软件架构风格',q:'黑板系统风格中，各个知识源之间的交互方式是怎样的？',
- o:['通过消息队列异步通信','相互之间直接调用','由中心控制器串行调度执行','彼此不直接通信，只与黑板交换数据'],a:3,
+ o:['通过消息队列进行异步通信','相互之间直接调用对方接口','由中心控制器串行调度各知识源','只与黑板交换数据，彼此不通信'],a:3,
  e:'黑板风格由黑板（共享数据）、知识源和控制机构成，知识源之间不直接通信，只读写黑板，由控制机构依据黑板状态选择下一步执行的知识源。'},
 
 {n:35,t:'架构评估',q:'ATAM 架构评估方法的核心手段是什么？',
- o:['只对系统做性能压力测试','构建质量属性效用树，识别风险点、敏感点与权衡点','只对源代码进行评审','度量代码圈复杂度'],a:1,
+ o:['只对系统做性能压力测试和容量评估','构建效用树，识别风险点与权衡点','只对源代码进行静态评审','度量代码圈复杂度与重复率'],a:1,
  e:'ATAM 通过质量属性效用树把质量目标逐层细化到可度量的场景，据此识别风险点、敏感点和权衡点，并分析架构决策的取舍。'},
 
 {n:36,t:'架构评估',q:'在架构评估中，所谓"敏感点"指的是什么？',
- o:['同时影响多个质量属性的决策点','系统中最容易发生故障的部位','为实现某个质量属性而采取的关键决策点','与所有质量属性都无关的设计点'],a:2,
+ o:['同时影响多个质量属性的决策点','系统中最容易发生故障的薄弱部位','影响某个质量属性的关键决策点','与所有质量属性都无关的设计点'],a:2,
  e:'敏感点是影响某一质量属性的关键决策；当某个敏感点同时影响多个质量属性时称为权衡点；风险点是可能导致质量目标无法达成的决策。'},
 
 {n:37,t:'特定领域软件架构',q:'DSSA（特定领域软件架构）的三个基本活动是什么？',
@@ -353,7 +353,7 @@ var QUESTIONS = [
  e:'DSSA 的三个基本活动是领域分析（建立领域模型）、领域设计（得到领域架构）、领域实现（开发可复用资产）。'},
 
 {n:38,t:'架构设计方法',q:'ABSD（基于架构的软件设计）方法中，驱动架构设计的核心输入是什么？',
- o:['质量属性场景（质量需求）','详细设计文档','已有的源代码','测试用例集'],a:0,
+ o:['质量属性场景','详细设计文档与接口说明','已有的源代码与构件库','测试用例集与缺陷记录'],a:0,
  e:'ABSD 强调由功能需求、质量需求和商业需求共同驱动，其中质量属性场景是核心输入，架构设计围绕质量目标展开。'},
 
 {n:39,t:'架构视图',q:'在 4+1 视图模型中，用于串联并验证其他四个视图、被认为最重要和最先考虑的视图是哪一个？',
@@ -361,28 +361,28 @@ var QUESTIONS = [
  e:'4+1 视图由逻辑视图、开发视图、进程视图、物理视图加场景视图组成，场景视图（用例视图）用于串联和验证其他四个视图。'},
 
 {n:40,t:'软件架构风格',q:'与显式调用相比，隐式调用（事件驱动）风格最主要的缺点是什么？',
- o:['构件之间耦合度过高','构件放弃了对自己计算过程的控制，系统整体行为难以预测','完全不支持并发处理','构件无法被复用'],a:1,
+ o:['构件之间耦合度过高，难以替换','构件放弃对计算的控制，行为难预测','完全不支持并发处理与异步调用','构件无法被复用，只能一次性使用且难维护'],a:1,
  e:'隐式调用中构件只发布/订阅事件，不再控制何时被调用，因此系统整体行为难以预测和调试，这是事件驱动风格的主要代价。'},
 
 /* ---------- Q41–Q47 系统架构设计（续） ---------- */
 {n:41,t:'架构风格',q:'MVC 架构风格中，模型（Model）状态发生变化后通知视图（View）更新，通常采用什么机制？',
- o:['视图直接轮询模型','通过管道传递数据','通过中间件转发','观察者（发布—订阅）机制'],a:3,
+ o:['视图定时轮询模型获取最新状态','通过管道把状态数据传给视图','由中间件统一转发状态变更消息','观察者（发布—订阅）机制'],a:3,
  e:'MVC 中各视图向模型注册为观察者，模型状态改变时主动通知所有视图刷新，从而实现模型与视图的解耦。'},
 
 {n:42,t:'软件复用',q:'基于构件的软件复用（CBSD）与传统代码复用的本质区别是什么？',
- o:['构件具有明确定义的接口与契约，可通过组装的方式构建系统','只复用源代码文件','只复用设计文档','复用过程不需要任何接口约定'],a:0,
+ o:['构件有明确接口与契约，可组装','只复用源代码文件，复用粒度最细','只复用设计文档与需求说明','复用过程不需要任何接口约定与规范'],a:0,
  e:'CBSD 把复用单元提升为具备明确接口、可独立部署和组装的构件，通过构件组装而非修改源码来构建系统，复用粒度和可控性都更高。'},
 
 {n:43,t:'中间件',q:'消息队列（MQ）类中间件主要解决什么问题？',
- o:['数据库事务的强一致性','系统间的异步通信、解耦与流量削峰','页面渲染性能','源代码编译构建'],a:1,
+ o:['数据库事务的强一致性与自动回滚','系统间的异步通信、解耦与削峰','页面渲染性能与前端加载速度','源代码编译构建与依赖管理'],a:1,
  e:'消息队列通过异步消息实现生产者与消费者解耦，并可在高峰期缓冲请求实现削峰填谷，是典型的异步通信中间件。'},
 
 {n:44,t:'架构视图',q:'在架构文档中，描述系统软件在运行环境中的部署节点、节点间连接及构件分配的是哪个视图？',
- o:['逻辑视图','开发视图','物理视图（部署视图）','数据视图'],a:2,
+ o:['逻辑视图，关注功能与对象','开发视图，关注模块与代码','物理视图（部署视图）','数据视图，关注数据模型'],a:2,
  e:'物理视图（部署视图）关注软件到硬件节点的映射与节点间通信，逻辑视图关注功能与对象，开发视图关注模块与代码组织。'},
 
 {n:45,t:'架构风格',q:'关于架构风格与架构模式的关系，下列说法正确的是哪一项？',
- o:['架构风格描述系统全局的组织方式，架构模式是针对局部共性问题的通用解决方案','两者是同一个概念的不同叫法','架构模式比架构风格更宏观','架构模式不包含任何解决方案'],a:0,
+ o:['架构风格管全局组织，架构模式解决局部共性问题','两者是同一个概念的不同叫法，只是中英文翻译不同','架构模式比架构风格更宏观','架构模式不包含任何解决方案'],a:0,
  e:'架构风格是对系统整体结构的抽象描述（如层次结构、事件驱动）；架构模式是特定场景下局部问题的成熟解决方案（如 MVC、DAO），粒度更小。'},
 
 {n:46,t:'质量属性',q:'"系统在部分组件发生故障时仍能继续对外提供服务的能力"描述的是哪个质量属性？',
@@ -390,7 +390,7 @@ var QUESTIONS = [
  e:'可用性关注故障发生时系统仍可提供服务（含故障检测与恢复）；可靠性关注系统长时间无故障运行的能力，二者常被混淆。'},
 
 {n:47,t:'软件产品线',q:'软件产品线（Software Product Line）方法中最核心的资产是什么？',
- o:['单个产品的完整源代码','测试报告与缺陷记录','可复用的领域核心资产（架构与构件）及可变性管理机制','项目管理计划'],a:2,
+ o:['单个产品完整的源代码与设计文档','全部测试报告与缺陷记录','可复用的核心资产与可变性机制','项目管理计划与甘特图'],a:2,
  e:'软件产品线通过领域工程产出可复用的核心资产（公共架构与构件），并借助可变性机制派生不同产品，实现"一次开发、多次复用"。'},
 
 /* ---------- Q48–Q53 质量属性与可靠性 ---------- */
@@ -407,36 +407,36 @@ var QUESTIONS = [
  e:'并联系统只要有一个部件正常即可工作，可靠度 R = 1 −(1 − r)^n，高于单个部件的可靠度；串联系统则相反，可靠度低于任一部件。'},
 
 {n:51,t:'可用性设计',q:'下列做法中，哪一项无助于提高系统可用性？',
- o:['关键组件冗余部署','建立故障检测与自动恢复机制','通过心跳实现故障转移','人为增加代码复杂度以减少模块数量'],a:3,
+ o:['关键组件冗余部署，消除单点','建立故障检测与自动恢复机制','通过心跳机制实现故障转移','人为增加代码复杂度'],a:3,
  e:'增加代码复杂度会降低可维护性与可靠性，无助于可用性；冗余部署、故障检测与恢复、心跳与故障转移都是提高可用性的标准手段。'},
 
 {n:52,t:'软件可靠性',q:'软件可靠性度量中，"失效强度"指的是什么？',
- o:['软件中残留缺陷的总数','单位时间内软件发生失效的次数','软件的代码行数','测试用例的总数'],a:1,
+ o:['软件中残留缺陷的总数','单位时间内发生失效的次数','软件的代码行数与模块数量统计','测试用例的总数与通过率'],a:1,
  e:'失效强度（failure intensity）表示单位时间内发生失效的频次，是可靠性增长模型中的核心度量；缺陷总数是静态指标。'},
 
 {n:53,t:'性能测试',q:'在性能测试中，随着并发负载不断增加，吞吐量不再上升而响应时间急剧变大的临界点通常称为什么？',
- o:['并发用户数','思考时间','性能拐点（最大负载点）','缓存命中率'],a:2,
+ o:['并发用户数','思考时间','性能拐点','缓存命中率'],a:2,
  e:'性能拐点是系统由"资源充裕"转入"资源饱和"的临界点，超过该点继续加压只会导致响应时间急剧上升甚至雪崩，是容量规划的关键依据。'},
 
 /* ---------- Q54–Q63 架构演化与新技术 ---------- */
 {n:54,t:'微服务架构',q:'与 SOA 相比，微服务架构最本质的变化是什么？',
- o:['服务粒度更细、独立部署、去中心化治理与数据隔离','统一通过企业服务总线（ESB）集中集成','只支持 SOAP 协议','不支持容器化部署'],a:0,
+ o:['服务粒度更细、独立部署、去中心化治理','统一通过企业服务总线（ESB）集中集成','只支持 SOAP 协议与 WSDL 描述','不支持容器化部署与弹性伸缩'],a:0,
  e:'微服务强调细粒度、独立部署、去中心化治理与每个服务独立数据存储；SOA 通常依赖 ESB 做集中式集成、服务粒度较粗，这是二者的核心差别。'},
 
 {n:55,t:'服务治理',q:'在微服务架构中，服务注册中心（如 Nacos、Eureka）的主要作用是什么？',
- o:['持久化业务数据','负责页面渲染','集中收集运行日志','维护服务实例清单，使调用方能够动态发现可用服务地址'],a:3,
+ o:['持久化业务数据与事务日志','负责前端页面渲染与路由','集中收集运行日志与链路数据','维护服务实例清单供动态发现'],a:3,
  e:'注册中心保存各服务实例的地址与健康状态，调用方按服务名动态获取实例列表并结合负载均衡发起调用，从而实现实例上下线对调用方透明。'},
 
 {n:56,t:'微服务架构',q:'API 网关在微服务架构中承担的典型职责不包括下列哪一项？',
- o:['请求路由转发','业务数据的持久化存储','统一鉴权与限流','协议转换与负载均衡'],a:1,
+ o:['请求路由转发与灰度发布','业务数据的持久化存储','统一鉴权、限流与熔断','协议转换与客户端负载均衡'],a:1,
  e:'网关只负责流量入口层面的横切关注点（路由、鉴权、限流、协议转换、负载均衡），不承担业务数据的持久化存储，那是各业务微服务的职责。'},
 
 {n:57,t:'容错设计',q:'熔断器处于"半开"状态时的行为是什么？',
- o:['放行少量请求试探下游是否恢复，成功则闭合，失败则继续保持断开','所有请求立即失败返回','恢复正常，放行全部请求','永久关闭该服务'],a:0,
+ o:['放行少量请求试探，成功则闭合失败则断开','所有请求立即失败返回，完全不访问下游服务','恢复正常状态，放行全部请求','永久关闭该服务不再恢复'],a:0,
  e:'熔断器三态：闭合（正常放行）、断开（快速失败）、半开（放行少量试探请求）。半开试探成功则闭合恢复，失败则重新进入断开状态。'},
 
 {n:58,t:'分布式事务',q:'分布式事务中，Saga 模式的核心思想是什么？',
- o:['对所有参与方加全局锁','采用两阶段锁协议','通过悲观锁保证强一致','将长事务拆分为多个本地事务，失败时依次执行补偿操作'],a:3,
+ o:['对所有参与方加全局锁后再提交','采用两阶段锁协议保证强一致','通过悲观锁与长事务保证一致','拆为多个本地事务并补偿'],a:3,
  e:'Saga 把长事务拆成一串本地事务 T1…Tn，并为每个事务定义补偿操作 C1…Cn，某步失败时反向执行已提交步骤的补偿，从而以最终一致性替代强一致。'},
 
 {n:59,t:'云原生',q:'与虚拟机相比，容器技术在资源利用方面的主要优势是什么？',
@@ -444,7 +444,7 @@ var QUESTIONS = [
  e:'容器与宿主机共享内核，不虚拟化硬件，因此体积小、启动快（秒级甚至毫秒级）、资源开销低；隔离性弱于虚拟机，且不能跨操作系统内核。'},
 
 {n:60,t:'缓存架构',q:'针对缓存穿透问题，下列哪一组措施最为对路？',
- o:['为缓存 key 设置随机过期时间','布隆过滤器拦截不存在的 key，并对查询结果为空也做缓存','对热点数据设置为永不过期','对同一 key 的并发查询加互斥锁'],a:1,
+ o:['为缓存 key 设置随机过期时间','布隆过滤器 + 空结果缓存','对热点数据设置为永不过期','对同一 key 的并发查询加互斥锁'],a:1,
  e:'穿透是查询大量不存在的 key 绕过缓存直击数据库；用布隆过滤器提前拦截，并把空结果也写入缓存，是最常用的组合方案。随机过期时间治雪崩，互斥锁治击穿。'},
 
 {n:61,t:'大数据技术',q:'下列大数据计算框架中，最适合做流式实时数据处理的是哪一个？',
@@ -452,11 +452,11 @@ var QUESTIONS = [
  e:'Flink 是原生流处理引擎，支持事件时间、窗口与精确一次语义；Hive 面向离线批查询，MapReduce 是批处理模型，HDFS 是分布式文件存储。'},
 
 {n:62,t:'区块链',q:'下列哪一项不属于区块链的核心特征？',
- o:['去中心化','数据不可篡改','由中心机构统一记账','可追溯'],a:2,
+ o:['去中心化与分布式共识','数据不可篡改、可追溯','由中心机构统一记账','智能合约自动执行'],a:2,
  e:'区块链依靠分布式共识与链式哈希结构实现去中心化、不可篡改和可追溯；"由中心机构统一记账"恰好与其去中心化特征相悖。'},
 
 {n:63,t:'边缘计算',q:'边缘计算的主要价值是什么？',
- o:['完全替代云计算','无限制地扩大存储容量','把所有数据集中到中心机房处理','在靠近数据源的一侧就近处理数据，降低时延与带宽占用'],a:3,
+ o:['完全替代云计算的集中式算力与存储','无限制地扩大中心存储容量','把所有数据集中到中心机房处理','就近处理数据，降低时延与带宽'],a:3,
  e:'边缘计算把算力下沉到数据产生侧，就近处理实时性要求高的数据，降低网络时延与回传带宽压力；它与云计算是协同关系而非替代关系。'},
 
 /* ---------- Q64–Q68 项目管理 / 法规 / 标准化 ---------- */
@@ -495,15 +495,15 @@ var QUESTIONS = [
  e:'每个微服务运行在独立的"进程"中：run in its own process。thread（线程）不构成独立部署单元，class 与 package 是代码层面的组织单位。'},
 
 {n:72,t:'专业英语',q:'Directions: Read the following passage and choose the best word for each blank.\n\nMicroservices architecture is an approach to developing a single application as a suite of small services, each running in its own (71) and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business (72) and can be deployed independently. Compared with a monolithic application, microservices bring benefits such as independent deployability and technology (73). However, they also introduce complexity in service discovery, distributed (74) and data consistency. To keep the system reliable, patterns such as circuit breaker and API (75) are commonly adopted.\n\nBlank (72):',
- o:['tables','capabilities','servers','threads'],a:1,
+ o:['databases','capabilities','technologies','threads'],a:1,
  e:'固定表述为 built around business capabilities（围绕业务能力构建），这是微服务区别于传统按技术分层的关键理念。'},
 
 {n:73,t:'专业英语',q:'Directions: Read the following passage and choose the best word for each blank.\n\nMicroservices architecture is an approach to developing a single application as a suite of small services, each running in its own (71) and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business (72) and can be deployed independently. Compared with a monolithic application, microservices bring benefits such as independent deployability and technology (73). However, they also introduce complexity in service discovery, distributed (74) and data consistency. To keep the system reliable, patterns such as circuit breaker and API (75) are commonly adopted.\n\nBlank (73):',
- o:['debt','lock-in','singularity','heterogeneity'],a:3,
+ o:['portability','lock-in','compatibility','heterogeneity'],a:3,
  e:'技术异构性 technology heterogeneity 指不同服务可用不同语言与技术栈实现，是微服务的收益之一；technology debt（技术债）与 lock-in（锁定）都是负面词。'},
 
 {n:74,t:'专业英语',q:'Directions: Read the following passage and choose the best word for each blank.\n\nMicroservices architecture is an approach to developing a single application as a suite of small services, each running in its own (71) and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business (72) and can be deployed independently. Compared with a monolithic application, microservices bring benefits such as independent deployability and technology (73). However, they also introduce complexity in service discovery, distributed (74) and data consistency. To keep the system reliable, patterns such as circuit breaker and API (75) are commonly adopted.\n\nBlank (74):',
- o:['rendering','caching','transactions','compiling'],a:2,
+ o:['rendering','caching','transactions','serialization'],a:2,
  e:'distributed transactions（分布式事务）与 data consistency（数据一致性）并列，都是微服务带来的复杂度；rendering、compiling 与上下文无关。'},
 
 {n:75,t:'专业英语',q:'Directions: Read the following passage and choose the best word for each blank.\n\nMicroservices architecture is an approach to developing a single application as a suite of small services, each running in its own (71) and communicating with lightweight mechanisms, often an HTTP resource API. These services are built around business (72) and can be deployed independently. Compared with a monolithic application, microservices bring benefits such as independent deployability and technology (73). However, they also introduce complexity in service discovery, distributed (74) and data consistency. To keep the system reliable, patterns such as circuit breaker and API (75) are commonly adopted.\n\nBlank (75):',
@@ -717,8 +717,10 @@ function submit(auto){
     + '<textarea class="copy-out" id="copyOut" readonly></textarea>'
     + '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">'
     + '<button class="btn primary" id="btnCopy">复制答题结果</button>'
+    + '<button class="btn" id="btnExport">下载成绩文件（给 AI 统计用）</button>'
     + '<button class="btn" id="btnReview">逐题看解析（从第 1 题开始）</button>'
-    + '<button class="btn danger" id="btnReset2">重新开始</button></div></div>';
+    + '<button class="btn danger" id="btnReset2">重新开始</button></div>'
+    + '<p style="font-size:12.5px;color:var(--gray);margin-top:8px">成绩文件会保存到浏览器下载目录（一般叫「下载 / Downloads」），里面含完整答题卡、得分、逐题错因与教材出处，AI 可直接读取做统计与反哺。</p></div>';
 
   var host = document.createElement('div');
   host.className = 'card'; host.id = 'resCard';
@@ -739,6 +741,37 @@ function submit(auto){
     t.setAttribute('readonly','readonly');
     $('btnCopy').textContent = '已复制 ✓';
     setTimeout(function(){ $('btnCopy').textContent = '复制答题结果'; }, 1800);
+  };
+  // 下载成绩文件（JSON）：让 AI 能直接读取并统计/反哺
+  $('btnExport').onclick = function(){
+    var d = new Date();
+    var pad = function(x){ return (x < 10 ? '0' : '') + x; };
+    var stamp = d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes());
+    var sheet = {};
+    for(var i=1;i<=TOTAL;i++){ sheet['Q' + i] = (st.ans[i] === undefined ? null : LT[st.ans[i]]); }
+    var data = {
+      paper: '模拟考试-综合一（系统架构设计师 · 综合知识）',
+      finishedAt: d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()),
+      score: score, total: TOTAL, passLine: PASS, passed: (score >= PASS),
+      correct: score, wrong: (TOTAL - score - un), unanswered: un,
+      timeUsed: fmt(FULL - st.left), timeLeft: fmt(st.left),
+      answerSheet: sheet,
+      wrongDetail: wrong.map(function(w){
+        return { no: w.n, source: w.s, mine: (w.my === null ? null : LT[w.my]), correct: LT[w.a], note: w.e };
+      }),
+      sourceStats: (function(){
+        var m = {};
+        wrong.forEach(function(w){ var k = w.s.split(' · ')[0]; m[k] = (m[k] || 0) + 1; });
+        return m;
+      })()
+    };
+    var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '模拟考试-综合一_成绩_' + stamp + '.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 600);
+    $('btnExport').textContent = '已下载 ✓（到下载目录拿文件）';
   };
   $('btnReview').onclick = function(){ st.i = 0; render(); window.scrollTo({top:0,behavior:'smooth'}); };
   $('btnReset2').onclick = reset;
