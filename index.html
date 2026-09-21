@@ -104,6 +104,23 @@
     background:#eef2ff; border:1px solid #dbe1f8; border-radius:12px;
     padding:12px 16px; font-size:13px; color:#3730a3; line-height:1.8; margin-top:14px;
   }
+
+  /* ===== 图表区 ===== */
+  .charts{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;}
+  @media (max-width:620px){ .charts{grid-template-columns:1fr;} }
+  .chart-box{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:14px 14px 8px;
+  }
+  .chart-box h4{
+    font-size:14px; color:#374151; margin:0 0 4px; font-weight:600;
+    display:flex; align-items:center; gap:6px;
+  }
+  .chart-box .chart{width:100%; height:230px;}
+  .chart-fallback{
+    display:none; font-size:12.5px; color:var(--sub); padding:30px 10px;
+    text-align:center; line-height:1.8;
+  }
 </style>
 </head>
 <body>
@@ -188,6 +205,19 @@
     <b>碎片时间怎么用：</b>通勤/午休看综合 + 缩写速查（手机翻）；<b>整块时间（周末 2 小时）</b>写论文、练案例；<b>考前 2 周</b>每天 1 套真题 + 错题复盘。
   </div>
 
+  <div class="charts">
+    <div class="chart-box">
+      <h4>📊 三科时间权重</h4>
+      <div class="chart" id="pieChart"></div>
+      <div class="chart-fallback" id="pieFallback">综合 40% · 案例 30% · 论文 30%</div>
+    </div>
+    <div class="chart-box">
+      <h4>📈 备考阶段时间分配</h4>
+      <div class="chart" id="barChart"></div>
+      <div class="chart-fallback" id="barFallback">基础期 50% → 强化期 30% → 冲刺期 20%</div>
+    </div>
+  </div>
+
   <div class="sec-title">🎯 飘过指南（5 条核心原则）</div>
   <div class="principles">
     <ul>
@@ -207,5 +237,56 @@
   </footer>
 </div>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script>
+(function(){
+  if (typeof echarts === 'undefined') {
+    // CDN 不可用时显示文字降级
+    var p = document.getElementById('pieChart'), b = document.getElementById('barChart');
+    if (p) p.style.display = 'none';
+    if (b) b.style.display = 'none';
+    document.getElementById('pieFallback').style.display = 'block';
+    document.getElementById('barFallback').style.display = 'block';
+    return;
+  }
+  var pie = echarts.init(document.getElementById('pieChart'));
+  pie.setOption({
+    tooltip: { trigger: 'item', formatter: '{b}' },
+    legend: { bottom: 0, itemWidth: 10, itemHeight: 10, textStyle: { fontSize: 11 } },
+    series: [{
+      type: 'pie', radius: ['42%', '68%'], center: ['50%', '44%'],
+      avoidLabelOverlap: true,
+      label: { fontSize: 11, formatter: '{b}\n{d}%' },
+      labelLine: { length: 8, length2: 6 },
+      data: [
+        { value: 40, name: '综合', itemStyle: { color: '#4f46e5' } },
+        { value: 30, name: '案例', itemStyle: { color: '#16a34a' } },
+        { value: 30, name: '论文', itemStyle: { color: '#d97706' } }
+      ]
+    }]
+  });
+
+  var bar = echarts.init(document.getElementById('barChart'));
+  bar.setOption({
+    grid: { left: 70, right: 30, top: 16, bottom: 26 },
+    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}: {c}%' },
+    xAxis: { type: 'value', max: 60, axisLabel: { formatter: '{value}%', fontSize: 10 } },
+    yAxis: { type: 'category', data: ['冲刺期', '强化期', '基础期'], axisLabel: { fontSize: 11 } },
+    series: [{
+      type: 'bar', barWidth: 16,
+      label: { show: true, position: 'right', formatter: '{c}%', fontSize: 11 },
+      itemStyle: {
+        borderRadius: [0, 8, 8, 0],
+        color: function(p){
+          return ['#e11d48', '#d97706', '#16a34a'][p.dataIndex];
+        }
+      },
+      data: [20, 30, 50]
+    }]
+  });
+
+  window.addEventListener('resize', function(){ pie.resize(); bar.resize(); });
+})();
+</script>
 </body>
 </html>
