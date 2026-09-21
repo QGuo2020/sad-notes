@@ -146,11 +146,14 @@
   .reward-bar .txt b{font-size:13.5px; display:block; margin-bottom:4px;}
   .reward-bar .txt p{font-size:12px; color:var(--sub); line-height:1.7;}
   .reward-bar img{
-    width:104px; height:104px; object-fit:contain; border-radius:10px;
-    border:1px solid var(--line); flex:0 0 auto;
+    width:190px; height:190px; object-fit:contain; border-radius:12px;
+    border:1px solid var(--line); flex:0 0 auto; cursor:zoom-in;
+    transition:transform .15s ease;
   }
+  @media (hover:hover){ .reward-bar img:hover{transform:scale(1.02);} }
   @media (max-width:520px){
-    .reward-bar{flex-direction:column; text-align:center; gap:12px;}
+    .reward-bar{flex-direction:column; text-align:center; gap:14px;}
+    .reward-bar img{width:230px; height:230px;}
   }
 
   footer{
@@ -283,7 +286,7 @@
       <b>🍦 资料全部免费</b>
       <p>若帮你省了时间，欢迎请我喝杯蜜雪冰城 —— 随缘，不请也一样祝你飘过 🎯</p>
     </div>
-    <img src="赞赏码.jpg" alt="微信赞赏码" loading="lazy">
+    <a href="赞赏码.jpg" target="_blank" title="点击查看原图（更好扫）"><img src="赞赏码.jpg" alt="微信赞赏码" loading="lazy"></a>
   </div>
 
   <footer>
@@ -294,7 +297,7 @@
   </footer>
 </div>
 <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<script src="echarts.min.js"></script>
 <script>
 (function(){
   if (typeof echarts === 'undefined') {
