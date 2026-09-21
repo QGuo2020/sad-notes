@@ -196,7 +196,7 @@
   <div class="drawer-head"><b>🗺️ 架构知识地图</b><button id="closeBtn">✕</button></div>
   <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
   <nav id="drawerNav"></nav>
-  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
   <div class="drawer-foot">软考系统架构师备考 · 章节树导航 · 点击☰查看</div>
 </aside>
 
@@ -207,7 +207,7 @@
   </div>
   <div class="expand-row"><button class="expand-btn" id="expandBtnSide">全部展开</button></div>
   <nav id="sideNav"></nav>
-  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a></div>
+  <div class="ext"><a href="缩写速查.html">📖 缩写速查表</a><br><a href="案例题库.html">📋 案例题库</a></div>
   <div class="side-foot">
     软考系统架构师备考<br>
     知识点按教材章节组织 · 章节树导航
@@ -1343,16 +1343,186 @@
 
   <!-- ==================== 备考工具 ==================== -->
 
-  <article id="paper" data-ch="tools" data-sec="paper" data-title="论文万能句式">
-    <h2>论文万能句式 <span class="badge b-done">已积累</span></h2>
-    <p class="meta">贯穿工具 · 五段式：摘要10% → 背景15% → 设计45%（得分区）→ 效果20% → 总结10%</p>
+  <article id="paper" data-ch="tools" data-sec="paper" data-title="论文写作完全指南">
+    <h2>论文写作完全指南 <span class="badge b-hot">重点</span></h2>
+    <p class="meta">贯穿工具 · 120分钟 · 2500-3000字 · 三科中最容易挂</p>
+    <div class="who">它在讲<b>怎么在 120 分钟内写出一篇能及格的架构论文</b>——结构固定（五段式）、素材固定（Numen 项目）、句式固定（背模板），考场上按套路"填空"即可。</div>
+
+    <h3>① 时间分配（120分钟）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 90">
+          <rect class="uf" x="6" y="26" width="62" height="28"/><text class="t" x="37" y="44">0-5 选题</text>
+          <line class="l" x1="68" y1="40" x2="82" y2="40"/>
+          <rect class="uf" x="82" y="26" width="62" height="28"/><text class="t" x="113" y="44">5-15 提纲</text>
+          <line class="l" x1="144" y1="40" x2="158" y2="40"/>
+          <rect class="uf" x="158" y="26" width="76" height="28"/><text class="t" x="196" y="44">15-105 写正文</text>
+          <line class="l" x1="234" y1="40" x2="248" y2="40"/>
+          <rect class="uf" x="248" y="26" width="48" height="28"/><text class="t" x="272" y="44">查错</text>
+          <text class="ts" x="150" y="74">选题选 Numen 能套的；正文 90 分钟是主体</text>
+        </svg>
+        <figcaption><b>时间分配</b>：选题5分 → 提纲10分 → 写正文90分 → 检查15分</figcaption>
+      </figure>
+    </div>
+
+    <h3>② 阅卷看什么（评分标准）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>维度</th><th>要求</th><th>影响</th></tr>
+      <tr><td><b>切题</b></td><td>围绕题目主题写，回应题目所有小问</td><td>跑题直接不及格</td></tr>
+      <tr><td><b>结构完整</b></td><td>摘要+背景+设计+效果+总结，五段齐全</td><td>缺段大扣分</td></tr>
+      <tr><td><b>项目真实</b></td><td>有具体项目（Numen）+ 真实技术细节</td><td>纯理论 = 低分</td></tr>
+      <tr><td><b>技术深度</b></td><td>说清架构决策、技术选型、权衡取舍</td><td>决定高分/及格</td></tr>
+      <tr><td><b>字数卷面</b></td><td>2500-3000字（摘要200-300），段落分明</td><td>不足2000直接挂</td></tr>
+    </table></div>
+
+    <h3>③ 五段式结构（占比 + 字数 + 写法）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 110">
+          <rect class="uf" x="6" y="24" width="29" height="30"/><text class="ts" x="20" y="70">摘要10%</text>
+          <rect class="uf" x="35" y="24" width="45" height="30"/><text class="ts" x="57" y="70">背景15%</text>
+          <rect class="uf" x="80" y="24" width="135" height="30" opacity="0.85"/><text class="ts" x="147" y="70">分析与设计 45%（得分区）</text>
+          <rect class="uf" x="215" y="24" width="60" height="30"/><text class="ts" x="245" y="70">效果20%</text>
+          <rect class="uf" x="275" y="24" width="20" height="30"/><text class="ts" x="285" y="92">总结10%</text>
+          <text class="ts" x="150" y="16">五段式占比（设计段占近一半）</text>
+        </svg>
+        <figcaption><b>五段式</b>：设计与分析段是得分区，必须写足技术细节</figcaption>
+      </figure>
+    </div>
+    <div class="tbl-wrap"><table>
+      <tr><th>段落</th><th>字数</th><th>写什么</th><th>得分点</th></tr>
+      <tr><td><b>① 摘要</b></td><td>200-300</td><td>项目背景1句 + 采用方法/架构2-3句 + 效果1句</td><td><b>必须含"架构"关键词</b></td></tr>
+      <tr><td><b>② 背景与问题</b></td><td>~400</td><td>项目背景（Numen）+ 业务痛点 + 2-3个质量属性要求</td><td>痛点具体、有数据</td></tr>
+      <tr><td><b>③ 分析与设计</b></td><td>~1200</td><td>架构风格/视图选择 → 总体架构 → 分模块设计 → 关键技术点</td><td><b>得分区</b>：技术选型+权衡</td></tr>
+      <tr><td><b>④ 实现与效果</b></td><td>~500</td><td>落地细节 + <b>可量化效果</b>（提升X%）+ 踩坑与解决</td><td>数字支撑最加分</td></tr>
+      <tr><td><b>⑤ 总结</b></td><td>~250</td><td>复盘收获 + 不足与改进方向</td><td>反思真诚不空话</td></tr>
+    </table></div>
+
+    <h3>④ 万能句式库（每段直接套）</h3>
     <ul>
-      <li><b>开头段</b>："本文以 Numen 数据中心统一运维管理平台为背景，围绕【主题】阐述其架构设计实践。"</li>
+      <li><b>摘要模板（完整）</b>："本文以 Numen 数据中心统一运维管理平台为背景，针对【业务痛点】，采用【架构风格/技术方案】进行架构设计。通过【关键机制1、2、3】，实现了【量化效果，如告警延迟3秒内、可用性99.9%】。该架构实践有效支撑了【业务目标】。"</li>
+      <li><b>背景段</b>："Numen 是数据中心统一运维管理平台，纳管 11 种云平台、16+ 业务模块。随着【业务规模增长】，系统面临【痛点1/2】等挑战，对【质量属性】提出了更高要求。"</li>
       <li><b>过渡段</b>："在架构设计过程中，我们首先关注【质量属性】这一核心质量目标，并围绕其展开技术选型与架构决策。"</li>
-      <li><b>正文段</b>：三段论 = 论点 → 论据 → 论证："针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</li>
-      <li><b>结尾段</b>："通过本次架构设计实践，我们深刻认识到【经验】，未来将【改进方向】。"</li>
+      <li><b>正文段（三段论：论点→论据→论证）</b>："针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</li>
+      <li><b>效果段（量化）</b>："改造后，系统【指标】从【原值】提升至【新值】（提升 X%），高峰期【场景】下【结果】。"</li>
+      <li><b>结尾段</b>："通过本次架构设计实践，我们深刻认识到【经验】；未来将从【改进方向】继续优化。"</li>
     </ul>
-    <p class="memo">素材统一用 Numen，不套 RuoYi。论文切入点见本地项目笔记。</p>
+
+    <h3>⑤ Numen 素材映射（按题目选题）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>论文题目方向</th><th>用 Numen 的哪个切入点</th></tr>
+      <tr><td>论微服务架构设计 / 系统拆分</td><td>16+ 业务模块按业务域拆分 + Nacos 注册中心 + 网关</td></tr>
+      <tr><td>论高可用架构 / 容错弹性</td><td>Nacos 三节点集群 + 冗余部署 + 故障转移 + 熔断降级</td></tr>
+      <tr><td>论多云管理 / 异构集成</td><td>纳管华为云/阿里云/VMware/OpenStack 等 11 种云平台</td></tr>
+      <tr><td>论可观测性 / 监控架构</td><td>Zabbix + InfluxDB + SkyWalking 链路追踪</td></tr>
+      <tr><td>论数据架构 / 数据处理</td><td>监控海量数据采集（Kafka 削峰 + InfluxDB 时序存储）</td></tr>
+      <tr><td>论安全架构</td><td>认证授权（RBAC/JWT）+ 审计日志 + 等保要求</td></tr>
+      <tr><td>论 AI 系统架构（新热点）</td><td>RAG 智能运维助手（fastGPT/dify 调研）</td></tr>
+    </table></div>
+
+    <h3>⑥ 失分点（避坑清单）</h3>
+    <div class="warn">⚠️ ① <b>跑题</b>：没回应题目小问（题目问什么就答什么）② <b>纯理论</b>：没有真实项目和具体技术 ③ <b>字数不足</b>：<2000 字基本挂 ④ <b>流水账</b>：只列技术栈，没有架构决策和权衡 ⑤ <b>摘要漏"架构"关键词</b> ⑥ 卷面乱、段落不分、错别字多</div>
+
+    <h3>⑦ 写作流程（7步套路）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 130">
+          <rect class="uf" x="10" y="10" width="76" height="24"/><text class="t" x="48" y="26">①通读4题选题</text>
+          <rect class="uf" x="106" y="10" width="76" height="24"/><text class="t" x="144" y="26">②列五段提纲</text>
+          <rect class="uf" x="202" y="10" width="88" height="24"/><text class="t" x="246" y="26">③写摘要骨架</text>
+          <line class="l" x1="86" y1="22" x2="106" y2="22"/><line class="l" x1="182" y1="22" x2="202" y2="22"/>
+          <rect class="uf" x="202" y="54" width="88" height="24"/><text class="t" x="246" y="70">④写背景段</text>
+          <line class="l" x1="246" y1="34" x2="246" y2="54"/>
+          <rect class="uf" x="106" y="54" width="76" height="24"/><text class="t" x="144" y="70">⑤写设计段</text>
+          <line class="l" x1="202" y1="66" x2="182" y2="66"/>
+          <rect class="uf" x="10" y="54" width="76" height="24"/><text class="t" x="48" y="70">⑥写效果+总结</text>
+          <line class="l" x1="106" y1="66" x2="86" y2="66"/>
+          <rect class="uf" x="60" y="98" width="180" height="24"/><text class="t" x="150" y="114">⑦检查：字数/段落/错别字/关键词</text>
+          <line class="l" x1="48" y1="78" x2="48" y2="110"/><line class="l" x1="48" y1="110" x2="60" y2="110"/>
+        </svg>
+        <figcaption><b>写作流程</b>：选题→提纲→摘要→背景→设计→效果总结→检查</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  <article id="case" data-ch="tools" data-sec="case" data-title="案例答题套路">
+    <h2>案例答题完全套路 <span class="badge b-hot">重点</span></h2>
+    <p class="meta">贯穿工具 · 90分钟3题（5选3）· 每题约25分钟</p>
+    <div class="who">它在讲<b>案例题怎么答才拿分</b>——题型固定（5类）、骨架固定（定性→设计→论证）、根因必须与方案<b>一一对应</b>（最高频失分点）。</div>
+
+    <h3>① 五大题型与应对</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>题型</th><th>题目长什么样</th><th>怎么答</th></tr>
+      <tr><td><b>概念辨析</b></td><td>"XX是什么？XX和XX区别？"</td><td>先定义 → 再列对比维度（分点/表格）</td></tr>
+      <tr><td><b>方案设计</b></td><td>"请设计XX方案"</td><td>场景分析 → 选型理由 → 具体设计（拓扑/流程）</td></tr>
+      <tr><td><b>问题定位</b></td><td>"系统出现XX问题，原因有哪些？"</td><td>逐层排查：架构层/数据层/并发层/配置层，每层2-3点</td></tr>
+      <tr><td><b>方案评价</b></td><td>"该方案优缺点？"</td><td>优点+缺点+改进建议，各3点</td></tr>
+      <tr><td><b>计算题</b></td><td>可靠性/吞吐量/容量</td><td>套公式，写清<b>代入过程</b>，单位别漏</td></tr>
+    </table></div>
+
+    <h3>② 万能三步（答题骨架，每题都这么写）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 90">
+          <rect class="uf" x="8" y="24" width="80" height="32"/><text class="t" x="48" y="44">① 定性</text>
+          <line class="l" x1="88" y1="40" x2="108" y2="40"/>
+          <rect class="uf" x="108" y="24" width="84" height="32"/><text class="t" x="150" y="44">② 设计</text>
+          <line class="l" x1="192" y1="40" x2="212" y2="40"/>
+          <rect class="uf" x="212" y="24" width="80" height="32"/><text class="t" x="252" y="44">③ 论证</text>
+          <text class="ts" x="48" y="72">这是XX问题</text>
+          <text class="ts" x="150" y="72">方案=原理+手段</text>
+          <text class="ts" x="252" y="72">因为…所以…</text>
+        </svg>
+        <figcaption><b>答题三步</b>：定性（点明考点）→ 设计（3-5个采分点）→ 论证（因果闭环）</figcaption>
+      </figure>
+    </div>
+
+    <h3>③ 根因-方案一一对应（最高频失分点）</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 120">
+          <rect class="uf" x="10" y="10" width="90" height="26"/><text class="t" x="55" y="27">根因① 缺限流</text>
+          <line class="l" x1="100" y1="23" x2="180" y2="23"/>
+          <polygon points="180,23 172,19 172,27" fill="#4338ca"/>
+          <rect class="uf" x="185" y="10" width="105" height="26"/><text class="t" x="237" y="27">措施① 限流熔断</text>
+          <rect class="uf" x="10" y="46" width="90" height="26"/><text class="t" x="55" y="63">根因② 连接池小</text>
+          <line class="l" x1="100" y1="59" x2="180" y2="59"/>
+          <polygon points="180,59 172,55 172,63" fill="#4338ca"/>
+          <rect class="uf" x="185" y="46" width="105" height="26"/><text class="t" x="237" y="63">措施② 调优连接池</text>
+          <rect class="uf" x="10" y="82" width="90" height="26"/><text class="t" x="55" y="99">根因③ 未幂等</text>
+          <line class="l" x1="100" y1="95" x2="180" y2="95"/>
+          <polygon points="180,95 172,91 172,99" fill="#4338ca"/>
+          <rect class="uf" x="185" y="82" width="105" height="26"/><text class="t" x="237" y="99">措施③ 唯一键去重</text>
+        </svg>
+        <figcaption><b>根因-方案对应</b>：根因说"缺什么"，方案就"补什么"，编号严格对齐</figcaption>
+      </figure>
+    </div>
+    <div class="warn">⚠️ 三类典型错误：① 根因写<b>症状</b>（"响应慢"是症状，"缺削峰"才是根因）② <b>不对应</b>（根因说缺限流，方案却只给扩容）③ 一条根因配多条措施、或漏配</div>
+
+    <h3>④ 高频案例考点速查（场景 → 方案）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>题干场景关键词</th><th>答题方案（采分点）</th></tr>
+      <tr><td>高并发 / 峰值流量 / 大促</td><td><b>限流 + 熔断 + 降级 + Kafka 异步削峰 + 水平扩容 + 缓存</b></td></tr>
+      <tr><td>数据库压力大 / 连接池耗尽</td><td><b>连接池调优 + 监控回收 + 读写分离 + 分库分表 + Redis 缓存热数据</b></td></tr>
+      <tr><td>跨服务数据不一致</td><td>强一致→<b>2PC/TCC</b>；最终一致→<b>MQ+本地消息表/Saga</b></td></tr>
+      <tr><td>缓存穿透/击穿/雪崩</td><td>穿透→<b>布隆过滤器/空值缓存</b>；击穿→<b>互斥锁/永不过期</b>；雪崩→<b>随机TTL/多级缓存/高可用</b></td></tr>
+      <tr><td>服务故障扩散 / 雪崩</td><td><b>熔断 + 降级 + 隔离 + 超时控制</b>；下线用<b>优雅下线三步</b></td></tr>
+      <tr><td>消息重复 / 丢失 / 积压</td><td>重复→<b>业务幂等</b>；丢失→<b>acks=all+副本+手动offset</b>；积压→<b>优化消费+加分区+加消费者</b></td></tr>
+      <tr><td>库存超卖 / 并发抢购</td><td><b>分布式锁（SETNX+Lua）/ 乐观锁 / Redis 原子扣减</b></td></tr>
+      <tr><td>安全合规 / 等保</td><td><b>纵深防御 + 认证授权（RBAC/JWT）+ 加密 + 审计 + 等保三级测评</b></td></tr>
+      <tr><td>老系统改造 / 迁移</td><td><b>绞杀者模式</b>（渐进替换）+ 双写迁移 + 灰度切流</td></tr>
+    </table></div>
+
+    <h3>⑤ 差答 vs 好答（同一道题对比）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>❌ 差答（低分）</th><th>✅ 好答（高分）</th></tr>
+      <tr><td>"系统响应慢，需要优化性能，加大服务器"</td><td>"根因：缺少流量控制与削峰能力。措施：① 入口限流+熔断降级 ② Kafka 异步削峰，请求先入队 ③ 热点数据 Redis 缓存 ④ 连接池按物理资源调优"</td></tr>
+      <tr><td>只写技术名词，不说为什么</td><td>每条措施都带<b>机制 + 效果</b>（"通过…实现了…"）</td></tr>
+      <tr><td>不分点，一大段糊在一起</td><td>分点作答 (1)(2)(3)，每点1-2行，<b>编号与根因对齐</b></td></tr>
+    </table></div>
+
+    <h3>⑥ 失分点（避坑）</h3>
+    <div class="warn">⚠️ ① 根因写症状不写能力缺失 ② 根因方案不对应 ③ 方案颗粒度太粗（"优化性能"不得分，要具体到技术手段）④ 漏写题干关键词（答案要出现题干的系统名/场景词）⑤ 时间分配失衡（一题超时导致后两题没写完）⑥ 计算题不写过程/漏单位</div>
   </article>
 
   <article id="pits" data-ch="tools" data-sec="pits" data-title="易错点速查">
@@ -1377,6 +1547,7 @@
   <footer>
     🗺️ 架构知识地图 · 软考系统架构师备考 · 知识点按教材章节组织<br>
     本资料为纯静态 HTML，可自由学习使用<br>
+    <a href="架构知识地图.html">📖 知识地图</a> · <a href="缩写速查.html">📇 缩写速查</a> · <a href="案例题库.html">📋 案例题库</a> · <a href="index.html">🏠 首页</a><br>
     <span id="busuanzi_container_site_pv">本站访问量 <span id="busuanzi_value_site_pv"></span> 次</span>
     · <span id="busuanzi_container_site_uv">访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
     · <span id="busuanzi_container_page_pv">本页 <span id="busuanzi_value_page_pv"></span> 次</span><br>
