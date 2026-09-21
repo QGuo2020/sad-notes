@@ -1158,17 +1158,70 @@
   </article>
 
   <article id="math" data-ch="tools" data-sec="math" data-title="数学与经济管理">
-    <h2>数学与经济管理 <span class="badge b-new">新学</span></h2>
-    <p class="meta">贯穿层 · 常考 · 综合单选（计算题）</p>
+    <h2>数学与经济管理 <span class="badge b-new">必考计算</span></h2>
+    <p class="meta">贯穿层 · 常考 · 综合单选（每年 2–3 道纯计算，公式背死就是送分）</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>决策与进度的量化方法</b>——用数字算最优方案。</div>
+
+    <h3>① 期望值决策（考最多，"选最大"）</h3>
+    <p><b>公式</b>：期望收益 = Σ（每种情况的<b>概率 × 该情况下的收益</b>），最后选<b>期望值最大</b>的方案。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>方案</th><th>需求高（0.6）</th><th>需求低（0.4）</th><th>期望收益 = 0.6×高 + 0.4×低</th></tr>
+      <tr><td>甲</td><td>100</td><td>20</td><td>0.6×100 + 0.4×20 = 60 + 8 = <b>68</b></td></tr>
+      <tr><td>乙</td><td>80</td><td>60</td><td>0.6×80 + 0.4×60 = 48 + 24 = <b>72</b></td></tr>
+      <tr><td>丙</td><td>120</td><td>10</td><td>0.6×120 + 0.4×10 = 72 + 4 = <b>76</b> ← 最大，选它</td></tr>
+    </table></div>
+    <p><b>易错</b>：概率之和必须为 1；先把乘法算完再相加，别把两个方案的数混着算。</p>
+
+    <h3>② 盈亏平衡点（考最多，"除边际贡献"）</h3>
+    <p><b>公式</b>：盈亏平衡产量 = <b>固定成本 ÷（单价 − 单位变动成本）</b>；分母（单价−单位变动成本）叫<b>边际贡献</b>。</p>
+    <p><b>例题</b>：单价 100 元、单位变动成本 60 元、固定成本 20 万元 → 边际贡献 = 40 元 → 200000 ÷ 40 = <b>5000 件</b>。<br>
+    <b>易错</b>：忘记减变动成本（直接用 200000÷60 = 3333 就错了）；固定成本是"总额"，变动成本是"每件"。</p>
+
+    <h3>③ 关键路径法 CPM（进度题）</h3>
+    <p><b>规则</b>：网络图中<b>最长路径 = 项目最短工期</b>，这条路径就是关键路径；关键活动<b>没有浮动时间</b>，拖一天工期就拖一天。</p>
+    <p><b>例题</b>：A(3) → B(4) / C(2)，B、C 都汇到 D(5) → E(2)。<br>
+    路径 A→B→D→E = 3+4+5+2 = <b>14 天</b>；A→C→D→E = 3+2+5+2 = 12 天 → 关键路径是 14 天那条。<br>
+    <b>易错</b>：把所有活动时间加起来（19 天）——那是"串行做完所有事"，不是工期。</p>
+
+    <h3>④ 线性规划 / 净现值</h3>
     <ul>
-      <li><b>期望值决策</b>：期望收益 = ∑(概率 × 收益)，选<b>期望值最大</b>方案</li>
-      <li><b>线性规划</b>：约束条件下求目标最优（最大利润/最小成本）</li>
-      <li><b>盈亏平衡点</b>：收入 = 成本时的产量</li>
-      <li><b>关键路径法</b>：网络图<b>最长路径 = 项目最短工期</b>；关键活动无浮动时间</li>
-      <li><b>NPV/回收期</b>：现金流折现，NPV&gt;0 可行</li>
+      <li><b>线性规划</b>：在约束条件（资源上限）下求目标函数最优（最大利润 / 最小成本），考试多为代入比较或图解法。</li>
+      <li><b>NPV 净现值</b>：未来现金流按折现率折算到今天，<b>NPV &gt; 0 方案可行</b>，多方案选 NPV 最大者。</li>
+      <li><b>投资回收期</b>：累计净现金流由负转正所需的时间，越短越好。</li>
     </ul>
-    <div class="tip">💡 锚点：<b>期望值选最大 ｜ 关键路径=最长路径（决定工期）</b>；易错：关键路径不是最短</div>
+    <div class="tip">💡 锚点：<b>期望值选最大</b> ｜ <b>盈亏平衡 = 固定成本 ÷（单价 − 变动成本）</b> ｜ <b>关键路径 = 最长路径（决定工期）</b> ｜ <b>NPV&gt;0 可行</b></div>
+  </article>
+
+  <article id="english" data-ch="tools" data-sec="english" data-title="专业英语（5题）">
+    <h2>专业英语：短文填空 5 题 <span class="badge b-new">补课新增</span></h2>
+    <p class="meta">贯穿层 · 每年固定 5 题 · 每题 1 分（<b>对 3 题就够本</b>）</p>
+    <div class="who">它在讲<b>谁的什么</b>：给一篇 150–200 词的英文技术短文挖 5 个空，每个空 4 选 1。考的不是英语水平，是<b>技术固定搭配</b>。</div>
+
+    <h3>① 三招解题法（看不懂全文也能对）</h3>
+    <ul>
+      <li><b>看搭配</b>：技术英语有大量固定说法，背下来直接选（见下表）。</li>
+      <li><b>看逻辑词</b>：<b>However / But</b> 后面是转折（好处→缺点）；<b>Therefore / Thus</b> 后面是结论；<b>such as</b> 后面是举例，跟着前文的名词类型走。</li>
+      <li><b>看词性</b>：空格前面是 own / business / distributed 这类<b>形容词</b>，就填<b>名词</b>；前面是 to / can，就填<b>动词原形</b>。</li>
+    </ul>
+
+    <h3>② 高频固定搭配（背这张表）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>英文搭配</th><th>中文</th><th>英文搭配</th><th>中文</th></tr>
+      <tr><td>run in its own <b>process</b></td><td>运行在独立进程中</td><td>built around business <b>capabilities</b></td><td>围绕业务能力构建</td></tr>
+      <tr><td>technology <b>heterogeneity</b></td><td>技术异构性</td><td>distributed <b>transactions</b></td><td>分布式事务</td></tr>
+      <tr><td>API <b>gateway</b></td><td>API 网关</td><td><b>service discovery</b></td><td>服务发现</td></tr>
+      <tr><td><b>circuit breaker</b></td><td>熔断器</td><td><b>load balancing</b></td><td>负载均衡</td></tr>
+      <tr><td>data <b>consistency</b></td><td>数据一致性</td><td><b>eventual</b> consistency</td><td>最终一致性</td></tr>
+      <tr><td><b>monolithic</b> application</td><td>单体应用</td><td>loosely <b>coupled</b></td><td>松耦合</td></tr>
+      <tr><td>high <b>cohesion</b></td><td>高内聚</td><td><b>scalability</b></td><td>可扩展性</td></tr>
+      <tr><td><b>availability</b></td><td>可用性</td><td>fault <b>tolerance</b></td><td>容错性</td></tr>
+      <tr><td><b>deployment</b></td><td>部署</td><td><b>containerization</b></td><td>容器化</td></tr>
+    </table></div>
+
+    <h3>③ 真题风格例句（把空填上就读懂了）</h3>
+    <p>Microservices architecture develops a single application as a suite of small services, each running in its own <b>process</b> and communicating with lightweight mechanisms. These services are built around business <b>capabilities</b> and can be deployed independently. Compared with a <b>monolithic</b> application, microservices bring benefits such as independent deployability and technology <b>heterogeneity</b>. However, they also introduce complexity in service discovery, distributed <b>transactions</b> and data consistency. To keep the system reliable, patterns such as <b>circuit breaker</b> and API <b>gateway</b> are commonly adopted.</p>
+    <p><b>注意</b>：However 后面一定是"缺点/复杂度"，所以 distributed 后面跟的必然是坏事（transactions 事务、consistency 一致性），不可能填 rendering（渲染）。</p>
+    <div class="tip">💡 锚点：<b>独立进程 process ｜ 业务能力 capabilities ｜ 技术异构 heterogeneity ｜ 分布式事务 transactions ｜ 网关 gateway</b>；<b>However 后面跟着缺点</b></div>
   </article>
 
   <article id="dbdesign" data-ch="ch6" data-sec="dbdesign" data-title="数据库设计(范式/ER/索引)">
