@@ -138,22 +138,21 @@
 
   /* ===== 赞赏横条 ===== */
   .reward-bar{
-    margin-top:26px; display:flex; align-items:center; gap:20px;
+    margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:16px;
     background:var(--card); border:1px solid var(--line); border-radius:var(--r);
-    padding:16px 20px; box-shadow:var(--shadow);
+    padding:24px 20px; box-shadow:var(--shadow); text-align:center;
   }
-  .reward-bar .txt{flex:1; min-width:0;}
-  .reward-bar .txt b{font-size:13.5px; display:block; margin-bottom:4px;}
-  .reward-bar .txt p{font-size:12px; color:var(--sub); line-height:1.7;}
+  .reward-bar .txt b{font-size:14px; display:block; margin-bottom:5px;}
+  .reward-bar .txt p{font-size:12.5px; color:var(--sub); line-height:1.7;}
   .reward-bar img{
-    width:190px; height:190px; object-fit:contain; border-radius:12px;
-    border:1px solid var(--line); flex:0 0 auto; cursor:zoom-in;
+    width:260px; height:260px; object-fit:contain; border-radius:14px;
+    border:1px solid var(--line); cursor:zoom-in;
     transition:transform .15s ease;
   }
   @media (hover:hover){ .reward-bar img:hover{transform:scale(1.02);} }
   @media (max-width:520px){
-    .reward-bar{flex-direction:column; text-align:center; gap:14px;}
-    .reward-bar img{width:230px; height:230px;}
+    .reward-bar{padding:20px 14px; gap:14px;}
+    .reward-bar img{width:280px; height:280px; max-width:100%;}
   }
 
   footer{
