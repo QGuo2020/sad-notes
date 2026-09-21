@@ -209,6 +209,22 @@
     <div class="tip">💡 答题纪律：分点作答 (1)(2)(3)；先易后难；宁多勿漏（漏项不扣分）；答案里出现题干场景词，避免空话。</div>
   </article>
 
+  <article id="template" data-ch="method" data-sec="template" data-title="差答 vs 好答 + 失分点">
+    <h2>差答 vs 好答 + 失分点 <span class="badge b-hot">对照自查</span></h2>
+    <p class="meta">案例方法论 · 看清同一道题的得分差距</p>
+    <div class="who">它在讲<b>同样一道题，为什么他 10 分你 4 分</b>——对照下面三组写法，改掉差答习惯。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>❌ 差答（低分）</th><th>✅ 好答（高分）</th></tr>
+      <tr><td>"系统响应慢，需要优化性能，加大服务器"</td><td>"根因：缺少流量控制与削峰能力。措施：① 入口限流+熔断降级 ② Kafka 异步削峰，请求先入队 ③ 热点数据 Redis 缓存 ④ 连接池按物理资源调优"</td></tr>
+      <tr><td>只写技术名词，不说为什么</td><td>每条措施都带<b>机制 + 效果</b>（"通过…实现了…"）</td></tr>
+      <tr><td>不分点，一大段糊在一起</td><td>分点作答 (1)(2)(3)，每点 1-2 行，<b>编号与根因对齐</b></td></tr>
+      <tr><td>根因写"性能不足"（症状）</td><td>根因写"缺流量控制与削峰能力"（缺哪个能力）</td></tr>
+    </table></div>
+    <h3>失分点清单（避坑）</h3>
+    <div class="warn">⚠️ ① 根因写症状不写"缺××能力" ② <b>根因与方案不对应</b>（说缺限流却只给扩容）③ 方案颗粒度太粗（"优化性能"不得分，要具体到技术手段）④ 漏写题干关键词（答案要出现题干的系统名/场景词）⑤ 时间分配失衡（一题超时导致后两题没写完）⑥ 计算题不写过程、漏单位</div>
+    <div class="ok">✅ 每题自查：分点了吗？每条有具体技术吗？根因和方案编号对齐了吗？题干的场景词出现了吗？</div>
+  </article>
+
   <article id="rootcause" data-ch="method" data-sec="rootcause" data-title="根因-方案一一对应">
     <h2>根因-方案一一对应（重点） <span class="badge b-hot">反复练</span></h2>
     <p class="meta">案例方法论 · 8/18、8/20、8/22、8/27 连续踩坑点</p>

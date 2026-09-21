@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>软考系统架构师论文题库 | 写作套路·句式库·素材·范文</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📝%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
+    --bg:#f6f7fb; --card:#ffffff;
+    --indigo:#4f46e5; --indigo-deep:#4338ca; --violet:#7c3aed; --sky:#06b6d4;
+    --green:#16a34a; --amber:#d97706;
+    --warn-bg:#fdf1f0; --warn-line:#e5484d; --warn-ink:#8a2b2f;
+    --tip-bg:#eff6ff; --tip-line:#3b82f6; --tip-ink:#1e3a8a;
+    --ok-bg:#eafaf1; --ok-line:#16a34a; --ok-ink:#14532d;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+    line-height:1.8; font-size:16px; overflow-x:hidden;}
+
+  .topbar{position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    background:#fff; color:var(--ink); border-bottom:1px solid var(--line);
+    box-shadow:0 1px 4px rgba(0,0,0,.05);}
+  .topbar .brand{display:flex; align-items:center; gap:8px; padding:10px 14px;
+    font-weight:700; font-size:15px; color:#d97706;}
+  .topbar .brand small{font-weight:400; color:var(--sub); font-size:11px;}
+  .menu-btn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:17px; line-height:1; padding:7px 11px; margin-right:12px; cursor:pointer; color:var(--ink);}
+  .menu-btn:active{background:#e5e7eb;}
+
+  .sidebar{display:none;}
+  @media (min-width:960px){
+    .topbar{display:none;}
+    #drawer,#drawerBackdrop,.menu-btn{display:none;}
+    body{display:flex; align-items:flex-start;}
+    .sidebar{display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+      flex:0 0 250px; background:#fff; color:var(--ink);
+      border-right:1px solid var(--line); padding:20px 0 16px; overflow-y:auto;}
+    .sidebar .brand{padding:0 20px 14px; border-bottom:1px solid var(--line);}
+    .sidebar .brand b{display:block; color:#d97706; font-size:18px;}
+    .sidebar .brand small{font-size:12px; color:var(--sub);}
+    #sideNav{padding:4px 10px;}
+    .side-foot{padding:12px 20px; border-top:1px solid var(--line); font-size:12px; line-height:1.9; color:var(--sub);}
+  }
+
+  .content{max-width:1200px; margin:0 auto; padding:0 16px 60px;}
+  .topbar ~ .content{padding-top:64px;}
+  @media (min-width:960px){
+    .content{flex:1 1 auto; min-width:0; max-width:1200px; margin:0 auto; padding:0 28px 60px;}
+    .topbar ~ .content{padding-top:0;}
+  }
+
+  .tree-ch{margin-bottom:2px;}
+  .ch-link{display:block; padding:9px 10px 9px 6px; border-radius:8px; font-weight:600;
+    font-size:14.5px; color:var(--ink); text-decoration:none; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis;}
+  .ch-link::before{content:'▸'; display:inline-block; width:14px; font-size:11px; color:var(--sub);}
+  .tree-ch.open .ch-link::before{content:'▾'; color:#d97706;}
+  .ch-link:hover{background:#f3f4f6;}
+  .ch-link.active{background:#fef3c7; color:#92400e;}
+  .tree-secs{display:none; flex-direction:column; gap:1px; margin:0 0 10px 16px;
+    padding-left:10px; border-left:2px solid var(--line);}
+  .tree-ch.open .tree-secs{display:flex;}
+  .tree-secs a{padding:6px 12px; border-radius:8px; font-size:13.5px; color:var(--sub); text-decoration:none;}
+  .tree-secs a:hover{background:#f3f4f6;}
+  .tree-secs a.active{background:#fef3c7; color:#92400e; font-weight:600;}
+
+  #drawerBackdrop{position:fixed; inset:0; background:rgba(15,23,42,.45); z-index:190;
+    opacity:0; pointer-events:none; transition:opacity .2s;}
+  #drawerBackdrop.show{opacity:1; pointer-events:auto;}
+  #drawer{position:fixed; top:0; right:0; bottom:0; width:min(320px,86vw); background:#fff;
+    z-index:200; transform:translateX(105%); transition:transform .25s ease;
+    display:flex; flex-direction:column; padding:14px 12px 16px; overflow-y:auto;
+    box-shadow:-4px 0 20px rgba(0,0,0,.12);}
+  #drawer.open{transform:none;}
+  #drawer .drawer-head{display:flex; align-items:center; justify-content:space-between;
+    padding:2px 6px 12px; border-bottom:1px solid var(--line); margin-bottom:12px;}
+  #drawer .drawer-head b{color:#d97706; font-size:16px;}
+  #closeBtn{background:#f3f4f6; border:1px solid var(--line); border-radius:8px;
+    font-size:14px; padding:4px 10px; cursor:pointer; color:var(--ink);}
+  .drawer-foot{margin-top:auto; padding-top:12px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--sub); line-height:1.9;}
+  .expand-row{padding:6px 12px 4px;}
+  .expand-btn{background:#fef3c7; color:#92400e; border:1px solid #fde68a;
+    border-radius:14px; font-size:12.5px; padding:4px 14px; cursor:pointer;}
+
+  .hero{background:linear-gradient(120deg,#d97706 0%,#ea580c 55%,#e11d48 100%);
+    color:#fff; border-radius:16px; padding:28px 26px; margin:18px 0 20px;
+    box-shadow:0 8px 24px rgba(217,119,6,.25);}
+  .hero h1{margin:0 0 8px; font-size:25px;}
+  .hero p{margin:2px 0; font-size:14px; opacity:.94;}
+  .hero .core{background:rgba(0,0,0,.18); border:1px dashed rgba(255,255,255,.45);
+    border-radius:10px; padding:10px 14px; margin-top:14px; font-size:14px;}
+
+  article{background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:24px 22px 14px; margin-bottom:18px; scroll-margin-top:72px;}
+  @media (min-width:960px){ article{scroll-margin-top:18px;} }
+  article h2{margin:0 0 2px; font-size:20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  article .meta{font-size:12.5px; color:var(--sub); margin:0 0 12px;}
+  article h3{margin:18px 0 6px; font-size:16px; color:#b45309;}
+  .who{background:#fffbeb; border:1px solid #fde68a; border-radius:10px;
+    padding:10px 14px; margin:10px 0 14px; font-size:14.5px; color:#78350f;}
+  .who b{color:#92400e;}
+  .badge{display:inline-block; font-size:11.5px; padding:2px 10px; border-radius:12px;
+    color:#fff; font-weight:600; vertical-align:2px;}
+  .b-done{background:var(--green);} .b-new{background:#d97706;} .b-hot{background:#e5484d;}
+
+  .tbl-wrap{overflow-x:auto; margin:12px 0;}
+  table{width:100%; border-collapse:collapse; font-size:14.5px;}
+  th,td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
+  th{background:#fffbeb; font-weight:600; white-space:nowrap; color:#92400e;}
+  tbody tr:nth-child(even){background:#fffdf7;}
+
+  .tip,.warn,.ok{border-radius:10px; padding:11px 14px; margin:12px 0; font-size:14.5px; line-height:1.75;}
+  .tip{background:var(--tip-bg); border-left:4px solid var(--tip-line); color:var(--tip-ink);}
+  .warn{background:var(--warn-bg); border-left:4px solid var(--warn-line); color:var(--warn-ink);}
+  .ok{background:var(--ok-bg); border-left:4px solid var(--ok-line); color:var(--ok-ink);}
+  .anchor{color:#b45309; font-weight:700;}
+
+  .uml-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; margin:14px 0;}
+  .uml-grid figure{margin:0; border:1px solid var(--line); border-radius:10px; padding:8px; background:#fffdf7;}
+  .uml-grid svg{width:100%; height:auto; display:block;}
+  .uml-grid figcaption{font-size:12px; color:var(--sub); text-align:center; margin-top:6px;}
+  .uml-grid .u{stroke:#d97706; fill:none; stroke-width:1.5;}
+  .uml-grid .uf{stroke:#d97706; fill:#fef3c7; stroke-width:1.5;}
+  .uml-grid .l{stroke:#9aa5b1; stroke-width:1.2; fill:none;}
+  .uml-grid .t{font-size:10px; fill:#1f2328; text-anchor:middle;}
+  .uml-grid .ts{font-size:9px; fill:#6b7280; text-anchor:middle;}
+  .uml-grid .dot{fill:#1f2328;}
+
+  ul,ol{margin:8px 0; padding-left:24px;}
+  li{margin:5px 0;}
+  .memo{font-size:12.5px; color:var(--sub); margin-top:12px; border-top:1px dashed var(--line); padding-top:10px;}
+  .sample{background:#f8fafc; border:1px dashed var(--line); border-radius:10px;
+    padding:12px 16px; margin:10px 0; font-size:14px; line-height:1.9;}
+
+  footer{text-align:center; color:#93a59c;
+    font-size:13px; padding:14px 0 8px; line-height:2;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="index.html" style="text-decoration:none;" title="返回首页">📝 论文题库 <small>系统架构师备考</small></a>
+  <button class="menu-btn" id="menuBtn" aria-label="打开菜单">☰</button>
+</header>
+<div id="drawerBackdrop"></div>
+<aside id="drawer">
+  <div class="drawer-head"><b>📝 论文题库</b><button id="closeBtn">✕</button></div>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnDrawer">全部展开</button></div>
+  <nav id="drawerNav"></nav>
+  <div class="drawer-foot">软考系统架构师备考 · 写作套路 + 句式库 + 素材 + 范文 · 点击☰查看</div>
+</aside>
+
+<aside class="sidebar">
+  <a class="brand" href="index.html" style="text-decoration:none;display:block;" title="返回首页">
+    <b>📝 论文题库</b>
+    <small>系统架构师备考</small>
+  </a>
+  <div class="expand-row"><button class="expand-btn" id="expandBtnSide">全部展开</button></div>
+  <nav id="sideNav"></nav>
+  <div class="side-foot">
+    软考系统架构师备考<br>
+    写作套路 · 句式库 · 素材 · 范文<br>
+    点击页面标题返回首页
+  </div>
+</aside>
+
+<div class="content">
+  <header class="hero">
+    <h1>📝 论文题库 · 写作完全指南</h1>
+    <p>120 分钟 · 2500-3000 字 · 三科中最容易挂的一科</p>
+    <div class="core">核心心法：<b>结构固定（五段式）+ 素材固定（Numen 项目）+ 句式固定（背模板）</b>——考场上按套路"填空"，把时间花在写满字上，而不是构思上。</div>
+  </header>
+
+  <!-- ==================== ① 考试流程与评分 ==================== -->
+  <article id="flow" data-ch="flow" data-sec="flow" data-title="考试流程与评分">
+    <h2>考试流程与评分标准 <span class="badge b-hot">先看这个</span></h2>
+    <p class="meta">论文考试 · 120分钟 · 75分制 · 45分及格</p>
+    <div class="who">它在讲<b>论文怎么考、阅卷怎么看</b>——先搞清规则，再动手写。</div>
+
+    <h3>120 分钟时间分配</h3>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 96">
+          <rect class="uf" x="6" y="28" width="60" height="28"/><text class="t" x="36" y="46">0-5 选题</text>
+          <line class="l" x1="66" y1="42" x2="80" y2="42"/>
+          <rect class="uf" x="80" y="28" width="60" height="28"/><text class="t" x="110" y="46">5-15 提纲</text>
+          <line class="l" x1="140" y1="42" x2="154" y2="42"/>
+          <rect class="uf" x="154" y="28" width="82" height="28"/><text class="t" x="195" y="46">15-105 写正文</text>
+          <line class="l" x1="236" y1="42" x2="250" y2="42"/>
+          <rect class="uf" x="250" y="28" width="46" height="28"/><text class="t" x="273" y="46">检查</text>
+          <text class="ts" x="150" y="78">选题选 Numen 能套的；正文 90 分钟是主体</text>
+        </svg>
+        <figcaption><b>时间分配</b>：选题5分 → 提纲10分 → 写正文90分 → 检查15分</figcaption>
+      </figure>
+    </div>
+
+    <h3>阅卷看什么（评分维度）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>维度</th><th>具体要求</th><th>影响</th></tr>
+      <tr><td><b>切题</b></td><td>围绕题目主题，回应题目所有小问</td><td>跑题直接不及格</td></tr>
+      <tr><td><b>结构完整</b></td><td>摘要 + 背景 + 设计 + 效果 + 总结，五段齐全</td><td>缺段大扣分</td></tr>
+      <tr><td><b>项目真实</b></td><td>有具体项目（Numen）+ 真实技术细节</td><td>纯理论 = 低分</td></tr>
+      <tr><td><b>技术深度</b></td><td>说清架构决策、技术选型、权衡取舍</td><td>决定高分/及格</td></tr>
+      <tr><td><b>字数卷面</b></td><td>2500-3000 字（摘要 200-300），段落分明</td><td>不足 2000 基本挂</td></tr>
+    </table></div>
+    <div class="tip">💡 时间不够时的保命策略：<b>先把五段骨架写完（每段至少 3-5 行），再补细节</b>——结构完整比文采重要。</div>
+  </article>
+
+  <!-- ==================== ② 五段式结构 ==================== -->
+  <article id="struct" data-ch="struct" data-sec="struct" data-title="五段式结构">
+    <h2>五段式结构（必须背熟） <span class="badge b-hot">骨架</span></h2>
+    <p class="meta">论文结构 · 占比 / 字数 / 写什么 / 得分点</p>
+    <div class="who">它在讲<b>论文的固定骨架</b>——五段各有分工，其中"分析与设计"占 45%，是得分区。</div>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 120">
+          <text class="ts" x="150" y="16">五段式占比</text>
+          <rect class="uf" x="6" y="26" width="29" height="32"/><text class="ts" x="20" y="74">摘要10%</text>
+          <rect class="uf" x="35" y="26" width="45" height="32"/><text class="ts" x="57" y="74">背景15%</text>
+          <rect class="uf" x="80" y="26" width="135" height="32"/><text class="ts" x="147" y="74">分析与设计 45%（得分区）</text>
+          <rect class="uf" x="215" y="26" width="60" height="32"/><text class="ts" x="245" y="74">效果20%</text>
+          <rect class="uf" x="275" y="26" width="20" height="32"/><text class="ts" x="285" y="98">总结10%</text>
+        </svg>
+        <figcaption><b>五段式</b>：设计段占近一半，必须写足技术细节</figcaption>
+      </figure>
+    </div>
+    <div class="tbl-wrap"><table>
+      <tr><th>段落</th><th>字数</th><th>写什么</th><th>得分点</th></tr>
+      <tr><td><b>① 摘要</b></td><td>200-300</td><td>项目背景1句 + 采用方法/架构2-3句 + 效果1句</td><td><b>必须含"架构"关键词</b></td></tr>
+      <tr><td><b>② 背景与问题</b></td><td>~400</td><td>项目背景（Numen）+ 业务痛点 + 2-3 个质量属性要求</td><td>痛点具体、有数据</td></tr>
+      <tr><td><b>③ 分析与设计</b></td><td>~1200</td><td>架构风格/视图选择 → 总体架构 → 分模块设计 → 关键技术点</td><td><b>得分区</b>：技术选型 + 权衡</td></tr>
+      <tr><td><b>④ 实现与效果</b></td><td>~500</td><td>落地细节 + <b>可量化效果</b>（提升 X%）+ 踩坑与解决</td><td>数字支撑最加分</td></tr>
+      <tr><td><b>⑤ 总结</b></td><td>~250</td><td>复盘收获 + 不足与改进方向</td><td>反思真诚不空话</td></tr>
+    </table></div>
+
+    <h3>摘要写法详解（阅卷第一眼）</h3>
+    <div class="sample"><b>摘要模板（直接套）：</b><br>
+      "本文以 Numen 数据中心统一运维管理平台为背景，针对【业务痛点】，采用【架构风格/技术方案】进行架构设计。通过【关键机制1、2、3】，实现了【量化效果】。该架构实践有效支撑了【业务目标】。"</div>
+    <div class="ok">✅ 摘要三要素：<b>背景（1句）+ 架构方法（2-3句）+ 效果（1句）</b>，200-300 字，必须出现"架构"二字。</div>
+  </article>
+
+  <!-- ==================== ③ 万能句式库 ==================== -->
+  <article id="phrases" data-ch="phrases" data-sec="phrases" data-title="万能句式库">
+    <h2>万能句式库（每段直接套） <span class="badge b-new">背下来</span></h2>
+    <p class="meta">论文句式 · 6 段模板 + 套用示例</p>
+    <div class="who">它在讲<b>每段怎么写第一句</b>——句式会了，正文就是"填内容"。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>段落</th><th>句式模板</th></tr>
+      <tr><td><b>开头/背景</b></td><td>"本文以 Numen 数据中心统一运维管理平台为背景，围绕【主题】阐述其架构设计实践。"</td></tr>
+      <tr><td><b>过渡</b></td><td>"在架构设计过程中，我们首先关注【质量属性】这一核心质量目标，并围绕其展开技术选型与架构决策。"</td></tr>
+      <tr><td><b>正文（三段论）</b></td><td>"针对【问题】，我们采用【方案】，该方案通过【机制】实现了【效果】。"</td></tr>
+      <tr><td><b>效果（量化）</b></td><td>"改造后，【指标】从【原值】提升至【新值】（提升 X%），在【场景】下【结果】。"</td></tr>
+      <tr><td><b>结尾</b></td><td>"通过本次架构设计实践，我们深刻认识到【经验】；未来将从【改进方向】继续优化。"</td></tr>
+    </table></div>
+    <h3>正文段三段论（论点→论据→论证）套用示例</h3>
+    <div class="sample"><b>示例（可用性）：</b>"针对监控平台在大促期间告警延迟高的问题，我们采用消息队列异步削峰 + 缓存降载的架构方案，该方案通过 Kafka 将采集数据先入队、消费端批量落库的机制，实现了告警延迟稳定在 3 秒内、高峰期零丢失的效果。"</div>
+    <div class="tip">💡 正文段公式：<b>问题（1句）→ 方案（带技术名）→ 机制（怎么做到）→ 效果（数字）</b>——四要素缺一不可，这是"得分区"的写法。</div>
+  </article>
+
+  <!-- ==================== ④ 素材与题目 ==================== -->
+  <article id="material" data-ch="material" data-sec="material" data-title="素材与题目分类">
+    <h2>Numen 素材映射 + 题目分类 <span class="badge b-hot">选题用</span></h2>
+    <p class="meta">论文素材 · 一个项目套所有题目</p>
+    <div class="who">它在讲<b>题目怎么套项目</b>——Numen 一个项目能覆盖 7 类论文题目，看到题目先想"用哪个切入点"。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>论文题目方向</th><th>Numen 切入点（具体技术）</th></tr>
+      <tr><td>论微服务架构设计 / 系统拆分</td><td>16+ 业务模块按业务域拆分 + Nacos 注册中心 + 网关统一入口</td></tr>
+      <tr><td>论高可用架构 / 容错弹性</td><td>Nacos 三节点集群 + 冗余部署 + 故障转移 + 熔断降级</td></tr>
+      <tr><td>论多云管理 / 异构集成</td><td>纳管华为云/阿里云/VMware/OpenStack 等 11 种云平台</td></tr>
+      <tr><td>论可观测性 / 监控架构</td><td>Zabbix + InfluxDB + SkyWalking 链路追踪</td></tr>
+      <tr><td>论数据架构 / 数据处理</td><td>监控海量数据采集（Kafka 削峰 + InfluxDB 时序存储）</td></tr>
+      <tr><td>论安全架构 / 安全保障体系</td><td>RBAC 认证授权 + JWT + 审计日志 + 等保三级要求</td></tr>
+      <tr><td>论 AI 系统架构（新热点）</td><td>RAG 智能运维助手（LLM + 向量库 + Agent 调研）</td></tr>
+    </table></div>
+    <h3>论文题目五大类（历年常见方向）</h3>
+    <ul>
+      <li><b>架构设计类</b>：微服务架构 / 分层架构 / 事件驱动架构 / 云原生架构设计</li>
+      <li><b>质量属性类</b>：高可用 / 高性能 / 安全性 / 可扩展性 / 可修改性设计</li>
+      <li><b>数据类</b>：数据架构 / 分布式数据库 / 数据治理 / 大数据平台</li>
+      <li><b>集成类</b>：异构系统集成 / 多云管理 / 遗留系统改造 / 架构演化</li>
+      <li><b>新技术类</b>：AI 系统架构 / 云原生 / 可观测性（近年新增热点）</li>
+    </ul>
+    <div class="ok">✅ 选题口诀：<b>4 题里选 Numen 最能套的那道</b>——有具体技术、有量化效果、有踩坑经验的题目优先。</div>
+  </article>
+
+  <!-- ==================== ⑤ 练习计划 ==================== -->
+  <article id="plan" data-ch="plan" data-sec="plan" data-title="练习计划（分三步）">
+    <h2>练习计划：提纲 → 段落 → 全篇 <span class="badge b-new">怎么练</span></h2>
+    <p class="meta">论文练习 · 别一上来就写全篇</p>
+    <div class="who">它在讲<b>剩余时间怎么练论文</b>——零基础别直接写 3000 字，按三步升级。</div>
+    <div class="tbl-wrap"><table>
+      <tr><th>阶段</th><th>练什么</th><th>时间</th><th>产出</th></tr>
+      <tr><td><b>第一步：提纲</b></td><td>看到题目，15 分钟内列出五段提纲（每段要点 + 技术素材）</td><td>每次 15 分钟</td><td>3 篇提纲（不同题目）</td></tr>
+      <tr><td><b>第二步：段落</b></td><td>只写摘要 + 正文设计段（得分区），套句式</td><td>每次 20 分钟</td><td>2-3 组段落</td></tr>
+      <tr><td><b>第三步：全篇</b></td><td>完整 2500-3000 字，计时 120 分钟</td><td>每次 2 小时</td><td><b>2-3 篇全篇</b></td></tr>
+    </table></div>
+    <div class="tip">💡 练习顺序建议：① 论微服务架构设计（最熟、素材最多）→ ② 论高可用架构设计 → ③ 论 AI 系统架构（新热点）。<br>
+      每写完一篇：对照"五段式占比 + 评分维度"自查，缺哪段补哪段。</div>
+  </article>
+
+  <!-- ==================== ⑥ 范文与提纲示例 ==================== -->
+  <article id="model" data-ch="model" data-sec="model" data-title="提纲与范文示例">
+    <h2>提纲与范文示例 <span class="badge b-done">照着写</span></h2>
+    <p class="meta">论文示例 · 提纲 + 摘要范文 + 正文段范文</p>
+    <div class="who">它在讲<b>照着什么样的结构写</b>——先模仿，再成自己的模板。</div>
+
+    <h3>提纲示例：《论微服务架构设计》</h3>
+    <div class="sample">
+      <b>① 摘要</b>：Numen 多云运维平台背景 + 采用微服务架构（按业务域拆分 + Nacos + 网关）+ 效果（16 模块独立部署，可用性 99.9%）<br>
+      <b>② 背景与问题</b>：数据中心运维平台纳管 11 种云平台，单体架构导致模块耦合、发布慢、扩展难；质量属性要求：可修改性、可用性、性能<br>
+      <b>③ 分析与设计</b>：<br>
+      　· 架构风格选择：调用/返回（服务间 REST）+ 独立构件（Kafka 事件驱动）混合<br>
+      　· 拆分策略：按业务域拆 16+ 服务（用户/资产/监控/告警/工单…），独立库<br>
+      　· 注册中心：Nacos 集群（注册发现 + 配置中心 + 心跳续约）<br>
+      　· 网关：统一入口（路由/鉴权/限流/日志）<br>
+      　· 服务治理：Sentinel 熔断限流 + 灰度发布<br>
+      　· 视图：4+1 视图描述（逻辑=16 模块，开发=微服务工程，进程=并发通信，物理=部署拓扑，场景=告警全链路）<br>
+      <b>④ 实现与效果</b>：服务独立部署；告警延迟从 30s → 3s；单模块发布从 2 小时 → 5 分钟；可用性 99.9%<br>
+      <b>⑤ 总结</b>：收获（业务域拆分是核心）；不足（跨服务事务复杂度上升）；改进（引入 Saga 优化分布式事务）
+    </div>
+
+    <h3>摘要范文（两个题目对比）</h3>
+    <div class="sample"><b>【微服务方向】</b>"本文以 Numen 数据中心统一运维管理平台为背景，针对单体架构模块耦合、扩展困难的问题，采用微服务架构进行设计。通过按业务域拆分 16 个独立服务、以 Nacos 集群统一服务注册与配置、网关集中鉴权限流，实现了模块独立部署与弹性扩容，平台可用性达到 99.9%，告警延迟从 30 秒降至 3 秒。"</div>
+    <div class="sample"><b>【高可用方向】</b>"本文以 Numen 多云运维管理平台为背景，针对平台单点故障导致监控中断的问题，围绕高可用质量目标进行架构设计。通过 Nacos 三节点集群、服务冗余部署、心跳检测与故障自动转移、熔断降级兜底等机制，实现了单节点故障不影响整体服务，系统可用性从 99% 提升至 99.95%。"</div>
+
+    <h3>正文段范文（三段，含技术细节 + 效果）</h3>
+    <div class="sample"><b>① 拆分设计</b>："针对单体架构下模块耦合、一个功能变更需要整体发布的问题，我们采用按业务领域拆分的微服务方案，该方案通过将 16 个业务模块拆分为独立服务并各自拥有独立数据库的机制，实现了单模块独立发布，发布耗时从 2 小时降至 5 分钟。"</div>
+    <div class="sample"><b>② 高可用设计</b>："针对注册中心单点故障会导致服务发现失效的风险，我们采用 Nacos 三节点集群方案，该方案通过 Raft 协议保证配置一致性、客户端本地缓存 + 心跳续约容错的机制，实现了单节点宕机时服务调用不受影响。"</div>
+    <div class="sample"><b>③ 削峰设计</b>："针对大促期间监控数据瞬时上报导致写入瓶颈的问题，我们采用基于消息队列的异步削峰架构，该方案通过 Kafka 将采集数据先入队、消费端批量落库的机制，实现了高峰期写入吞吐提升 5 倍、数据零丢失。"</div>
+  </article>
+
+  <!-- ==================== ⑦ 失分点 ==================== -->
+  <article id="pits" data-ch="pits" data-sec="pits" data-title="失分点（避坑）">
+    <h2>失分点避坑清单 <span class="badge b-hot">考前必扫</span></h2>
+    <p class="meta">论文 · 阅卷老师最反感的问题</p>
+    <div class="who">它在讲<b>哪些写法会直接扣分</b>——避开这 6 条，及格就有保障。</div>
+    <div class="warn">⚠️ <b>六大失分点：</b><br>
+      ① <b>跑题</b>：没回应题目小问（题目问什么就答什么，尤其"请结合项目说明"必须写项目）<br>
+      ② <b>纯理论</b>：通篇讲概念，没有真实项目和具体技术选型<br>
+      ③ <b>字数不足</b>：&lt;2000 字基本挂（摘要 200-300，正文 2500-3000）<br>
+      ④ <b>流水账</b>：只列技术栈，没有架构决策、选型理由、权衡取舍<br>
+      ⑤ <b>摘要漏"架构"关键词</b>：摘要必须出现"架构"二字<br>
+      ⑥ <b>卷面差</b>：段落不分、错别字多、涂改严重</div>
+    <div class="ok">✅ 自查清单（每篇写完过一遍）：切题？五段全？有项目？有技术细节？有量化效果？字数够？摘要含"架构"？</div>
+    <div class="tip">💡 最后提醒：论文考的是"<b>你是否真的做过架构设计</b>"——用 Numen 的真实场景（多云的坑、Nacos 集群、Kafka 削峰、SkyWalking 排障）去写，比背模板更有说服力。</div>
+  </article>
+</div>
+
+<footer>
+  📝 论文题库 · 软考系统架构师备考 · 点击页面标题返回首页<br>
+  © 合肥城市云-技术研发部二组
+</footer>
+
+<script>
+const CHAPTERS = {
+  flow:     { title: '考试流程与评分' },
+  struct:   { title: '五段式结构' },
+  phrases:  { title: '万能句式库' },
+  material: { title: '素材与题目分类' },
+  plan:     { title: '练习计划' },
+  model:    { title: '提纲与范文示例' },
+  pits:     { title: '失分点（避坑）' }
+};
+
+function currentRoute(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const [ch, sec] = h.split('/');
+  return { ch: CHAPTERS[ch] ? ch : 'flow', sec: sec || '' };
+}
+
+const expanded = new Set();
+let prevCh = null;
+
+function buildTree(ch, sec, all){
+  return Object.entries(CHAPTERS).map(([id, c]) => {
+    const secs = all.filter(a => a.dataset.ch === id);
+    const secHtml = secs.map(a =>
+      `<a href="#/${id}/${a.dataset.sec}" class="${id === ch && a.dataset.sec === sec ? 'active' : ''}">${a.dataset.title}</a>`).join('');
+    return `<div class="tree-ch${expanded.has(id) ? ' open' : ''}">` +
+           `<a class="ch-link${id === ch ? ' active' : ''}" data-ch-id="${id}" href="#/${id}">${c.title}</a>` +
+           `<div class="tree-secs">${secHtml}</div></div>`;
+  }).join('');
+}
+
+function syncExpandButtons(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  const label = allOpen ? '全部折叠' : '全部展开';
+  const s = document.getElementById('expandBtnSide'); if (s) s.textContent = label;
+  const d = document.getElementById('expandBtnDrawer'); if (d) d.textContent = label;
+}
+
+function render(){
+  const { ch, sec } = currentRoute();
+  if (prevCh !== ch) { expanded.add(ch); prevCh = ch; }
+  const all = [...document.querySelectorAll('article[data-ch]')];
+  all.forEach(a => { a.style.display = (a.dataset.ch === ch) ? '' : 'none'; });
+  const chArts = all.filter(a => a.dataset.ch === ch);
+
+  const treeHtml = buildTree(ch, sec, all);
+  document.getElementById('sideNav').innerHTML = treeHtml;
+  document.getElementById('drawerNav').innerHTML = treeHtml;
+  syncExpandButtons();
+
+  const firstSec = chArts[0] ? chArts[0].dataset.sec : '';
+  const target = sec || firstSec;
+  requestAnimationFrame(() => {
+    if (target && document.getElementById(target)) {
+      document.getElementById(target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+}
+
+function toggleChapter(id){
+  if (expanded.has(id)) expanded.delete(id); else expanded.add(id);
+  render();
+}
+function toggleAll(){
+  const allOpen = Object.keys(CHAPTERS).every(id => expanded.has(id));
+  if (allOpen) expanded.clear(); else Object.keys(CHAPTERS).forEach(id => expanded.add(id));
+  render();
+}
+
+const menuBtn = document.getElementById('menuBtn');
+const drawer = document.getElementById('drawer');
+const drawerNav = document.getElementById('drawerNav');
+const backdrop = document.getElementById('drawerBackdrop');
+function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
+function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
+menuBtn.addEventListener('click', openDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.getElementById('closeBtn').addEventListener('click', closeDrawer);
+
+document.getElementById('expandBtnSide').addEventListener('click', toggleAll);
+document.getElementById('expandBtnDrawer').addEventListener('click', toggleAll);
+
+const navs = [document.getElementById('sideNav'), drawerNav];
+navs.forEach(nav => nav.addEventListener('click', e => {
+  const parent = e.target.closest('.ch-link');
+  if (parent) { toggleChapter(parent.dataset.chId); return; }
+  if (nav === drawerNav && e.target.closest('.tree-secs a')) closeDrawer();
+}));
+
+window.addEventListener('hashchange', render);
+render();
+</script>
+<script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+</html>
