@@ -9,6 +9,7 @@
   :root{
     --ink:#1f2328; --sub:#6b7280; --line:#e5e7eb;
     --indigo:#4f46e5; --green:#16a34a; --amber:#d97706; --rose:#e11d48;
+    --card:#ffffff; --bg:#f7f8fc;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
@@ -17,37 +18,43 @@
     font-family:-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
     -webkit-tap-highlight-color:transparent;
   }
-  .wrap{max-width:780px; margin:0 auto; padding:48px 20px 40px;}
+  /* ===== 自适应容器：移动端窄，PC 端宽 ===== */
+  .wrap{max-width:1180px; margin:0 auto; padding:40px 18px 36px;}
+  @media (min-width:1024px){ .wrap{padding:44px 32px 40px;} }
 
-  header{text-align:center; margin-bottom:32px;}
+  /* ===== 头部 ===== */
+  header{text-align:center; margin-bottom:30px;}
   header .logo{
     display:inline-flex; align-items:center; justify-content:center;
-    width:66px; height:66px; border-radius:20px; font-size:32px; margin-bottom:16px;
+    width:62px; height:62px; border-radius:18px; font-size:30px; margin-bottom:14px;
     background:linear-gradient(135deg,#4f46e5,#7c3aed 55%,#06b6d4);
     box-shadow:0 10px 26px rgba(79,70,229,.32);
   }
-  header h1{font-size:26px; letter-spacing:.5px; margin-bottom:10px;}
+  header h1{font-size:25px; letter-spacing:.5px; margin-bottom:8px;}
   header p{font-size:14px; color:var(--sub); line-height:1.8;}
-
   .motto{
-    margin-top:16px; display:inline-block; font-size:13px; color:#92400e;
+    margin-top:14px; display:inline-block; font-size:13px; color:#92400e;
     background:#fffbeb; border:1px solid #fde68a; border-radius:20px; padding:6px 18px;
     line-height:1.7;
   }
 
+  /* ===== 区块标题 ===== */
   .sec-title{
     display:flex; align-items:center; gap:10px;
-    font-size:17px; font-weight:700; margin:34px 0 14px; color:#374151;
+    font-size:16.5px; font-weight:700; margin:30px 0 13px; color:#374151;
   }
   .sec-title::after{content:''; flex:1; height:1px; background:var(--line);}
+  .sec-title:first-of-type{margin-top:26px;}
 
-  .grid{display:grid; grid-template-columns:repeat(2,1fr); gap:16px;}
-  @media (max-width:620px){ .grid{grid-template-columns:1fr;} }
+  /* ===== 四模块卡片：移动1列 → 平板2列 → PC4列 ===== */
+  .grid4{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media (min-width:640px){ .grid4{grid-template-columns:repeat(2,1fr);} }
+  @media (min-width:1024px){ .grid4{grid-template-columns:repeat(4,1fr);} }
 
   .card{
     display:block; position:relative; overflow:hidden;
-    background:#fff; border:1px solid var(--line); border-radius:16px;
-    padding:22px 20px 18px 24px; text-decoration:none; color:inherit;
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:20px 18px 16px 22px; text-decoration:none; color:inherit;
     box-shadow:0 1px 3px rgba(0,0,0,.04);
     transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
@@ -56,82 +63,93 @@
   @media (hover:hover){ .card:hover{transform:translateY(-3px); box-shadow:0 12px 26px rgba(79,70,229,.15); border-color:#c7d2fe;} }
   .card .ico{
     display:inline-flex; align-items:center; justify-content:center;
-    width:42px; height:42px; border-radius:12px; font-size:22px; background:#f3f4f6;
+    width:40px; height:40px; border-radius:12px; font-size:21px; background:#f3f4f6;
   }
-  .card h2{font-size:17.5px; margin:12px 0 7px; color:var(--c);}
-  .card p{font-size:13px; color:var(--sub); line-height:1.75;}
+  .card h2{font-size:16.5px; margin:11px 0 6px; color:var(--c);}
+  .card p{font-size:12.5px; color:var(--sub); line-height:1.7;}
   .card .tag{
-    display:inline-block; margin-top:12px; font-size:11.5px; padding:2px 10px;
+    display:inline-block; margin-top:10px; font-size:11px; padding:2px 9px;
     border-radius:10px; background:#f3f4f6; color:#6b7280;
   }
   .card .arrow{
-    position:absolute; right:18px; bottom:16px; font-size:16px; color:#c7d2fe;
+    position:absolute; right:16px; bottom:14px; font-size:15px; color:#c7d2fe;
     transition:transform .18s ease, color .18s ease;
   }
   @media (hover:hover){ .card:hover .arrow{transform:translateX(4px); color:var(--c);} }
 
-  /* ===== 备考路线 ===== */
+  /* ===== 备考路线：移动1列 → PC3列 ===== */
+  .routes{display:grid; grid-template-columns:1fr; gap:12px;}
+  @media (min-width:1024px){ .routes{grid-template-columns:repeat(3,1fr);} }
   .route{
-    background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px 14px; margin-bottom:12px; position:relative; overflow:hidden;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:15px 16px 13px; position:relative; overflow:hidden;
   }
   .route::before{content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--c);}
-  .route h3{font-size:15px; color:var(--c); margin-bottom:8px;}
-  .route h3 span{font-size:12px; color:var(--sub); font-weight:400; margin-left:6px;}
-  .route p{font-size:13.5px; color:#374151; line-height:1.85;}
+  .route h3{font-size:14.5px; color:var(--c); margin-bottom:7px; line-height:1.5;}
+  .route h3 span{display:block; font-size:11.5px; color:var(--sub); font-weight:400; margin-top:2px;}
+  .route p{font-size:13px; color:#374151; line-height:1.8;}
   .route .goal{
-    display:inline-block; margin-top:8px; font-size:12px; color:#6b7280;
-    background:#f3f4f6; border-radius:8px; padding:2px 10px;
+    display:inline-block; margin-top:8px; font-size:11.5px; color:#6b7280;
+    background:#f3f4f6; border-radius:8px; padding:2px 9px;
   }
 
-  /* ===== 时间划分表 ===== */
-  .tbl-wrap{overflow-x:auto; background:#fff; border:1px solid var(--line);
+  /* ===== 双栏区块（PC 并排） ===== */
+  .two-col{display:grid; grid-template-columns:1fr; gap:18px;}
+  @media (min-width:1024px){
+    .two-col{grid-template-columns:1.15fr 1fr; align-items:start; gap:24px;}
+  }
+
+  /* ===== 表格 ===== */
+  .tbl-wrap{overflow-x:auto; background:var(--card); border:1px solid var(--line);
     border-radius:14px; padding:4px;}
-  table{width:100%; border-collapse:collapse; font-size:13.5px;}
-  th,td{border-bottom:1px solid var(--line); padding:9px 11px; text-align:left; vertical-align:top;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th,td{border-bottom:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top;}
   th{background:#f8f9fc; color:#374151; font-weight:600; white-space:nowrap;}
   tr:last-child td{border-bottom:none;}
 
-  /* ===== 飘过原则 ===== */
-  .principles{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px 20px;}
-  .principles li{font-size:13.5px; line-height:1.9; margin:6px 0; color:#374151;}
-  .principles b{color:var(--indigo);}
-
-  footer{
-    text-align:center; margin-top:36px; font-size:12.5px; color:#9aa0aa; line-height:2.1;
-  }
-
-  /* ===== 赞赏区块 ===== */
-  .reward{
-    margin-top:34px; text-align:center; background:#fff;
-    border:1px solid var(--line); border-radius:14px; padding:20px 16px 18px;
-  }
-  .reward-title{font-size:14px; color:#374151; margin-bottom:12px; font-weight:600;}
-  .reward img{
-    width:150px; height:150px; object-fit:contain; display:block; margin:0 auto;
-    border-radius:10px; border:1px solid var(--line);
-  }
-  .reward-note{font-size:12.5px; color:var(--sub); margin-top:10px; line-height:1.7;}
   .tip-box{
     background:#eef2ff; border:1px solid #dbe1f8; border-radius:12px;
-    padding:12px 16px; font-size:13px; color:#3730a3; line-height:1.8; margin-top:14px;
+    padding:11px 15px; font-size:12.5px; color:#3730a3; line-height:1.8; margin-top:12px;
   }
 
-  /* ===== 图表区 ===== */
-  .charts{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px;}
-  @media (max-width:620px){ .charts{grid-template-columns:1fr;} }
+  /* ===== 图表 ===== */
+  .charts{display:grid; grid-template-columns:1fr; gap:14px;}
+  @media (min-width:640px) and (max-width:1023px){ .charts{grid-template-columns:1fr 1fr;} }
   .chart-box{
-    background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:14px 14px 8px;
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:13px 13px 6px;
   }
   .chart-box h4{
-    font-size:14px; color:#374151; margin:0 0 4px; font-weight:600;
+    font-size:13.5px; color:#374151; margin:0 0 2px; font-weight:600;
     display:flex; align-items:center; gap:6px;
   }
-  .chart-box .chart{width:100%; height:230px;}
+  .chart-box .chart{width:100%; height:218px;}
   .chart-fallback{
-    display:none; font-size:12.5px; color:var(--sub); padding:30px 10px;
+    display:none; font-size:12.5px; color:var(--sub); padding:28px 10px;
     text-align:center; line-height:1.8;
+  }
+
+  /* ===== 飘过指南 ===== */
+  .principles{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 19px;}
+  .principles ul{padding-left:20px;}
+  .principles li{font-size:13px; line-height:1.85; margin:6px 0; color:#374151;}
+  .principles b{color:var(--indigo);}
+
+  /* ===== 赞赏 ===== */
+  .reward{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 16px 16px; text-align:center;
+  }
+  @media (min-width:1024px){ .reward{height:100%; display:flex; flex-direction:column; justify-content:center;} }
+  .reward-title{font-size:13.5px; color:#374151; margin-bottom:11px; font-weight:600;}
+  .reward img{
+    width:140px; height:140px; object-fit:contain; display:block; margin:0 auto;
+    border-radius:10px; border:1px solid var(--line);
+  }
+  .reward-note{font-size:12px; color:var(--sub); margin-top:9px; line-height:1.7;}
+
+  footer{
+    text-align:center; margin-top:32px; font-size:12.5px; color:#9aa0aa; line-height:2.1;
   }
 </style>
 </head>
@@ -140,35 +158,32 @@
   <header>
     <div class="logo">🎓</div>
     <h1>软考系统架构师备考资料</h1>
-    <p>综合 · 案例 · 论文 · 缩写速查<br>四套主教材，一页直达 · 手机 / 电脑均可阅读</p>
+    <p>综合 · 案例 · 论文 · 缩写速查 —— 四套主教材，一页直达</p>
     <div class="motto">🎯 核心理念：用最少的时间通过考试 —— 45 分万岁，飘过也算过</div>
   </header>
 
-  <div class="grid">
+  <div class="grid4">
     <a class="card" href="架构知识地图.html" style="--c:#4f46e5">
       <div class="ico">📖</div>
       <h2>综合知识</h2>
-      <p>上午选择题考点：教材 11 章全覆盖（架构风格 / 质量属性 / 微服务 / 分布式 / 安全 / AI），含 11 张图表、章节树、全站搜索</p>
+      <p>教材 11 章全覆盖（架构风格 / 质量属性 / 微服务 / 分布式 / 安全 / AI），含 11 张图表、章节树、全站搜索</p>
       <span class="tag">选择题 75 分</span>
       <span class="arrow">→</span>
     </a>
-
     <a class="card" href="案例题库.html" style="--c:#16a34a">
       <div class="ico">⚔️</div>
       <h2>案例分析</h2>
-      <p>主教材：方法论 + 五大题型 + 根因-方案对照 + 高频考点清单 + 经典案例（题目 / 采分点 / 示范答案）</p>
+      <p>方法论 + 五大题型 + 根因-方案对照 + 高频考点清单 + 经典案例（题目 / 采分点 / 示范答案）</p>
       <span class="tag">案例 75 分</span>
       <span class="arrow">→</span>
     </a>
-
     <a class="card" href="论文题库.html" style="--c:#d97706">
       <div class="ico">📝</div>
       <h2>论文写作</h2>
-      <p>主教材：时间分配 + 五段式结构 + 万能句式库 + Numen 素材映射 + 提纲 / 摘要 / 正文段范文 + 练习计划</p>
+      <p>时间分配 + 五段式结构 + 万能句式库 + 素材映射 + 提纲 / 摘要 / 正文段范文 + 练习计划</p>
       <span class="tag">论文 75 分</span>
       <span class="arrow">→</span>
     </a>
-
     <a class="card" href="缩写速查.html" style="--c:#e11d48">
       <div class="ico">📇</div>
       <h2>缩写速查表</h2>
@@ -178,73 +193,86 @@
     </a>
   </div>
 
-  <div class="sec-title">📌 备考路线建议（按你的时间选一条）</div>
-
-  <div class="route" style="--c:#e11d48">
-    <h3>🔥 时间紧（考前 15 天内）<span>只做三件事，目标 45 分</span></h3>
-    <p>① <b>综合</b>：只看必考章节（架构风格 / 质量属性 / 微服务 / 分布式 / 安全 / 可靠性），冷门章节直接跳过<br>
-       ② <b>案例</b>：背「根因-方案对照表」+「万能三步」，练 3 道经典案例<br>
-       ③ <b>论文</b>：背五段式结构 + 万能句式，写 1 篇提纲（能写满 2500 字就是胜利）</p>
-    <span class="goal">放弃：嵌入式 / 组成原理 / 23 种设计模式 / 数学难题</span>
-  </div>
-
-  <div class="route" style="--c:#d97706">
-    <h3>⏳ 时间中（15-30 天）<span>覆盖必考 + 练套路</span></h3>
-    <p>① <b>综合</b>：11 章快速过一遍（每章 30 分钟，只记考点不深究）<br>
-       ② <b>案例</b>：练 5 道经典案例，重点练"根因与方案一一对应"<br>
-       ③ <b>论文</b>：写 2 篇（1 篇提纲 + 1 篇全篇），套 Numen 素材<br>
-       ④ <b>真题</b>：考前 1 周做 2 套，找手感</p>
-    <span class="goal">重点：必考章节 + 案例套路 + 论文结构分</span>
-  </div>
-
-  <div class="route" style="--c:#16a34a">
-    <h3>✅ 时间充裕（30 天以上）<span>全覆盖 + 冲高分</span></h3>
-    <p>① <b>综合</b>：11 章全覆盖 + 刷题，错题标记复盘<br>
-       ② <b>案例</b>：每天 1 道，专项练故障排查与方案评价<br>
-       ③ <b>论文</b>：写 3 篇全篇（微服务 / 高可用 / AI 方向）<br>
-       ④ <b>冲刺</b>：真题模拟卷 + 冲刺卷 + 错题清零</p>
-    <span class="goal">目标：综合 55+，案例论文稳过线</span>
-  </div>
-
-  <div class="sec-title">⏱️ 时间怎么划分（三科权重）</div>
-  <div class="tbl-wrap"><table>
-    <tr><th>科目</th><th>建议投入</th><th>性价比最高的事</th></tr>
-    <tr><td><b>综合</b></td><td>40%</td><td>只攻必考章节 + 刷真题找题感（不值得深究冷门）</td></tr>
-    <tr><td><b>案例</b></td><td>30%</td><td>背万能三步 + 根因方案对照 + 练 5 道经典题</td></tr>
-    <tr><td><b>论文</b></td><td>30%</td><td>背五段式 + 句式模板 + 写 2-3 篇（<b>千万别空着</b>）</td></tr>
-  </table></div>
-  <div class="tip-box">
-    <b>碎片时间怎么用：</b>通勤/午休看综合 + 缩写速查（手机翻）；<b>整块时间（周末 2 小时）</b>写论文、练案例；<b>考前 2 周</b>每天 1 套真题 + 错题复盘。
-  </div>
-
-  <div class="charts">
-    <div class="chart-box">
-      <h4>📊 三科时间权重</h4>
-      <div class="chart" id="pieChart"></div>
-      <div class="chart-fallback" id="pieFallback">综合 40% · 案例 30% · 论文 30%</div>
+  <div class="sec-title">📌 备考路线建议（按时间选一条）</div>
+  <div class="routes">
+    <div class="route" style="--c:#e11d48">
+      <h3>🔥 时间紧<span>&lt;15 天 · 只做三件事</span></h3>
+      <p>① <b>综合</b>：只看必考章节（架构风格 / 质量属性 / 微服务 / 分布式 / 安全 / 可靠性）<br>
+         ② <b>案例</b>：背根因-方案对照表 + 万能三步，练 3 道经典案例<br>
+         ③ <b>论文</b>：背五段式 + 句式，写 1 篇提纲</p>
+      <span class="goal">放弃：嵌入式 / 组成原理 / 设计模式 / 数学难题</span>
     </div>
-    <div class="chart-box">
-      <h4>📈 备考阶段时间分配</h4>
-      <div class="chart" id="barChart"></div>
-      <div class="chart-fallback" id="barFallback">基础期 50% → 强化期 30% → 冲刺期 20%</div>
+    <div class="route" style="--c:#d97706">
+      <h3>⏳ 时间中<span>15-30 天 · 必考 + 套路</span></h3>
+      <p>① <b>综合</b>：11 章快速过一遍（每章 30 分钟）<br>
+         ② <b>案例</b>：练 5 道经典案例<br>
+         ③ <b>论文</b>：写 2 篇（提纲 + 全篇）<br>
+         ④ <b>真题</b>：考前 1 周做 2 套</p>
+      <span class="goal">重点：必考章节 + 案例套路 + 论文结构分</span>
+    </div>
+    <div class="route" style="--c:#16a34a">
+      <h3>✅ 时间充裕<span>30 天以上 · 冲高分</span></h3>
+      <p>① <b>综合</b>：全覆盖 + 刷题标记错题<br>
+         ② <b>案例</b>：每天 1 道专项练<br>
+         ③ <b>论文</b>：写 3 篇全篇<br>
+         ④ <b>冲刺</b>：模拟卷 + 冲刺卷 + 错题清零</p>
+      <span class="goal">目标：综合 55+，案例论文稳过线</span>
     </div>
   </div>
 
-  <div class="sec-title">🎯 飘过指南（5 条核心原则）</div>
-  <div class="principles">
-    <ul>
-      <li><b>不求全会，只求 45 分</b>：三科各 ≥45 就过，综合 60 分和 45 分结果一样</li>
-      <li><b>优先拿性价比高的分</b>：综合必考章节、案例万能三步、论文结构分（论文写完五段就有分）</li>
-      <li><b>论文千万别空着</b>：写满五段结构 + 套 Numen 项目，比文采重要</li>
-      <li><b>案例宁多勿漏</b>：拿不准的点也写上（漏项不扣分），题干场景词一定出现</li>
-      <li><b>时间不够就果断放弃</b>：冷门章节（嵌入式 / 组成原理 / 设计模式 / 数学难题）性价比极低</li>
-    </ul>
+  <div class="two-col">
+    <div>
+      <div class="sec-title">⏱️ 时间怎么划分（三科权重）</div>
+      <div class="tbl-wrap"><table>
+        <tr><th>科目</th><th>投入</th><th>性价比最高的事</th></tr>
+        <tr><td><b>综合</b></td><td>40%</td><td>只攻必考章节 + 刷真题（不深究冷门）</td></tr>
+        <tr><td><b>案例</b></td><td>30%</td><td>背万能三步 + 根因方案对照 + 练 5 道</td></tr>
+        <tr><td><b>论文</b></td><td>30%</td><td>背五段式 + 句式 + 写 2-3 篇（<b>别空着</b>）</td></tr>
+      </table></div>
+      <div class="tip-box">
+        <b>碎片时间：</b>通勤 / 午休看综合 + 缩写速查<br>
+        <b>整块时间（周末 2h）：</b>写论文、练案例<br>
+        <b>考前 2 周：</b>每天 1 套真题 + 错题复盘
+      </div>
+    </div>
+    <div>
+      <div class="sec-title">📊 数据看板</div>
+      <div class="charts">
+        <div class="chart-box">
+          <h4>三科时间权重</h4>
+          <div class="chart" id="pieChart"></div>
+          <div class="chart-fallback" id="pieFallback">综合 40% · 案例 30% · 论文 30%</div>
+        </div>
+        <div class="chart-box">
+          <h4>备考阶段时间分配</h4>
+          <div class="chart" id="barChart"></div>
+          <div class="chart-fallback" id="barFallback">基础期 50% → 强化期 30% → 冲刺期 20%</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="reward">
-    <div class="reward-title">🍦 资料全部免费 · 若帮你省了时间</div>
-    <img src="赞赏码.jpg" alt="微信赞赏码" loading="lazy">
-    <div class="reward-note">微信扫码请我喝杯蜜雪冰城<br>（随缘 · 不请也一样祝你飘过 🎯）</div>
+  <div class="two-col" style="margin-top:0;">
+    <div>
+      <div class="sec-title">🎯 飘过指南（5 条核心原则）</div>
+      <div class="principles">
+        <ul>
+          <li><b>不求全会，只求 45 分</b>：三科各 ≥45 就过，综合 60 分和 45 分结果一样</li>
+          <li><b>优先拿性价比高的分</b>：综合必考章节、案例万能三步、论文结构分</li>
+          <li><b>论文千万别空着</b>：写满五段 + 套 Numen 项目，比文采重要</li>
+          <li><b>案例宁多勿漏</b>：拿不准的点也写，题干场景词一定出现</li>
+          <li><b>时间不够就果断放弃</b>：冷门章节性价比极低（嵌入式 / 组成原理 / 设计模式）</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="sec-title">🍦 支持一下</div>
+      <div class="reward">
+        <div class="reward-title">资料全部免费 · 若帮你省了时间</div>
+        <img src="赞赏码.jpg" alt="微信赞赏码" loading="lazy">
+        <div class="reward-note">微信扫码请我喝杯蜜雪冰城<br>（随缘 · 不请也一样祝你飘过 🎯）</div>
+      </div>
+    </div>
   </div>
 
   <footer>
@@ -259,7 +287,6 @@
 <script>
 (function(){
   if (typeof echarts === 'undefined') {
-    // CDN 不可用时显示文字降级
     var p = document.getElementById('pieChart'), b = document.getElementById('barChart');
     if (p) p.style.display = 'none';
     if (b) b.style.display = 'none';
@@ -269,13 +296,11 @@
   }
   var pie = echarts.init(document.getElementById('pieChart'));
   pie.setOption({
-    tooltip: { trigger: 'item', formatter: '{b}' },
-    legend: { bottom: 0, itemWidth: 10, itemHeight: 10, textStyle: { fontSize: 11 } },
+    tooltip: { trigger: 'item', formatter: '{b} {d}%' },
     series: [{
-      type: 'pie', radius: ['42%', '68%'], center: ['50%', '44%'],
-      avoidLabelOverlap: true,
+      type: 'pie', radius: ['40%', '66%'], center: ['50%', '48%'],
       label: { fontSize: 11, formatter: '{b}\n{d}%' },
-      labelLine: { length: 8, length2: 6 },
+      labelLine: { length: 6, length2: 5 },
       data: [
         { value: 40, name: '综合', itemStyle: { color: '#4f46e5' } },
         { value: 30, name: '案例', itemStyle: { color: '#16a34a' } },
@@ -283,26 +308,22 @@
       ]
     }]
   });
-
   var bar = echarts.init(document.getElementById('barChart'));
   bar.setOption({
-    grid: { left: 70, right: 30, top: 16, bottom: 26 },
+    grid: { left: 62, right: 40, top: 14, bottom: 22 },
     tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, formatter: '{b}: {c}%' },
     xAxis: { type: 'value', max: 60, axisLabel: { formatter: '{value}%', fontSize: 10 } },
     yAxis: { type: 'category', data: ['冲刺期', '强化期', '基础期'], axisLabel: { fontSize: 11 } },
     series: [{
-      type: 'bar', barWidth: 16,
+      type: 'bar', barWidth: 15,
       label: { show: true, position: 'right', formatter: '{c}%', fontSize: 11 },
       itemStyle: {
         borderRadius: [0, 8, 8, 0],
-        color: function(p){
-          return ['#e11d48', '#d97706', '#16a34a'][p.dataIndex];
-        }
+        color: function(p){ return ['#e11d48', '#d97706', '#16a34a'][p.dataIndex]; }
       },
       data: [20, 30, 50]
     }]
   });
-
   window.addEventListener('resize', function(){ pie.resize(); bar.resize(); });
 })();
 </script>
