@@ -153,6 +153,17 @@
   footer{text-align:center; color:#93a59c;
     font-size:13px; padding:14px 0 8px; line-height:2;}
   footer a{color:var(--indigo); text-decoration:none;}
+
+  /* ===== 流程图（SVG） ===== */
+  .uml-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:12px; margin:14px 0;}
+  .uml-grid figure{margin:0; border:1px solid var(--line); border-radius:10px; padding:8px; background:#fafbff;}
+  .uml-grid svg{width:100%; height:auto; display:block;}
+  .uml-grid figcaption{font-size:12px; color:var(--sub); text-align:center; margin-top:6px;}
+  .uml-grid .u{stroke:#4338ca; fill:none; stroke-width:1.5;}
+  .uml-grid .uf{stroke:#4338ca; fill:#eef2ff; stroke-width:1.5;}
+  .uml-grid .l{stroke:#9aa5b1; stroke-width:1.2; fill:none;}
+  .uml-grid .t{font-size:10px; fill:#1f2328; text-anchor:middle;}
+  .uml-grid .ts{font-size:9px; fill:#6b7280; text-anchor:middle;}
 </style>
 </head>
 <body>
@@ -198,6 +209,22 @@
       ① <b>定性</b>：这是关于【XX】的问题（一句话点明考点）<br>
       ② <b>定量/设计</b>：方案 = 原理 + 场景适配 + 具体手段（写 3-5 个采分点）<br>
       ③ <b>论证</b>：因为【理由】，所以该方案能解决【原问题】</div>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 92">
+          <rect class="uf" x="6" y="26" width="82" height="34"/><text class="t" x="47" y="47">① 定性</text>
+          <line class="l" x1="88" y1="43" x2="106" y2="43"/>
+          <rect class="uf" x="106" y="26" width="88" height="34"/><text class="t" x="150" y="47">② 设计</text>
+          <line class="l" x1="194" y1="43" x2="212" y2="43"/>
+          <rect class="uf" x="212" y="26" width="82" height="34"/><text class="t" x="253" y="47">③ 论证</text>
+          <text class="ts" x="47" y="76">这是XX问题</text>
+          <text class="ts" x="150" y="76">方案=原理+手段</text>
+          <text class="ts" x="253" y="76">因为…所以…</text>
+          <text class="ts" x="150" y="14">每题都按这个骨架答</text>
+        </svg>
+        <figcaption><b>答题三步</b>：定性（点明考点）→ 设计（3-5 个采分点）→ 论证（因果闭环）</figcaption>
+      </figure>
+    </div>
     <div class="tbl-wrap"><table>
       <tr><th>题型</th><th>特征</th><th>应对策略</th></tr>
       <tr><td><b>概念辨析</b></td><td>"什么是XX？XX和XX的区别？"</td><td>先给定义 → 再列对比维度（表格/分点）</td></tr>
@@ -243,6 +270,25 @@
       <tr><td>缓存穿透</td><td>DB 压力大</td><td>缺无效请求拦截</td><td>布隆过滤器 / 空值缓存</td></tr>
       <tr><td>缓存雪崩</td><td>Redis 宕机后 DB 被打爆</td><td>缺高可用与失效保护</td><td>随机 TTL + 多级缓存 + 哨兵/集群 + 限流降级</td></tr>
     </table></div>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 120">
+          <rect class="uf" x="10" y="10" width="94" height="26"/><text class="t" x="57" y="27">根因① 缺限流</text>
+          <line class="l" x1="104" y1="23" x2="182" y2="23"/>
+          <polygon points="182,23 174,19 174,27" fill="#4338ca"/>
+          <rect class="uf" x="187" y="10" width="103" height="26"/><text class="t" x="238" y="27">措施① 限流熔断</text>
+          <rect class="uf" x="10" y="46" width="94" height="26"/><text class="t" x="57" y="63">根因② 连接池小</text>
+          <line class="l" x1="104" y1="59" x2="182" y2="59"/>
+          <polygon points="182,59 174,55 174,63" fill="#4338ca"/>
+          <rect class="uf" x="187" y="46" width="103" height="26"/><text class="t" x="238" y="63">措施② 调优连接池</text>
+          <rect class="uf" x="10" y="82" width="94" height="26"/><text class="t" x="57" y="99">根因③ 未幂等</text>
+          <line class="l" x1="104" y1="95" x2="182" y2="95"/>
+          <polygon points="182,95 174,91 174,99" fill="#4338ca"/>
+          <rect class="uf" x="187" y="82" width="103" height="26"/><text class="t" x="238" y="99">措施③ 唯一键去重</text>
+        </svg>
+        <figcaption><b>根因-方案对应</b>：根因说"缺什么"，方案就"补什么"，编号严格对齐</figcaption>
+      </figure>
+    </div>
     <div class="ok">✅ 口诀：<b>根因说"缺什么"，方案就"补什么"</b>；编号对齐，一条对一条。</div>
   </article>
 
