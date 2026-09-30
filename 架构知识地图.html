@@ -1006,9 +1006,9 @@
 
   <!-- ==================== 第3章 信息系统 ==================== -->
 
-  <article id="infosys" data-ch="ch3" data-sec="infosys" data-title="信息系统分类">
-    <h2>信息系统基础知识 <span class="badge b-new">新学</span></h2>
-    <p class="meta">第3章 · 必考 · 综合单选（TPS/MIS/DSS/ES/OAS）</p>
+  <article id="infosys" data-ch="ch3" data-sec="infosys" data-title="信息系统分类+EDI">
+    <h2>信息系统基础知识 + EDI <span class="badge b-new">新学</span></h2>
+    <p class="meta">第3章 · 必考 · 综合单选（TPS/MIS/DSS/ES/OAS · EDI 三要素）</p>
     <div class="who">它在讲<b>谁的什么</b>：主语是<b>不同层级/用途的信息系统</b>——从基层事务到高层决策各有一套系统。</div>
     <div class="tbl-wrap"><table>
       <tr><th>类型</th><th>面向</th><th>干什么</th></tr>
@@ -1020,7 +1020,18 @@
     </table></div>
     <p><b>企业信息化</b>：ERP企业资源计划 / CRM客户关系 / SCM供应链 / PDM产品数据管理。</p>
     <p><b>电子政务</b>：G2G 政府对政府 / G2B 对企业 / G2C 对公民 / G2E 对雇员；<b>电子商务</b>：B2B / B2C / C2C / O2O。</p>
-    <div class="tip">💡 锚点：<b>TPS干事务 → MIS看报表 → DSS帮决策(辅助非代替) → ES装专家(知识库+推理机) → OAS管办公</b></div>
+
+    <h3>电子信息交换 EDI（三要素必考）</h3>
+    <p><b>EDI</b>（Electronic Data Interchange，电子数据交换）：通过<b>计算机通信网络</b>，按<b>公认的标准</b>，在<b>计算机应用系统之间</b>自动传输和处理结构化业务数据（订单/发票/运单），实现"<b>无纸贸易</b>"。注意：EDI 传的是<b>结构化报文</b>且<b>机器自动处理</b>，不是发个 PDF 邮件。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>三要素</th><th>是什么</th><th>缺了会怎样</th></tr>
+      <tr><td><b>计算机应用系统</b></td><td>两端各自的业务系统（订单/库存/财务），数据的生产方与消费方</td><td>没有数据源和落点，EDI 无从谈起</td></tr>
+      <tr><td><b>通信网络</b></td><td>传输通道（专线 / VAN 增值网 / 互联网）</td><td>数据传不过去</td></tr>
+      <tr><td><b>数据标准化</b><br>（EDI 标准）</td><td>统一的报文格式标准：EDIFACT（国际）/ ANSI X12（北美）/ CEC（中国）</td><td>两边"各说各话"，机器读不懂 → <b>EDI 的灵魂</b></td></tr>
+    </table></div>
+    <div class="warn">⚠️ 干扰项：<b>"数据格式" ≠ "EDI 标准"</b>——数据格式只是标准的一部分，EDI 强调的是<b>公认、统一</b>的标准化，选项里把"标准"降级成"数据格式"就是偷换。另有一套教材口径把三要素写成<b>数据标准化、EDI 软硬件、通信网络</b>（电商类考试常见）：两种口径的<b>不变量</b>是——<b>网络 + 应用系统/软硬件 + 标准，三者齐备</b>，且第三项必须是"<b>标准/标准化</b>"，不能是泛泛的"数据 / 格式 / 安全协议"。</div>
+    <p><b>典型应用</b>：外贸无纸通关、制造业供应链（主机厂 ↔ 供应商）、零售自动补货、物流运单交换。</p>
+    <div class="tip">💡 锚点：<b>TPS干事务 → MIS看报表 → DSS帮决策(辅助非代替) → ES装专家(知识库+推理机) → OAS管办公</b>；<b>EDI = 两台电脑 + 一条网 + 一套标准（计算机应用系统 · 通信网络 · 数据标准化），三者缺一不可</b></div>
   </article>
 
   <!-- ==================== 第10章 架构演化 ==================== -->
