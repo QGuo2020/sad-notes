@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>软考系统架构师综合知识考点大全 | 教材11章知识点总结</title>
-<meta name="description" content="软考系统架构师综合知识（上午选择题）考点大全：架构风格、质量属性、4+1视图、ABSD/ADL、微服务、云原生、分布式事务、缓存、Kafka、数据库、信息安全、可靠性、架构演化、AI，教材11章全覆盖，含11张图表、章节树导航与全站搜索。">
-<meta name="keywords" content="软考,系统架构师,系统架构设计师,综合知识,考点,知识点总结,架构风格,质量属性,微服务,分布式,CAP,云原生,信息安全,可靠性,AI">
+<meta name="description" content="软考系统架构师综合知识（上午选择题）考点大全：架构风格、质量属性、4+1视图、ABSD/ADL、微服务、云原生、分布式事务、缓存、Kafka、数据库、信息安全、可靠性、架构演化、AI，教材11章全覆盖，含14张图表、章节树导航与全站搜索。">
+<meta name="keywords" content="软考,系统架构师,系统架构设计师,综合知识,考点,知识点总结,架构风格,质量属性,微服务,分布式,CAP,云原生,信息安全,可靠性,逆向工程,再工程,软件维护,AI">
 <meta name="author" content="QGuo">
 <link rel="canonical" href="https://qguo2020.github.io/sad-notes/%E6%9E%B6%E6%9E%84%E7%9F%A5%E8%AF%86%E5%9C%B0%E5%9B%BE.html">
 <meta property="og:type" content="article">
@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://qguo2020.github.io/sad-notes/%E6%9E%B6%E6%9E%84%E7%9F%A5%E8%AF%86%E5%9C%B0%E5%9B%BE.html">
 <meta name="twitter:card" content="summary">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TechArticle","headline":"软考系统架构师综合知识考点大全","description":"教材11章知识点全覆盖，含11张图表与章节导航","inLanguage":"zh-CN"}
+{"@context":"https://schema.org","@type":"TechArticle","headline":"软考系统架构师综合知识考点大全","description":"教材11章知识点全覆盖，含14张图表与章节导航","inLanguage":"zh-CN"}
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
 <style>
@@ -835,6 +835,67 @@
     </div>
     <div class="warn">⚠️ 易错：<b>组合</b>(实心菱形)=同生共死（人—心脏）；<b>聚合</b>(空心)=可分离（班级—学生）；静态=类/构件/部署图，动态=用例/时序/状态/活动图</div>
     <div class="tip">💡 锚点：时间顺序→时序图 ｜ 状态变迁→状态图 ｜ 业务流程→活动图 ｜ 物理部署→部署图 ｜ 同生共死→组合</div>
+  </article>
+
+  <article id="reverse" data-ch="ch5" data-sec="reverse" data-title="逆向工程/再工程">
+    <h2>逆向工程 + 再工程（软件维护） <span class="badge b-new">新学</span></h2>
+    <p class="meta">第5章 · 高频（2013 / 2025 真题）· 综合单选：只考"方法 ↔ 抽象级别"配对</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>接手一个没文档的老系统</b>——先想办法从代码里把"设计"反推出来（逆向工程），再决定怎么改造（再工程）。</div>
+
+    <h3>① 逆向工程导出的信息 = 4 个抽象层次</h3>
+    <p><b>定义</b>：逆向工程（Reverse Engineering）= 分析已有的程序，寻求<b>比源代码更高级的抽象表示</b>；<b>只恢复设计信息，不改变系统</b>。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>级别</th><th>教材原话（内容）</th><th>题干关键词</th></tr>
+      <tr><td><b>实现级</b></td><td>程序的<b>抽象语法树、符号表</b>等信息</td><td>语法树 / 符号表 / 代码本身</td></tr>
+      <tr><td><b>结构级</b></td><td>反映程序<b>分量之间相互依赖关系</b>的信息，例如调用图、结构图</td><td>调用图 / 结构图 / 依赖关系</td></tr>
+      <tr><td><b>功能级</b></td><td>反映<b>程序段功能及程序段之间关系</b>的信息</td><td>这段代码"干什么"</td></tr>
+      <tr><td><b>领域级</b></td><td>反映程序分量（程序实体）与<b>应用领域概念之间对应关系</b>的信息</td><td>业务概念映射（订单状态 ↔ 枚举）</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>递进铁律（必考一句话）</b>：抽象级别越高 → 离代码越远 → 恢复<b>难度越大</b> → <b>自动工具支持的可能性越小</b> → 需要<b>人参与判断和推理</b>越多 → <b>完备性越低</b>。（完备性 = 在特定抽象层次上提供信息的详细程度，层次越高信息越少）</div>
+
+    <h3>② 四类恢复方法 ↔ 能导出的级别（<b>背这张表，考点全在这</b>）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>恢复方法</th><th>能导出的抽象级别</th><th>记忆钩子</th></tr>
+      <tr><td><b>用户指导下的搜索与变换</b><br>(User-Directed Search and Transformation)</td><td>实现级、结构级</td><td>"用户趴在代码上搜" → 只够得着代码与依赖</td></tr>
+      <tr><td><b>变换式方法</b><br>(Transformation Approaches)</td><td>实现级、结构级、<b>功能级</b></td><td>唯一能摸到"功能级"的工具派</td></tr>
+      <tr><td><b>基于领域知识的方法</b><br>(Domain Knowledge-Based)</td><td><b>功能级、领域级</b></td><td>要懂业务，才能推出"功能"与"领域概念"</td></tr>
+      <tr><td><b>铅板恢复法</b>（模板匹配）</td><td>实现级、结构级</td><td>与"用户指导法"同档，只到结构级</td></tr>
+    </table></div>
+    <div class="uml-grid">
+      <figure>
+        <svg viewBox="0 0 300 160">
+          <text class="ts" x="150" y="12">级别越高 → 离代码越远 → 工具越弱 · 人参与越多</text>
+          <rect class="uf" x="6" y="20" width="62" height="26"/><text class="t" x="37" y="37">领域级</text>
+          <rect class="uf" x="74" y="20" width="220" height="26"/><text class="t" x="184" y="37">基于领域知识的方法</text>
+          <rect class="uf" x="6" y="50" width="62" height="26"/><text class="t" x="37" y="67">功能级</text>
+          <rect class="uf" x="74" y="50" width="220" height="26"/><text class="t" x="184" y="67">基于领域知识 · 变换式方法</text>
+          <rect class="uf" x="6" y="80" width="62" height="26"/><text class="t" x="37" y="97">结构级</text>
+          <rect class="uf" x="74" y="80" width="220" height="26"/><text class="t" x="184" y="97">用户指导 · 变换式 · 铅板恢复法</text>
+          <rect class="uf" x="6" y="110" width="62" height="26"/><text class="t" x="37" y="127">实现级</text>
+          <rect class="uf" x="74" y="110" width="220" height="26"/><text class="t" x="184" y="127">用户指导 · 变换式 · 铅板恢复法</text>
+          <text class="ts" x="150" y="152">逆向工程：恢复设计信息，不改变系统</text>
+        </svg>
+        <figcaption><b>方法 ↔ 级别对照</b>：只有"基于领域知识"能到领域级；"用户指导 / 铅板"只到结构级</figcaption>
+      </figure>
+    </div>
+    <p><b>三条反推（考场直接用）</b>：问"能到<b>领域级</b>的方法"→ <b>只有</b>基于领域知识的方法；问"能到<b>功能级</b>的方法"→ 基于领域知识 或 变换式方法；问"<b>用户指导下的搜索与变换</b>能导出什么"→ <b>实现级 + 结构级</b>（送分题，别多想）。</p>
+
+    <h3>③ 三个概念别混：逆向工程 / 重构 / 再工程</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>概念</th><th>干什么</th><th>关键边界</th></tr>
+      <tr><td><b>逆向工程</b>（Reverse Engineering）</td><td>分析已有程序，寻求比源代码更高级的抽象表示</td><td>只<b>恢复</b>设计信息，<b>不改变</b>系统</td></tr>
+      <tr><td><b>重构 / 重组</b>（Restructuring）</td><td>在<b>同一抽象层次</b>内改变内部结构</td><td><b>不改变外部行为</b>（功能与语义不变）</td></tr>
+      <tr><td><b>再工程</b>（Reengineering）</td><td>先理解旧的，再改造出新的</td><td>= <b>逆向工程 + 重构 + 正向工程</b>；<b>预防性维护</b>的主要技术</td></tr>
+    </table></div>
+    <div class="warn">⚠️ 干扰项陷阱：选项里出现"<b>领域分析</b>""<b>领域知识库的构建与利用</b>"时，考的多半是第5章<b>软件复用</b>里的<b>领域工程</b>（领域分析 → 领域设计 → 领域实现，产出 DSSA / 领域知识库）——它讲的是"<b>造可复用资产</b>"，不是"从老代码挖信息"，属于跨考点偷换。另：<b>"结构级"不是"语法结构"</b>，抽象语法树 = 实现级。</div>
+
+    <h3>④ 案例 / 工作里怎么用（答题模板）</h3>
+    <ul>
+      <li><b>第一步 工具抽低层</b>：静态分析生成符号表、抽象语法树（实现级）与调用图（结构级），快速建立"代码地图"</li>
+      <li><b>第二步 人补高层</b>：阅读关键程序段 + 访谈业务人员还原功能级模型；由业务分析师确认"程序实体 ↔ 领域概念"的对应关系（领域级）</li>
+      <li><b>第三步 再工程落地</b>：理解清楚后再做重构 / 迁移（配合第10章绞杀者模式），并按"遗留系统四策略"决定淘汰 / 继承 / 改造 / 集成</li>
+    </ul>
+    <div class="tip">💡 锚点：<b>领域知识管高层（功能+领域）｜ 用户指导和铅板只管底层（实现+结构）｜ 变换式是唯一能摸到"功能级"的</b>；<b>再工程 = 逆向工程 + 重构 + 正向工程</b>；逆向工程只恢复、不改造。</div>
   </article>
 
   <!-- ==================== 第9章 可靠性 ==================== -->
