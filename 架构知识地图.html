@@ -951,6 +951,34 @@
 
   <!-- ==================== 第11章 AI与未来技术 ==================== -->
 
+  <article id="ml" data-ch="ch11" data-sec="ml" data-title="机器学习/数据挖掘基础">
+    <h2>机器学习基础：监督 vs 无监督 <span class="badge b-new">新学</span></h2>
+    <p class="meta">第11章 · 高频（AI 热点）· 综合单选：给算法或场景判断属于哪类学习</p>
+    <div class="who">它在讲<b>谁的什么</b>：主语是<b>让机器从数据里找规律</b>——数据带标准答案就"监督学习"，没答案自己分组就"无监督学习"。</div>
+
+    <h3>① 两大类：看数据有没有"标签"</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>类别</th><th>数据有没有标签</th><th>干什么</th><th>代表算法</th></tr>
+      <tr><td><b>监督学习</b></td><td><b>有</b>（训练数据带正确答案）</td><td><b>分类</b>（输出离散类别）+ <b>回归</b>（输出连续数值）</td><td><b>KNN</b>（K近邻）、<b>SVM</b>（支持向量机）、<b>朴素贝叶斯</b>、决策树、随机森林、逻辑回归、神经网络</td></tr>
+      <tr><td><b>无监督学习</b></td><td><b>无</b>（只有数据，没有答案）</td><td><b>聚类</b>（把相似的归成一组）+ 降维</td><td><b>K-means</b>、DBSCAN、层次聚类；PCA（降维）</td></tr>
+      <tr><td><b>半监督学习</b></td><td>少量有标签 + 大量无标签</td><td>用少量标注带动大量数据</td><td>—</td></tr>
+      <tr><td><b>强化学习</b></td><td>无标签，靠<b>奖励/惩罚</b>试错</td><td>学"策略"（游戏、机器人、Agent）</td><td>Q-Learning、DQN</td></tr>
+    </table></div>
+    <div class="warn">⚠️ <b>最高频的一对混淆</b>：<b>KNN（K近邻）是监督学习的分类算法</b>（要标签样本，"看邻居投票"），<b>K-means 才是聚类/无监督</b>（"按距离找中心分组"）。<br>👉 <b>秒杀</b>：题干出现"<b>聚类 / 分组 / 相似度 / 无标签</b>"→ 选 <b>K-means</b>；出现"<b>分类 / 识别 / 预测 / 有标签</b>"→ 选 KNN / SVM / 朴素贝叶斯。</div>
+
+    <h3>② 文本场景对号入座（本题的考法）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>任务</th><th>属于</th><th>常用算法</th></tr>
+      <tr><td><b>文本聚类</b>：把相似文档自动归堆，事先没有类别</td><td>无监督</td><td><b>K-means</b>（先用 TF-IDF / 词向量把文本变成数值特征）</td></tr>
+      <tr><td><b>文本分类</b>：垃圾邮件识别、情感分析，事先有标注类别</td><td>监督</td><td><b>朴素贝叶斯</b>（经典）、SVM、KNN、深度学习</td></tr>
+    </table></div>
+
+    <h3>③ 顺带记：数据挖掘的四大任务</h3>
+    <p><b>分类</b>（有标签、预测类别）｜ <b>聚类</b>（无标签、自动分组）｜ <b>关联规则</b>（"啤酒与尿布"，Apriori 算法）｜ <b>回归/预测</b>（预测连续数值）。<br><b>判别锚点：题干提"已知类别/标签"→分类；提"自动分组/相似度/无标签"→聚类。</b></p>
+
+    <div class="tip">💡 锚点：<b>有标签→监督（分类/回归：KNN·SVM·朴素贝叶斯）｜ 无标签→无监督（聚类：K-means）｜ 靠奖励试错→强化学习</b>；<b>文本聚类 = K-means，文本分类 = 朴素贝叶斯</b>。</div>
+  </article>
+
   <article id="ai" data-ch="ch11" data-sec="ai" data-title="大模型/RAG/Agent">
     <h2>大模型应用架构：LLM / RAG / 向量库 / Agent <span class="badge b-new">新学</span></h2>
     <p class="meta">第11章 · 必考热点 · 综合+论文（新教材重点方向）</p>
