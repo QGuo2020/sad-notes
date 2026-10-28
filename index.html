@@ -89,6 +89,26 @@
     border-radius:6px; background:#f4f5f9; color:#6b7280;
   }
 
+  /* ===== 游戏入口 ===== */
+  .game-links{display:grid; grid-template-columns:1fr; gap:12px;}
+  @media (min-width:640px){ .game-links{grid-template-columns:1fr 1fr;} }
+  .game-link{
+    display:flex; align-items:center; gap:12px;
+    padding:13px 15px; background:var(--card); border:1px solid var(--line);
+    border-radius:12px; text-decoration:none; color:inherit; box-shadow:var(--shadow);
+    transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  }
+  @media (hover:hover){ .game-link:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(79,70,229,.13); border-color:#cdd5f8;} }
+  .game-ico{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px; flex:0 0 auto; border-radius:10px;
+    background:#f4f5f9; font-size:19px;
+  }
+  .game-copy{flex:1; min-width:0;}
+  .game-copy b{display:block; font-size:13.5px; color:var(--c); margin-bottom:3px;}
+  .game-copy em{display:block; font-style:normal; font-size:11.5px; color:var(--sub); line-height:1.5;}
+  .game-arrow{flex:0 0 auto; color:#9aa2b1; font-size:15px;}
+
   /* ===== 备考路线 ===== */
   .routes{display:grid; grid-template-columns:1fr; gap:var(--gap);}
   @media (min-width:1024px){ .routes{grid-template-columns:repeat(3,1fr);} }
@@ -205,6 +225,26 @@
       <h2>模拟考试（二）</h2>
       <p>第二套仿真卷：补齐 UML / 设计模式 / 系统分析与设计方法，选项长度已做防泄题平衡</p>
       <span class="tag">综合知识 · 待作答</span>
+    </a>
+  </div>
+
+  <div class="sec">🎮 游戏</div>
+  <div class="game-links">
+    <a class="game-link" href="https://qguo2020.github.io/paji/" target="_blank" rel="noopener noreferrer" style="--c:#db2777">
+      <span class="game-ico">🎹</span>
+      <span class="game-copy">
+        <b>随便按吧</b>
+        <em>颜色与音符 · 键盘 / 鼠标 / 触摸板</em>
+      </span>
+      <span class="game-arrow" aria-hidden="true">↗</span>
+    </a>
+    <a class="game-link" href="https://qguo2020.github.io/arrow-maze/" target="_blank" rel="noopener noreferrer" style="--c:#0891b2">
+      <span class="game-ico">🎯</span>
+      <span class="game-copy">
+        <b>Arrow Maze 箭头迷宫</b>
+        <em>密集霓虹解谜 · 蛇形抽离 · 限时挑战</em>
+      </span>
+      <span class="game-arrow" aria-hidden="true">↗</span>
     </a>
   </div>
 
